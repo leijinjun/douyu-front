@@ -9,4 +9,29 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <style>
+  	@media screen and (max-width: 1156px) {
+  		#container{
+  			width: 920px;
+  		}
+  	}
+  	@media screen and (max-width: 1335px) and (min-width: 1156px){
+  		#container{
+  			width: 1105px;
+  		}
+  	}
+  	@media screen and (min-width: 1336px) and (max-width:1765px){
+  		#container{
+  			width:1306px;
+  		}
+  	}
+  	@media only screen and (min-width:1766px) {
+  		#container{
+  			width: 1615px;
+  		}
+  	}
+  	body{
+			min-width: 920px;
+		}
+  </style>
 </html>
