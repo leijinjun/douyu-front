@@ -66,7 +66,7 @@
 	@media screen and (min-width: 1336px) and (max-width:1765px){
 		.room-col .room-mod-link{
 			width: 422px;
-			height: 280px;
+			height: 309px;
 		}
 		.room-col{
 			width: 434px;
@@ -79,7 +79,7 @@
 	@media only screen and (min-width:1766px) {
   		.room-col .room-mod-link{
 			width: 528px;
-			height: 380px;
+			height: 360px;
 		}
 		.room-col{
 			width: 536px;
