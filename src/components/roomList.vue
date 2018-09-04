@@ -7,37 +7,17 @@
 		      <div class="room-text">
 		        <label>主播：</label><span>{{item.nickname}}</span>
 		        <div class="bottom clearfix">
-		          <label>房间名：</label><span>{{item.room_name}}</span>
+		          <label>房间名：</label><span>{{item.room_name}}</span><br />
+		          <label>人气：</label><span>{{item.hn}}</span>
 		        </div>
-		        <div>
-		        	<label>人气：</label><span>{{item.hn}}</span><br />
-		        	<el-button class="btn">login</el-button>
+		        <div class="room-conn">
+		        	<a href="javascript:;" v-if="item.isConnected" @click="disConnect(item.room_id)">断开连接</a>
+		        	<a href="javascript:;" v-else @click="connect(item.room_id)">连接</a>
 		        </div>
 		      </div>
 		    </el-card>
 		  </el-col>
 		</el-row>
-		<!--<div class="room-list m-col" v-for="(item,index) in roomList" :key="item.room_id">
-			<div class="room-img">
-				<img v-bind:src="item.room_src"/>
-			</div>
-			<div class="room-t">
-				<div>
-				<label class="label">房间ID：</label><span class="room-text">{{item.room_id}}</span></div>
-				<div>
-					<label class="label">房间标题：</label><span class="room-text">{{item.room_name}}</span>
-				</div>
-				<div>
-					<label class="label">房间人气：</label><span class="room-text">{{item.online}}</span>
-				</div>
-				<div>
-					<label class="label">房间粉丝：</label><span class="room-text">{{item.hn}}</span>
-				</div>
-				<div>
-					<label class="label">主播：</label><span class="room-text">{{item.nickname}}</span>
-				</div>
-			</div>
-		</div>-->
 	</div>
 </template>
 
@@ -55,11 +35,33 @@
 		methods:{
 			getRoomList(){
 				var $this=this;
-				this.$http.get('/room')
+				this.$http.get('/room/list')
 					.then(function(response){
 						var res=response.data;
 						if(res.code==200){
 							$this.roomList=res.body;
+						}
+					})
+			},
+			connect(room){
+				var $this=this;
+				this.$http.post(`/room1/${room}`)
+					.then((response)=>{
+						var res=response.data;
+						if(res.code==200){
+							$this.getRoomList();
+						}
+					});
+			},
+			disConnect(room){
+				var $this=this;
+				var params=new URLSearchParams();
+				params.append("room",room);
+				this.$http.post('/logout',params)
+					.then((response)=>{
+						var res=response.data;
+						if(res.code==200){
+							$this.getRoomList();
 						}
 					})
 			}
@@ -77,7 +79,7 @@
 	@media screen and (max-width: 1335px){
 		.room-col .room-mod-link{
 			width: 356px;
-			height: 280px;
+			height: 400px;
 		}
 		.room-col{
 			width: 366px;
@@ -97,8 +99,8 @@
 	}
 	@media screen and (min-width: 1336px) and (max-width:1765px){
 		.room-col .room-mod-link{
-			width: 422px;
-			height: 309px;
+			width: 427px;
+			height: 400px;
 		}
 		.room-col{
 			width: 434px;
@@ -140,9 +142,6 @@
   	.room-list.m-col{
   		margin-bottom: 10px;
   	}
-  	.room-mod-link{
-  		border: 1px solid #4d1e94;
-  	}
 	.room-mod-link .room-image{
 		display: block;
 	    width: 100%;
@@ -152,13 +151,18 @@
 	    backface-visibility: hidden;
 	}
 	.room-col .room-text{
-		background-color: #f56c6c;
-		color: #DCDFE6;
+		background-color: rgba(255,255,255,0.6);
+		color: #838c9a;
+		height: 102px;
 	}
-	.btn{
+	.room-text .room-conn{
+		margin-top: 8px;
+	}
+	.room-text a{
 		font-family: .AppleSystemUIFont;
 		font-size: 14px;
 		color: #f56c6c;
 		letter-spacing: 0;
+		text-decoration:none
 	}
 </style>
