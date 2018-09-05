@@ -60,7 +60,7 @@
 			vertical-align: top;
 		    display: inline-block;
 		    padding:0 5px;
-		    margin-bottom: 18px;
+		    margin-bottom: 58px;
 		}
 	}
 	@media screen and (min-width: 1336px) and (max-width:1765px){
@@ -73,7 +73,7 @@
 			vertical-align: top;
 		    display: inline-block;
 		    padding:0 5px;
-		    margin-bottom: 18px;
+		    margin-bottom: 58px;
 		}
 	}
 	@media only screen and (min-width:1766px) {
@@ -86,7 +86,7 @@
 			vertical-align: top;
 		    display: inline-block;
 		    padding:0 5px;
-		    margin-bottom: 18px;
+		    margin-bottom: 58px;
 		}
   	}
 	
