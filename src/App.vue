@@ -1,7 +1,13 @@
 <template>
   <div id="app">
-    <img src="./assets/065a07c4785084a4f0a2569bf9f056b5.png">
-    <router-view/>
+  	<el-container>
+  	<el-header id="header">
+  	</el-header>
+  	<el-main>
+    	<router-view/>
+    </el-main>
+    <el-footer id="footer"></el-footer>
+    </el-container>
   </div>
 </template>
 
@@ -13,11 +19,21 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "PingFang SC";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /*margin-top: 60px;*/
+}
+#header{
+	height: 120px;
+	background-color: #3931a9;
+}
+#footer{
+	position: absolute;
+	height: 120px;
+	width: 100%;
+	bottom: 0;
 }
 </style>
