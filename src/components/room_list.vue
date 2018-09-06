@@ -10,7 +10,7 @@
 		        <label>主播：</label><span>{{item.nickname}}</span>
 		        <div class="bottom clearfix">
 		          <label>房间名：</label><span>{{item.roomName}}</span><br />
-		          <label>人气：</label><span>{{item.online}}</span>
+		          <label>人气：</label><span>{{item.hn}}</span>
 		        </div>
 		        <div class="room-conn">
 		        	<a href="javascript:;" v-if="item.connected" @click="disConnect(item.roomId)">断开连接</a>

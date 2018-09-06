@@ -22,7 +22,11 @@
 		},
 		methods:{
 			getRoomDetail(roomId){
-				
+				this.$http.get(`/room/${roomId}`)
+					.then((response)=>{
+						var res=response.data;
+						console.log(res)
+					})
 			}
 		}
 	}
