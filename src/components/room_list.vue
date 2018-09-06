@@ -118,6 +118,7 @@
 	}
 	@media only screen and (min-width:1766px) {
   		.room-col .room-mod-link{
+  			height: 400px;
 		}
 		.room-col{
 			height: 401px;
