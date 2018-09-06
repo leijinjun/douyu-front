@@ -1,6 +1,8 @@
 <template>
 	<div id="main">
-		<el-row>
+		<div style="float: right;margin-right: 16px;"> <el-button style="background-image: linear-gradient(-90deg, #BB9BF1 0%, #887BF2 100%);
+border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()"><span v-if="!changeFlag">切换所有房间</span><span v-else>切换已连接房间</span></el-button></div>
+		<el-row style="margin-top: 54px;">
 		  <el-col class="room-col" :span="8" v-for="(item,index) in roomList" :key="item.roomId">
 		    <el-card class="room-mod-link" :body-style="{ padding: '0px' }">
 		      <router-link :to="'/room/'+item.roomId">
@@ -28,6 +30,7 @@
 		name:'RoomList',
 		data(){
 			return{
+				changeFlag:true,
 				roomList:[]
 			}
 		},
@@ -42,12 +45,13 @@
 						var res=response.data;
 						if(res.code==200){
 							$this.roomList=res.body;
+							$this.changeFlag=true;
 						}
 					})
 			},
 			connect(room){
 				var $this=this;
-				this.$http.post(`/room1/${room}`)
+				this.$http.post(`/auth/room1/${room}`)
 					.then((response)=>{
 						var res=response.data;
 						if(res.code==200){
@@ -59,13 +63,31 @@
 				var $this=this;
 				var params=new URLSearchParams();
 				params.append("room",room);
-				this.$http.post('/logout',params)
+				this.$http.post('/auth/logout',params)
 					.then((response)=>{
 						var res=response.data;
 						if(res.code==200){
 							$this.getRoomList();
 						}
 					})
+			},
+			getCacheRoomList(){
+				var $this=this;
+				this.$http.get('/room/logged')
+					.then((response)=>{
+						var res=response.data;
+						if(res.code==200){
+							$this.roomList=res.body;
+							$this.changeFlag=false;
+						}
+					})
+			},
+			changeRoomList(){
+				if(this.changeFlag){
+					this.getCacheRoomList();
+				}else{
+					this.getRoomList();
+				}
 			}
 		}
 	}

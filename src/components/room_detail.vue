@@ -1,9 +1,9 @@
 <template>
 	<div id="main">
 		<div class="room-info">
-			房间信息：
+			房间信息
 			<div class="img">
-				<img :src="roomDetail.roomThumb" />
+				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb" /></a>
 			</div>
 			<div class="room-desc">
 				<span class="text">房间号:{{roomDetail.roomId}}</span>
