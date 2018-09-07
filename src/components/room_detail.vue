@@ -16,19 +16,19 @@
 			<div class="gift-left">
 				<span>最新礼物</span>
 				<div class="gift-list">
-					<span v-for="n in 10" style="float: left;">
-						<img  src="../../static/75b20fd516c470cecbb17c967c1ae029.png" height="48px;" width="48px"/>
-						<span style="margin-left: 10px;">x2</span>
-						<span>我爱罗</span>
+					<span v-for="gift in gifts" style="float: left;height: 50px;">
+						<img  v-bind:src="roomGifts[gift.gfid].himg" height="48px;" width="48px"/>
+						<span style="margin-left: 10px;">x{{gift.gfcnt}}</span>
+						<span>{{gift.nn}}</span>
 					</span>
 				</div>
 			</div>
 			<div class="chat-center">
-				<div class="chat-list" v-for="n in 10">
+				<div class="chat-list" v-for="chat in chats">
 					<span style="float: left;margin-left: 6px;margin-top: 8px;">
-						<label>2018/08/22 16:23:46</label>
-						<label>我爱罗：</label>
-						<label>成功成功成功成功成功成功成功成功成功！</label>
+						<label>{{chat.timestamp}}</label>
+						<label>{{chat.nn}}：</label>
+						<label>{{chat.txt}}</label>
 					</span>
 				</div>
 			</div>
@@ -43,7 +43,8 @@
 			return{
 				roomDetail:{},
 				gifts:[],
-				chats:[]
+				chats:[],
+				roomGifts:{},
 			}
 		},
 		created(){
@@ -57,9 +58,16 @@
 					.then((response)=>{
 						var res=response.data;
 						if(res.code=200){
-							$this.roomDetail=res.body.roomDetail;
-							$this.chats=res.body.chats;
-							$this.gifts=res.body.gifts;
+							var body=res.body;
+							$this.roomDetail=body.roomDetail;
+							$this.chats=body.chats;
+							$this.gifts=body.gifts;
+							var json=new Object();
+							$.each(body.roomDetail.roomGifts, function(i,n) {
+								json[n.id]=n;
+							});
+							$this.roomGifts=json;
+							console.log(json)
 						}
 					})
 			}
@@ -106,9 +114,13 @@
 	.chat-center{
 		float: right;
 		width: 78%;
-		height: 500px;
+		height: auto;
 		margin-top: 5px;
-		border: 1px red solid;
+		border-left: 1px #f7f0f0 solid;
+	}
+	.chat-center .chat-list{
+		width: 100%;
+		float: left;
 	}
 	.img img{
 		float: left;
