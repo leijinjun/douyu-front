@@ -12,8 +12,25 @@
 				<span class="text">当前人气：{{roomDetail.hn}}</span>
 			</div>
 		</div>
-		<div class="gift-left">
-			<div class="gift-list">
+		<div>
+			<div class="gift-left">
+				<span>最新礼物</span>
+				<div class="gift-list">
+					<span v-for="n in 10" style="float: left;">
+						<img  src="../../static/75b20fd516c470cecbb17c967c1ae029.png" height="48px;" width="48px"/>
+						<span style="margin-left: 10px;">x2</span>
+						<span>我爱罗</span>
+					</span>
+				</div>
+			</div>
+			<div class="chat-center">
+				<div class="chat-list" v-for="n in 10">
+					<span style="float: left;margin-left: 6px;margin-top: 8px;">
+						<label>2018/08/22 16:23:46</label>
+						<label>我爱罗：</label>
+						<label>成功成功成功成功成功成功成功成功成功！</label>
+					</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -77,10 +94,21 @@
 		margin-left:65px;
 	}
 	.gift-left{
-		width: 230px;
+		width: 20%;
 		height: auto;
 		margin-left: 3px;
 		margin-top: 5px;
+		float: left;
+	}
+	.gift-list span{
+		padding-left: 40px;
+	}
+	.chat-center{
+		float: right;
+		width: 78%;
+		height: 500px;
+		margin-top: 5px;
+		border: 1px red solid;
 	}
 	.img img{
 		float: left;
