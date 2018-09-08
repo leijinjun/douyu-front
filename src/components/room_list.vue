@@ -1,7 +1,15 @@
 <template>
 	<div id="main">
-		<div style="float: right;margin-right: 16px;"> <el-button style="background-image: linear-gradient(-90deg, #BB9BF1 0%, #887BF2 100%);
-border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()"><span v-if="!changeFlag">切换所有房间</span><span v-else>切换已连接房间</span></el-button></div>
+		<div style="float: right;margin-right: 16px;">
+			<el-input class="room-search" placeholder="房间号">
+				 <el-button slot="append" icon="el-icon-search"></el-button>
+			</el-input>
+			<el-button style="background-image: linear-gradient(-90deg, #BB9BF1 0%, #887BF2 100%);
+border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
+				<span v-if="!changeFlag">切换所有房间</span>
+				<span v-else>切换已连接房间</span>
+			</el-button>
+		</div>
 		<el-row style="margin-top: 54px;">
 		  <el-col class="room-col" :span="8" v-for="(item,index) in roomList" :key="item.roomId">
 		    <el-card class="room-mod-link" :body-style="{ padding: '0px' }">
@@ -176,6 +184,13 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()"><span v-if="
 	}
 	.room-text .room-conn{
 		margin-top: 8px;
+	}
+	.room-search{
+		width: 180px;
+		height: 36px;
+	}
+	.room-search input{
+		height: 36px;
 	}
 	.room-text a{
 		font-family: .AppleSystemUIFont;

@@ -24,11 +24,19 @@
 				</div>
 			</div>
 			<div class="chat-center">
+				<div style="background-color: antiquewhite;width: 100%;">最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
 				<div class="chat-list" v-for="chat in chats">
 					<span style="float: left;margin-left: 6px;margin-top: 8px;">
-						<label>{{chat.timestamp}}</label>
-						<label>{{chat.nn}}：</label>
-						<label>{{chat.txt}}</label>
+						<span>{{chat.timestamp}}</span>
+						<span>
+							<span style="background-color: #4087F3;border-radius: 4px;padding-right: 2px;">
+								<img src="../../static/level.png" width="14px;" height="14px;"/>
+								<label style="color:white;">{{chat.level}}</label>
+							</span> 
+							{{chat.nn}}：
+						</span>
+						<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
+						<span v-else style="color: #333;">{{chat.txt}}</span>
 					</span>
 				</div>
 			</div>
@@ -45,6 +53,7 @@
 				gifts:[],
 				chats:[],
 				roomGifts:{},
+				tableColor:{1:'red',2:'#1e87f0',3:'#7ac84b',4:'#FF69B4',5:'#9b39f4',6:'#FF69B4'},
 			}
 		},
 		created(){
@@ -70,7 +79,9 @@
 							console.log(json)
 						}
 					})
-			}
+			},
+			getMoreChat(){
+			},
 		}
 	}
 </script>
@@ -109,7 +120,7 @@
 		float: left;
 	}
 	.gift-list span{
-		padding-left: 40px;
+		padding-left: 3px;
 	}
 	.chat-center{
 		float: right;
