@@ -45,6 +45,7 @@
 </template>
 
 <script>
+	import tableColor from '../config/tableColor.json'
 	export default {
 		name:'RoomDetail',
 		data(){
@@ -53,7 +54,7 @@
 				gifts:[],
 				chats:[],
 				roomGifts:{},
-				tableColor:{1:'red',2:'#1e87f0',3:'#7ac84b',4:'#FF69B4',5:'#9b39f4',6:'#FF69B4'},
+				tableColor:tableColor,
 			}
 		},
 		created(){
