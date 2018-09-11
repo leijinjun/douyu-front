@@ -18,7 +18,7 @@
 				<div class="gift-list">
 					<span v-for="gift in gifts" style="float: left;height: 50px;">
 						<img  v-bind:src="roomGifts[gift.gfid].himg" height="48px;" width="48px"/>
-						<span style="margin-left: 10px;">x{{gift.gfcnt}}</span>
+						<span style="margin-left: 10px;">x{{gift.hits}}</span>
 						<span>{{gift.nn}}</span>
 					</span>
 				</div>
@@ -110,7 +110,7 @@
 	.room-desc .text{
 		float: left;
 		margin-top: 26px;
-		margin-left:65px;
+		margin-left:46px;
 	}
 	.gift-left{
 		width: 20%;
