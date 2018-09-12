@@ -189,7 +189,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 		width: 180px;
 		height: 36px;
 	}
-	.room-search input{
+	.room-search .el-input__inner{
 		height: 36px;
 	}
 	.room-text a{
