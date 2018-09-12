@@ -50,6 +50,7 @@
 		name:'RoomDetail',
 		data(){
 			return{
+				roomId:null,
 				roomDetail:{},
 				gifts:[],
 				chats:[],
@@ -59,6 +60,7 @@
 		},
 		created(){
 			var roomId=this.$route.params.roomId;
+			this.roomId=roomId;
 			this.getRoomDetail(roomId);
 		},
 		methods:{
@@ -82,6 +84,9 @@
 					})
 			},
 			getMoreChat(){
+				var roomId=this.roomId;
+				var path=`/danmu/${roomId}`;
+				this.$router.push({path:path});
 			},
 		}
 	}

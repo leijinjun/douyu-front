@@ -28,7 +28,7 @@ export default {
 }
 #header{
 	height: 120px;
-	background-color: #3931a9;
+	background-color:  #5a2dff;
 }
 #footer{
 	position: absolute;
