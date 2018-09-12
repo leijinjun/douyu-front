@@ -14,15 +14,13 @@
 		</div>
 		<div>
 			<div class="gift-left">
-				<span >最新礼物</span>
-				<div class="gift-list" v-for="gift in gifts">
-					<div style="float: left;">
-						<span style="float: left;height: 50px;">
-							<img  v-bind:src="roomGifts[gift.gfid].himg" height="48px;" width="48px"/>
-						</span>
-						<span style="margin-left: 10px;line-height:43px;">x{{gift.gfcnt}}</span>
+				<span>最新礼物</span>
+				<div class="gift-list">
+					<span v-for="gift in gifts" style="float: left;height: 50px;">
+						<img  v-bind:src="roomGifts[gift.gfid].himg" height="48px;" width="48px"/>
+						<span style="margin-left: 10px;">x{{gift.hits}}</span>
 						<span>{{gift.nn}}</span>
-					</div>
+					</span>
 				</div>
 			</div>
 			<div class="chat-center">
@@ -47,6 +45,7 @@
 </template>
 
 <script>
+	import tableColor from '../config/tableColor.json'
 	export default {
 		name:'RoomDetail',
 		data(){
@@ -55,7 +54,7 @@
 				gifts:[],
 				chats:[],
 				roomGifts:{},
-				tableColor:{1:'red',2:'#1e87f0',3:'#7ac84b',4:'#FF69B4',5:'#9b39f4',6:'#FF69B4'},
+				tableColor:tableColor,
 			}
 		},
 		created(){
@@ -112,7 +111,7 @@
 	.room-desc .text{
 		float: left;
 		margin-top: 26px;
-		margin-left:65px;
+		margin-left:46px;
 	}
 	.gift-left{
 		width: 20%;
@@ -120,9 +119,6 @@
 		margin-left: 3px;
 		margin-top: 5px;
 		float: left;
-	}
-	.gift-list{
-		margin-top: 6px;
 	}
 	.gift-list span{
 		padding-left: 3px;
