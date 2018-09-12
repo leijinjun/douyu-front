@@ -14,13 +14,15 @@
 		</div>
 		<div>
 			<div class="gift-left">
-				<span>最新礼物</span>
-				<div class="gift-list">
-					<span v-for="gift in gifts" style="float: left;height: 50px;">
-						<img  v-bind:src="roomGifts[gift.gfid].himg" height="48px;" width="48px"/>
-						<span style="margin-left: 10px;">x{{gift.gfcnt}}</span>
+				<span >最新礼物</span>
+				<div class="gift-list" v-for="gift in gifts">
+					<div style="float: left;">
+						<span style="float: left;height: 50px;">
+							<img  v-bind:src="roomGifts[gift.gfid].himg" height="48px;" width="48px"/>
+						</span>
+						<span style="margin-left: 10px;line-height:43px;">x{{gift.gfcnt}}</span>
 						<span>{{gift.nn}}</span>
-					</span>
+					</div>
 				</div>
 			</div>
 			<div class="chat-center">
@@ -118,6 +120,9 @@
 		margin-left: 3px;
 		margin-top: 5px;
 		float: left;
+	}
+	.gift-list{
+		margin-top: 6px;
 	}
 	.gift-list span{
 		padding-left: 3px;
