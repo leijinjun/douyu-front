@@ -12,7 +12,7 @@
 		</el-button-group>
 	</div>
 	<div class="chat-list" v-for="chat in chats" style="float: left;width: 100%;">
-		<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;">
+		<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;">
 			<span style="float: left;padding-right: 10px;">{{chat.timestamp}}</span>
 			<span style="float: left;">
 				<img src="../../static/level.png" height="19px;" style="margin-top: 3px;"/>
