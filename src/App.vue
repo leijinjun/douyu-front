@@ -2,9 +2,14 @@
   <div id="app">
   	<el-container>
   	<el-header id="header">
-  			<el-menu :router="true" mode="horizontal" background-color="#fff" text-color="#000" active-text-color="#5a2dff" style="border-bottom:0">
+  			<el-menu :router="true" mode="horizontal" background-color="#fff" text-color="#000" active-text-color="#5a2dff" style="border-bottom:0;float: left;">
 				  <el-menu-item index="1" route="/room">首页</el-menu-item>
 				</el-menu>
+				<!--<div style="width:187px;float: right;padding-top:16px;padding-right: 9px;">
+					<el-input v-model="room" placeholder="房间ID" style="float: left;">
+						<el-button plain style="float: right;" slot="append" @click="searchGlobalRoom()">搜索</el-button>
+					</el-input>
+				</div>-->
   	</el-header>
   	<el-main>
     	<router-view/>
@@ -32,6 +37,7 @@ export default {
 #header{
 	height: 120px;
 	margin-left: 203px;
+	margin-right:9%;
 	/*background-color:  #5a2dff;*/
 }
 #footer{
