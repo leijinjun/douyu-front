@@ -9,14 +9,6 @@
 				    <a href="javascript:;"  v-else @click="connect()">连接</a>
 		    	</div>
 			</div>
-			<!--<el-col :span="8">
-			    <el-card>
-			    	<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb" class="image" /></a>
-			      <div style="padding: 14px;">
-			        <span>好吃的汉堡</span>
-			      </div>
-			    </el-card>
-			</el-col>-->
 			<div class="room-desc">
 				<span class="text">房间号:{{roomDetail.roomId}}</span>
 				<span class="text">房间标题：{{roomDetail.roomName}}</span>
@@ -38,7 +30,7 @@
 			<div class="chat-center">
 				<div style="background-color: antiquewhite;width: 100%;">最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
 				<div class="chat-list" v-for="chat in chats">
-					<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;">
+					<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
 						<span style="float: left;padding-right: 10px;">{{chat.timestamp}}</span>
 						<span style="float: left;">
 							<img src="../../static/level.png" height="19px;" style="margin-top: 3px;"/>
