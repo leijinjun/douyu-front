@@ -1,12 +1,22 @@
 <template>
 	<div id="main">
 		<div class="room-info">
-			房间信息
+			<span style="text-align: center;">房间信息</span>
 			<div class="img">
-				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb" /></a>
-				<a href="javascript:;" v-if="connected" @click="disConnect()">断开连接</a>
-		        <a href="javascript:;" v-else @click="connect()">连接</a>
+				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
+				<div>
+					<a href="javascript:;" v-if="connected" @click="disConnect()">断开连接</a>
+				    <a href="javascript:;"  v-else @click="connect()">连接</a>
+		    	</div>
 			</div>
+			<!--<el-col :span="8">
+			    <el-card>
+			    	<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb" class="image" /></a>
+			      <div style="padding: 14px;">
+			        <span>好吃的汉堡</span>
+			      </div>
+			    </el-card>
+			</el-col>-->
 			<div class="room-desc">
 				<span class="text">房间号:{{roomDetail.roomId}}</span>
 				<span class="text">房间标题：{{roomDetail.roomName}}</span>
@@ -95,7 +105,7 @@
 				var $this=this;
 				var roomId=$this.roomId;
 				var params=new URLSearchParams();
-				params.append("room",room);
+				params.append("room",roomId);
 				this.$http.post('/auth/logout',params)
 					.then((response)=>{
 						var res=response.data;
@@ -107,7 +117,7 @@
 			connect(){
 				var $this=this;
 				var roomId=$this.roomId;
-				this.$http.post(`/auth/room1/${room}`)
+				this.$http.post(`/auth/room1/${roomId}`)
 					.then((response)=>{
 						var res=response.data;
 						if(res.code==200){
@@ -132,18 +142,14 @@
 		
 	}
 	.room-info{
-		height: 163px;
+		height: 205px;
 		border: 1px #f7f0f0 solid;
 		
 	}
-	.room-desc{
-		margin-left: 10px;
-		margin-top: 50px;
-	}
 	.room-desc .text{
 		float: left;
-		margin-top: 26px;
-		margin-left:46px;
+		margin-top: 44px;
+		margin-left:38px;
 	}
 	.gift-left{
 		width: 20%;
@@ -166,9 +172,18 @@
 		width: 100%;
 		float: left;
 	}
-	.img img{
+	.img{
 		float: left;
-		height: 108px;
-		padding: 26px 0 0 23px;
+		width: 252px;
+		padding:10px 0 0 10px;
+	}
+	.img img{
+		width: 265px;
+	}
+	.img a{
+		color: #f56c6c;
+		font-size: 14px;
+	    letter-spacing: 0;
+	    text-decoration: none;
 	}
 </style>
