@@ -1,9 +1,14 @@
 <template>
 	<div id="main">
 		<div style="float: right;margin-right: 16px;">
-			<el-input class="room-search" placeholder="房间号">
-				 <el-button slot="append" icon="el-icon-search"></el-button>
-			</el-input>
+			<el-select v-model="selectedCate" clearable filterable placeholder="请选择分类" @change="cateChange()">
+			    <el-option
+			      v-for="item in cates"
+			      :key="item.cateId"
+			      :label="item.cateName"
+			      :value="item.cateId">
+			    </el-option>
+			  </el-select>
 			<el-button style="background-image: linear-gradient(-90deg, #BB9BF1 0%, #887BF2 100%);
 border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 				<span v-if="!changeFlag">切换所有房间</span>
@@ -39,16 +44,23 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 		data(){
 			return{
 				changeFlag:true,
+				roomId:null,
+				cates:[],
+				selectedCate:null,
 				roomList:[]
 			}
 		},
 		created(){
 			this.getRoomList();
+			this.getCates();
 		},
 		methods:{
 			getRoomList(){
 				var $this=this;
-				this.$http.get('/room/list')
+				var param={};
+				param.limit=100;
+				param.cate=this.selectedCate;
+				this.$http.get('/room/list',{params:param})
 					.then(function(response){
 						var res=response.data;
 						if(res.code==200){
@@ -96,6 +108,22 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 				}else{
 					this.getRoomList();
 				}
+			},
+			cateChange(){
+				if(this.selectedCate==null){
+					return;
+				}
+				this.getRoomList();
+			},
+			getCates(){
+				var $this=this;
+				this.$http.get('/room/cates')
+					.then((response)=>{
+						var res=response.data;
+						if(res.code==200){
+							$this.cates=res.body;
+						}
+					})
 			}
 		}
 	}

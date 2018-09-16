@@ -79,7 +79,7 @@
 		methods:{
 			getRoomDetail(roomId){
 				var $this=this;
-				this.$http.get(`/room/${roomId}`)
+				this.$http.get(`/room/detail/${roomId}`)
 					.then((response)=>{
 						var res=response.data;
 						if(res.code=200){
