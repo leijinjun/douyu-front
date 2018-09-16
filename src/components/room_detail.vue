@@ -4,6 +4,8 @@
 			房间信息
 			<div class="img">
 				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb" /></a>
+				<a href="javascript:;" v-if="connected" @click="disConnect()">断开连接</a>
+		        <a href="javascript:;" v-else @click="connect()">连接</a>
 			</div>
 			<div class="room-desc">
 				<span class="text">房间号:{{roomDetail.roomId}}</span>
@@ -55,6 +57,7 @@
 				gifts:[],
 				chats:[],
 				roomGifts:{},
+				connected:false,
 				tableColor:tableColor,
 			}
 		},
@@ -79,7 +82,7 @@
 								json[n.id]=n;
 							});
 							$this.roomGifts=json;
-							console.log(json)
+							$this.connected=body.connected;
 						}
 					})
 			},
@@ -88,6 +91,30 @@
 				var path=`/danmu/${roomId}`;
 				this.$router.push({path:path});
 			},
+			disConnect(){
+				var $this=this;
+				var roomId=$this.roomId;
+				var params=new URLSearchParams();
+				params.append("room",room);
+				this.$http.post('/auth/logout',params)
+					.then((response)=>{
+						var res=response.data;
+						if(res.code==200){
+							$this.getRoomDetail(roomId);
+						}
+					})
+			},
+			connect(){
+				var $this=this;
+				var roomId=$this.roomId;
+				this.$http.post(`/auth/room1/${room}`)
+					.then((response)=>{
+						var res=response.data;
+						if(res.code==200){
+							$this.getRoomDetail(roomId);
+						}
+					});
+			}
 		}
 	}
 </script>
