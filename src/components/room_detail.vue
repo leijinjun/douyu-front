@@ -21,7 +21,7 @@
 				<span>最新礼物</span>
 				<div class="gift-list">
 					<span v-for="gift in gifts" style="float: left;height: 50px;">
-						<img  v-bind:src="roomGifts[gift.gfid].himg" height="48px;" width="48px"/>
+						<img  v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:''" height="48px;" width="48px"/>
 						<span style="margin-left: 10px;">x{{gift.hits}}</span>
 						<span>{{gift.nn}}</span>
 					</span>
