@@ -1,5 +1,8 @@
 <template>
 	<div id="main">
+		<div id='my-player' class='abp' style="height: 150px;">
+		    <div id='my-comment-stage' class='container'>aaa</div>
+		</div>
 		<div style="float: right;margin-right: 16px;">
 			<el-select v-model="selectedCate" clearable filterable placeholder="请选择分类" @change="cateChange()">
 			    <el-option
@@ -71,7 +74,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 			},
 			connect(room){
 				var $this=this;
-				this.$http.post(`/auth/room1/${room}`)
+				this.$http.post(`/auth/login/${room}`)
 					.then((response)=>{
 						var res=response.data;
 						if(res.code==200){
@@ -125,6 +128,8 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 						}
 					})
 			}
+		},
+		mounted () {
 		}
 	}
 </script>

@@ -109,7 +109,7 @@
 			connect(){
 				var $this=this;
 				var roomId=$this.roomId;
-				this.$http.post(`/auth/room1/${roomId}`)
+				this.$http.post(`/auth/login/${roomId}`)
 					.then((response)=>{
 						var res=response.data;
 						if(res.code==200){
