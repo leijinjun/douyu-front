@@ -30,8 +30,14 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		          <label>人气：</label><span>{{item.hn}}</span>
 		        </div>
 		        <div class="room-conn">
-		        	<a href="javascript:;" v-if="item.connected" @click="disConnect(item.roomId)">断开连接</a>
-		        	<a href="javascript:;" v-else @click="connect(item.roomId)">连接</a>
+		        	<a href="javascript:;" v-if="item.connected">
+		        		<span v-if="roomConnecting[item.roomId]===true"><i class="iconfont icon-jiazai"></i></span>
+		        		<span v-else @click="disConnect(item.roomId)">断开连接</span>
+		        	</a>
+		        	<a href="javascript:;" v-else>
+		        		<span v-if="roomConnecting[item.roomId]===true"><i class="iconfont icon-jiazai"></i></span>
+		        		<span v-else  @click="connect(item.roomId)">连接</span>
+		        	</a>
 		        </div>
 		      </div>
 		    </el-card>
@@ -53,7 +59,8 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 				cates:[],
 				keyword:null,
 				selectedCate:null,
-				roomList:[]
+				roomList:[],
+				roomConnecting:{}
 			}
 		},
 		created(){
@@ -89,21 +96,33 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			},
 			connect(room){
 				var $this=this;
+				this.$set(this.roomConnecting,room,true)
 				this.$http.post(`/auth/login/${room}`)
 					.then((response)=>{
+						this.$set(this.roomConnecting,room,false)
 						var res=response.data;
 						$this.changeRoomList();
+					})
+					.catch((error)=>{
+						this.$set(this.roomConnecting,room,false)
+						$this.$message.error("连接错误");
 					});
 			},
 			disConnect(room){
 				var $this=this;
+				this.$set(this.roomConnecting,room,true)
 				var params=new URLSearchParams();
 				params.append("room",room);
 				this.$http.post('/auth/logout',params)
 					.then((response)=>{
+						this.$set(this.roomConnecting,room,false)
 						var res=response.data;
 						$this.changeRoomList();
 					})
+					.catch((error)=>{
+						this.$set(this.roomConnecting,room,false)
+						$this.$message.error("连接错误");
+					});
 			},
 			changeRoomListFlag(){
 				var flag=this.changeFlag;

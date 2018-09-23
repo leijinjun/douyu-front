@@ -5,8 +5,14 @@
 			<div class="img">
 				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
 				<div>
-					<a href="javascript:;" v-if="connected" @click="disConnect()">断开连接</a>
-				    <a href="javascript:;"  v-else @click="connect()">连接</a>
+					<a href="javascript:;" v-if="connected">
+						<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+		        		<span v-else @click="disConnect()">断开连接</span>
+					</a>
+				    <a href="javascript:;"  v-else @click="connect()">
+				    	<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+		        		<span v-else @click="disConnect()">连接</span>
+				    </a>
 		    	</div>
 			</div>
 			<div class="room-desc">
@@ -61,6 +67,7 @@
 				roomGifts:{},
 				connected:false,
 				tableColor:tableColor,
+				roomConnecting:null
 			}
 		},
 		created(){
@@ -95,16 +102,20 @@
 			},
 			disConnect(){
 				var $this=this;
+				this.roomConnecting=true;
 				var roomId=$this.roomId;
 				var params=new URLSearchParams();
 				params.append("room",roomId);
 				this.$http.post('/auth/logout',params)
 					.then((response)=>{
 						var res=response.data;
-						if(res.code==200){
-							$this.getRoomDetail(roomId);
-						}
+						this.roomConnecting=false;
+						$this.getRoomDetail(roomId);
 					})
+					.catch((error)=>{
+						this.roomConnecting=false;
+						$this.$message.error("连接错误");
+					});
 			},
 			connect(){
 				var $this=this;
@@ -112,9 +123,12 @@
 				this.$http.post(`/auth/login/${roomId}`)
 					.then((response)=>{
 						var res=response.data;
-						if(res.code==200){
-							$this.getRoomDetail(roomId);
-						}
+						this.roomConnecting=false;
+						$this.getRoomDetail(roomId);
+					})
+					.catch((error)=>{
+						this.roomConnecting=false;
+						$this.$message.error("连接错误");
 					});
 			}
 		}

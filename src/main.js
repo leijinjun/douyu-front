@@ -8,6 +8,7 @@ import $ from 'jquery'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
+import './assets/icon/iconfont.css';
 
 const service = axios.create({
     withCredentials: true,
@@ -25,6 +26,7 @@ service.interceptors.request.use(function(config){
 
 // respone拦截器
 service.interceptors.response.use(function(res){
+	var result=res.data;
     // 对响应数据做点什么
     return res;
 },function(error){
