@@ -12,9 +12,9 @@
 			  <el-input v-model="keyword" placeholder="请输入房间ID" style="width: 120px;"></el-input>
 			  <el-button plain @click="searchRoom()">搜索房间</el-button>
 			<el-button style="background-image: linear-gradient(-90deg, #BB9BF1 0%, #887BF2 100%);
-border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
-				<span v-if="!changeFlag">切换所有房间</span>
-				<span v-else>切换已连接房间</span>
+border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
+				<span v-if="!changeFlag">切换到所有房间</span>
+				<span v-else>切换到已连接房间</span>
 			</el-button>
 		</div>
 		<el-row style="margin-top: 54px;">
@@ -36,7 +36,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 		      </div>
 		    </el-card>
 		  </el-col>
-		 <div style="margin-top: 50px;">
+		 <div v-else style="margin-top: 50px;">
 		 	暂无数据
 		 </div>
 		</el-row>
@@ -59,10 +59,10 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 		created(){
 			var connected=this.$route.query.connected;
 			if(connected===undefined){
-				this.changeFlag=false;
+				this.changeFlag=true;
 				this.getRoomList();
 			}else{
-				this.changeFlag=true;
+				this.changeFlag=false;
 				this.getCacheRoomList();
 			}
 			this.getCates();
@@ -76,10 +76,15 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 				this.$http.get('/room/list',{params:param})
 					.then(function(response){
 						var res=response.data;
-						if(res.code==200){
-							$this.roomList=res.body;
-							$this.changeFlag=true;
-						}
+						$this.roomList=res.body;
+					})
+			},
+			getCacheRoomList(){
+				var $this=this;
+				this.$http.get('/room/logged')
+					.then((response)=>{
+						var res=response.data;
+						$this.roomList=res.body;
 					})
 			},
 			connect(room){
@@ -100,17 +105,13 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomList()">
 						$this.changeRoomList();
 					})
 			},
-			getCacheRoomList(){
-				var $this=this;
-				this.$http.get('/room/logged')
-					.then((response)=>{
-						var res=response.data;
-						$this.roomList=res.body;
-						$this.changeFlag=false;
-					})
+			changeRoomListFlag(){
+				var flag=this.changeFlag;
+				this.changeFlag=!flag;
+				this.changeRoomList();
 			},
 			changeRoomList(){
-				if(this.changeFlag){
+				if(!this.changeFlag){
 					this.getCacheRoomList();
 				}else{
 					this.getRoomList();
