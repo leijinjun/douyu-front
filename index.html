@@ -11,6 +11,14 @@
   </body>
   <!--<script type="text/javascript" src="static/ccl/CommentCoreLibrary.js" ></script>-->
   <style>
+  	html, body {
+		  display: flex;
+		  height: 100%;
+		  flex-direction: column;
+		}
+		body #app {
+		  flex: 1;
+		}
   	@media screen and (max-width: 1156px) {
   		#container{
   			width: 920px;
@@ -34,6 +42,9 @@
   	body{
 			min-width: 920px;
 			font-family:  "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+		}
+		#main{
+			padding-bottom: 120px;
 		}
   </style>
 </html>

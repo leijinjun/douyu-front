@@ -46,10 +46,12 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		 	暂无数据
 		 </div>
 		</el-row>
+		<v-goTop></v-goTop>
 	</div>
 </template>
 
 <script>
+	import goTop from './common/goTop';
 	export default {
 		name:'RoomList',
 		data(){
@@ -62,6 +64,9 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 				roomList:[],
 				roomConnecting:{}
 			}
+		},
+		components:{
+			'v-goTop':goTop
 		},
 		created(){
 			var connected=this.$route.query.connected;
