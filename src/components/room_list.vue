@@ -10,7 +10,7 @@
 			    </el-option>
 			  </el-select>
 			  <el-input v-model="keyword" placeholder="请输入房间ID" style="width: 120px;"></el-input>
-			  <el-button plain @click="searchRoom()">搜索房间</el-button>
+			  <el-button plain @click="searchRoom()" style="color: #5a2dff;">搜索房间</el-button>
 			<el-button style="background-image: linear-gradient(-90deg, #BB9BF1 0%, #887BF2 100%);
 border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 				<span v-if="!changeFlag">切换到所有房间</span>
@@ -274,5 +274,11 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		color: #f56c6c;
 		letter-spacing: 0;
 		text-decoration:none
+	}
+	.el-button.is-plain:hover{
+		border-color: rgb(90, 45, 255);
+	}
+	.el-input:focus{
+		border-color: rgb(90, 45, 255);
 	}
 </style>
