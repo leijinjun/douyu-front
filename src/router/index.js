@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import RoomList from '@/components/room_list'
 import RoomDetail from '@/components/room_detail'
 import DanmuList from '@/components/danmu_list'
+import Geetest from '@/components/gt.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -23,6 +24,11 @@ export default new Router({
       path: '/danmu/:roomId',
       name: 'DanmuList',
       component: DanmuList
+    },
+    {
+      path: '/gt',
+      name: 'Geetest',
+      component: Geetest
     }
   ]
 })
