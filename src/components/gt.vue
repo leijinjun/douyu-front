@@ -48,6 +48,7 @@
 						    }).onSuccess(function(){
 						    	var result = captchaObj.getValidate();
 						    	$this.secondValidation(result);
+						    	captchaObj.reset();
 						    }).onError(function(){
 						    	console.log("验证错误")
 						    	$this.$message.error("验证失败，请重新刷新验证");
