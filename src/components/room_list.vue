@@ -52,7 +52,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 
 <script>
 	import goTop from './common/goTop';
-	import utils from '../utils/util.js';
+//	import utils from '../utils/util.js';
 	export default {
 		name:'RoomList',
 		data(){
@@ -80,11 +80,11 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			}
 			this.getCates();
 		},
-		filters:{
+		/*filters:{
 			numTransform:function(value){
 				return utils.numTransform(value);
 			}
-		},
+		},*/
 		methods:{
 			getRoomList(){
 				var $this=this;

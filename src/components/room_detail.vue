@@ -20,6 +20,7 @@
 				<span class="text" style="overflow: hidden;width: 180px;text-overflow: ellipsis; white-space:nowrap;">房间标题：{{roomDetail.roomName}}</span>
 				<span class="text">主播名：{{roomDetail.ownerName}}</span>
 				<span class="text">当前人气：{{roomDetail.hn}}</span>
+				<span class="text">今日弹幕数量：{{chatTotalCount|numTransform}}</span>
 			</div>
 		</div>
 		<div>
@@ -141,6 +142,7 @@
 		         }]
 		        },
 				roomId:null,
+				chatTotalCount:0,
 				roomDetail:{},
 				gifts:[],
 				chats:[],
@@ -189,6 +191,7 @@
 						if(res.code=200){
 							var body=res.body;
 							$this.roomDetail=body.roomDetail;
+							$this.chatTotalCount = body.chatTotalCount;
 							$this.chats=body.chats;
 							$this.gifts=body.gifts;
 							var json=new Object();
