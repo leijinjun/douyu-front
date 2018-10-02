@@ -9,6 +9,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 import './assets/icon/iconfont.css';
+/*import utils from './utils/util.js';
+Vue.filter('numTransform',utils.numTransform);*/
 
 const service = axios.create({
     withCredentials: true,

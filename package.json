@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "comment-core-library": "^0.9.3",
+    "echarts": "^4.2.0-rc.1",
     "element-ui": "^2.4.6",
     "jquery": "^3.3.1",
     "vue": "^2.5.2",
