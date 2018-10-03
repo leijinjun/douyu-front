@@ -26,7 +26,10 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		      <div class="room-text">
 		        <label>主播：</label><span>{{item.nickname}}</span>
 		        <div class="bottom clearfix">
-		          <label>房间名：</label><span style="overflow: hidden;text-overflow: ellipsis; white-space:nowrap;">{{item.roomName}}</span><br />
+		          <span style="width: 100%;overflow: hidden;text-overflow: ellipsis; white-space:nowrap;">
+			          <label>房间名：</label><span>{{item.roomName}}</span>
+		          </span>
+		          <br />
 		          <label>人气：</label><span>{{item.hn|numTransform}}</span>
 		        </div>
 		        <div class="room-conn">

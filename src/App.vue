@@ -3,7 +3,7 @@
   	<el-container>
   	<el-header id="header">
   			<el-menu :router="true" mode="horizontal" background-color="#fff" text-color="#000" active-text-color="#5a2dff" style="border-bottom:0;float: left;">
-				  <el-menu-item index="1" route="/room">首页</el-menu-item>
+				  <el-menu-item index="1" route="/">首页</el-menu-item>
 				</el-menu>
   	</el-header>
   	<el-main>
