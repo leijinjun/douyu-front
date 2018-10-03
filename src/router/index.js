@@ -13,6 +13,11 @@ export default new Router({
 	mode: 'history',
 	base:"/front",
   routes: [
+  	{
+      path: '/',
+      name: 'RoomList',
+      component: RoomList
+    },
     {
       path: '/room',
       name: 'RoomList',

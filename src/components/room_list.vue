@@ -26,7 +26,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		      <div class="room-text">
 		        <label>主播：</label><span>{{item.nickname}}</span>
 		        <div class="bottom clearfix">
-		          <label>房间名：</label><span>{{item.roomName}}</span><br />
+		          <label>房间名：</label><span style="overflow: hidden;text-overflow: ellipsis; white-space:nowrap;">{{item.roomName}}</span><br />
 		          <label>人气：</label><span>{{item.hn|numTransform}}</span>
 		        </div>
 		        <div class="room-conn">
@@ -192,7 +192,10 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 	}
 	@media screen and (max-width: 1335px){
 		.room-col .room-mod-link{
-			height: 400px;
+			height: 303px;
+		}
+		.room-image{
+			height: 203px;
 		}
 		.room-col{
 			vertical-align: top;
@@ -202,7 +205,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		    border-radius: 4px;
 		}
 		#main{
-			width: 1100px;
+			width: 1043px;
 			position: relative;
 			overflow: hidden;
 			padding: 0 4px;
@@ -254,7 +257,6 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 	.room-mod-link .room-image{
 		display: block;
 	    width: 100%;
-	    height: 297px;
 	    transition: all .25s ease-in-out;
 	    -webkit-backface-visibility: hidden;
 	    backface-visibility: hidden;

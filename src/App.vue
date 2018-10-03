@@ -36,11 +36,23 @@ export default {
 .el-main{
 	padding-bottom: 60px;
 }
-#header{
-	height: 120px;
-	margin-left: 203px;
-	margin-right:9%;
-	/*background-color:  #5a2dff;*/
+@media screen and (max-width: 1335px) and (min-width: 1156px){
+	#header{
+		margin-left: 44px;
+    margin-right: 5%;
+	}
+}
+@media screen and (min-width: 1336px) and (max-width:1765px){
+	#header{
+		margin-left: 66px;
+    margin-right: 5%;
+	}
+}
+@media only screen and (min-width:1766px) {
+	#header{
+		margin-left: 4%;
+    margin-right: 5%;
+	}
 }
 #footer{
 	height: 60px;
