@@ -245,7 +245,7 @@
 	
 <style scoped="scoped">
 	
-	@media only screen and (min-width:1766px){
+	/* @media only screen and (min-width:1766px){
 		#main{
 			width: 1230px;
 			position: relative;
@@ -254,6 +254,10 @@
 		    margin: 0 auto;
 		}
 		
+	} */
+	#main{
+		width:1069px;
+		margin:auto;
 	}
 	.room-info{
 		height: 205px;
