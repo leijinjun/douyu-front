@@ -27,9 +27,9 @@
 			<div class="gift-left">
 				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日最新礼物</div>
 				<div v-if="gifts.length>0" class="gift-list">
-					<div v-for="gift in gifts" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;">
+					<div v-for="gift in gifts" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;">
 						<div style="width: 50px;float: left;"><img  v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:''" height="48px;" width="48px"/></div>
-						<div style="width: 200px;padding: 13px 0 0 59px;text-align:left;">
+						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
 							<span>x{{gift.gfcnt}}</span>
 							<span>{{gift.nn}}</span>
 						</div>
@@ -266,7 +266,7 @@
 		margin-left:38px;
 	}
 	.gift-left{
-		width: 252px;
+		width: 18%;
 		height: auto;
 		margin-left: 3px;
 		margin-top: 5px;
@@ -277,7 +277,7 @@
 	}
 	.chat-center{
 		float: right;
-		width: 78%;
+		width: 81%;
 		height: auto;
 		margin-top: 5px;
 		border-left: 1px #f7f0f0 solid;
