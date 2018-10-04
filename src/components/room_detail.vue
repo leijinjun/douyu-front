@@ -1,31 +1,100 @@
 <template>
 	<div id="main">
-		<div class="room-info">
-			<span style="text-align: center;">房间信息</span>
-			<div class="img">
-				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
-				<div>
-					<a href="javascript:;" v-if="connected">
-						<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
-		        		<span v-else @click="disConnect()">断开连接</span>
-					</a>
-				    <a href="javascript:;"  v-else @click="connect()">
-				    	<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
-		        		<span v-else @click="disConnect()">连接</span>
-				    </a>
-		    	</div>
+		<el-container>
+		  <el-header height="100%">
+		  	<div class="room-info">
+				<p style="text-align: center;width: 100%;font-size: 16px;">房间信息</p>
+				<div style="width: 100%;height: 181px;">
+					<div class="img">
+						<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
+						<div>
+							<a href="javascript:;" v-if="connected">
+								<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+				        		<span v-else @click="disConnect()">断开连接</span>
+							</a>
+						    <a href="javascript:;"  v-else @click="connect()">
+						    	<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+				        		<span v-else @click="disConnect()">连接</span>
+						    </a>
+				    	</div>
+					</div>
+					<div class="room-desc text">
+						<span>房间号:{{roomDetail.roomId}}</span>
+						<span class="title">房间标题：{{roomDetail.roomName}}</span>
+						<span>主播名：{{roomDetail.ownerName}}</span>
+						<span>当前人气：{{roomDetail.hn}}</span>
+						<span>今日弹幕数：{{chatTotalCount|numTransform}}</span>
+					</div>
+				</div>
+				</div>
+		  </el-header>
+		  <el-container>
+		    <el-aside width="262px" style="margin-left: 10px;overflow: hidden;">
+				<div style="color: rgb(90, 45, 255);">今日最新礼物</div>
+				<div v-if="gifts.length>0" class="gift-list">
+					<div v-for="gift in gifts" style="float: left;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;margin-left: 61px;">
+						<div style="width: 50px;float: left;"><img  v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:''" height="48px;" width="48px"/></div>
+						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
+							<span>x{{gift.gfcnt}}</span>
+							<span>{{gift.nn}}</span>
+						</div>
+					</div>
+				</div>
+		    </el-aside>
+		    <el-main>
+		    	<div style="height:450px;">
+					<p>
+						<router-link :to="{
+							name:'RoomView',
+							path:'/view/'+roomId,
+						}" style="color: darkorchid;text-decoration: none;">查看更多</router-link>
+					</p>
+					<div id="room_view" style="height:430px;width:100%;" ref="myEchart">
+					</div>
+				</div>
+				<div style="background-color: antiquewhite;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: left;padding-left: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
+				<div class="chat-list">
+					<div class="chat-item" v-for="chat in chats">
+						<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+							<span>{{chat.timestamp}}</span>
+							<a v-bind:class="'user-level level-bgpng level-size1 level-'+chat.level" v-bind:title="'用户等级：'+chat.level"></a>
+							<span style="color: #2b94ff;padding-left: 5px;margin-left: 40px;">{{chat.nn}}：</span>
+							<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
+							<span v-else style="color: #333;">{{chat.txt}}</span>
+						</div>
+					</div>				
+				</div>
+		    </el-main>
+		  </el-container>
+		</el-container>
+		<!--<div class="room-info">
+			<p style="text-align: center;width: 100%;font-size: 16px;">房间信息</p>
+			<div style="width: 100%;height: 181px;">
+				<div class="img">
+					<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
+					<div>
+						<a href="javascript:;" v-if="connected">
+							<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+			        		<span v-else @click="disConnect()">断开连接</span>
+						</a>
+					    <a href="javascript:;"  v-else @click="connect()">
+					    	<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+			        		<span v-else @click="disConnect()">连接</span>
+					    </a>
+			    	</div>
+				</div>
+				<div class="room-desc text">
+					<span>房间号:{{roomDetail.roomId}}</span>
+					<span class="title">房间标题：{{roomDetail.roomName}}</span>
+					<span>主播名：{{roomDetail.ownerName}}</span>
+					<span>当前人气：{{roomDetail.hn}}</span>
+					<span>今日弹幕数：{{chatTotalCount|numTransform}}</span>
+				</div>
 			</div>
-			<div class="room-desc">
-				<span class="text">房间号:{{roomDetail.roomId}}</span>
-				<span class="text" style="overflow: hidden;width: 180px;text-overflow: ellipsis; white-space:nowrap;">房间标题：{{roomDetail.roomName}}</span>
-				<span class="text">主播名：{{roomDetail.ownerName}}</span>
-				<span class="text">当前人气：{{roomDetail.hn}}</span>
-				<span class="text">今日弹幕数量：{{chatTotalCount|numTransform}}</span>
-			</div>
-		</div>
-		<div>
+		</div>-->
+		<!--<div style="width: 100%;height: 100%;">
 			<div class="gift-left">
-				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日最新礼物</div>
+				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 230px;float: left;">今日最新礼物</div>
 				<div v-if="gifts.length>0" class="gift-list">
 					<div v-for="gift in gifts" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;">
 						<div style="width: 50px;float: left;"><img  v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:''" height="48px;" width="48px"/></div>
@@ -35,38 +104,32 @@
 						</div>
 					</div>
 				</div>
-				<div v-else>
-					无数据
-				</div>
 			</div>
 			<div class="chat-center">
-				<div style="height:450px;width: 100%;">
-					<div style="padding-right: 10px;float: right;">
+				<div style="height:450px;position: absolute;">
+					<p style="padding-right: 10px;">
 						<router-link :to="{
 							name:'RoomView',
 							path:'/view/'+roomId,
 						}" style="color: darkorchid;text-decoration: none;">查看更多</router-link>
-					</div>
-					<div id="room_view" style="height:430px;width: 100%;float: left;" ref="myEchart">
+					</p>
+					<div id="room_view" style="height:430px;width:100%;position:fixed;" ref="myEchart">
 					</div>
 				</div>
-				<div style="background-color: antiquewhite;width: 100%;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
-				<div class="chat-list" v-for="chat in chats">
-					<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-						<span style="float: left;padding-right: 10px;">{{chat.timestamp}}</span>
-						<span style="float: left;">
-							<img src="../../static/level.png" height="19px;" style="margin-top: 3px;"/>
-						</span>
-						<span style="margin-right:13px;margin-left: -23px;">
-							<label style="color:#fff;line-height: 24px;font-size: 12px;">{{chat.level}}</label>
-						</span>
-						<span style="line-height: 10px;">{{chat.nn}}：</span>
-						<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
-						<span v-else style="color: #333;">{{chat.txt}}</span>
-					</div>
+				<div style="background-color: antiquewhite;width: 100%;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: left;padding-left: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
+				<div class="chat-list">
+					<div class="chat-item" v-for="chat in chats">
+						<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+							<span>{{chat.timestamp}}</span>
+							<a v-bind:class="'user-level level-bgpng level-size1 level-'+chat.level" v-bind:title="'用户等级：'+chat.level"></a>
+							<span style="color: #2b94ff;padding-left: 5px;margin-left: 40px;">{{chat.nn}}：</span>
+							<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
+							<span v-else style="color: #333;">{{chat.txt}}</span>
+						</div>
+					</div>				
 				</div>
 			</div>
-		</div>
+		</div>-->
 	</div>
 </template>
 
@@ -242,62 +305,52 @@
 		}
 	}
 </script>
-	
+<style scoped="scoped">
+@import '../../static/css/level.css';
+</style>
 <style scoped="scoped">
 	
-	@media only screen and (min-width:1766px){
-		#main{
-			width: 1230px;
-			position: relative;
-		    overflow: hidden;
-		    padding: 0 4px;
-		    margin: 0 auto;
-		}
-		
+	#main{
+		/*width: 990px;*/
+		/*margin: auto;*/
+		/*margin-left: 3%;*/
+		/*margin-right: 3%;*/
 	}
-	.room-info{
-		height: 205px;
-		border: 1px #f7f0f0 solid;
-		
-	}
-	.room-desc .text{
-		float: left;
+	.room-desc.text{
+		margin-left: 10px;
 		margin-top: 44px;
-		margin-left:38px;
-	}
-	.gift-left{
-		width: 18%;
-		height: auto;
-		margin-left: 3px;
-		margin-top: 5px;
-		float: left;
+		position: absolute;
+    	left: 399px;
 	}
 	.gift-list span{
 		padding-left: 3px;
 	}
-	.chat-center{
-		float: right;
-		width: 81%;
-		height: auto;
-		margin-top: 5px;
-		border-left: 1px #f7f0f0 solid;
-	}
-	.chat-center .chat-list{
+	.chat-list .chat-item{
 		width: 100%;
+		height: 34px;
 		float: left;
 	}
 	.img{
 		float: left;
-		width: 252px;
-		padding:10px 0 0 10px;
+		width: 275px;
+		padding:0 0 0 10px;
 	}
 	.img img{
-		width: 265px;
+		width: 275px;
 	}
 	.img a{
 		color: #f56c6c;
 		font-size: 14px;
 	    letter-spacing: 0;
 	    text-decoration: none;
+	}
+	.text span{
+		margin-right: 5px;
+	}
+	.text span.title{
+		overflow-x: hidden;
+		width: 180px;
+		text-overflow: ellipsis;
+		white-space:nowrap;
 	}
 </style>

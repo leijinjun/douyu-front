@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-  	<el-container>
-  	<el-header id="header">
-  			<el-menu :router="true" mode="horizontal" background-color="#fff" text-color="#000" active-text-color="#5a2dff" style="border-bottom:0;float: left;">
-				  <el-menu-item index="1" route="/">首页</el-menu-item>
+  	<el-header id="header" style="height: 50px;">
+  			<el-menu class="header-menu" :router="true" mode="horizontal" background-color="#fff" text-color="#000" active-text-color="#5a2dff">
+				  <el-menu-item  index="1" route="/">首页</el-menu-item>
 				</el-menu>
   	</el-header>
-  	<el-main>
+  	<el-container>
+  	<el-main class="container">
     	<router-view/>
     </el-main>
     </el-container>
@@ -24,39 +24,58 @@ export default {
 
 <style>
 #app {
-  font-family: "PingFang SC";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+}
+#header.el-header{
+	/*background-color: #e6e6e6;*/
+	padding: 0 4% 0 4%;
+	/*border-bottom: 1px gainsboro solid;*/
+}
+.el-menu.el-menu--horizontal{
+	border-bottom: 0;
+}
+#header .header-menu{
+	height: 49px;
+}
+#header .header-menu>li{
+	height: 100%;
+	line-height: 50px;
+}
+.container{
+	padding-bottom: 80px;
+	/*margin:auto;*/
+	text-align: center;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 .el-container.is-vertical{
 	min-height: 100%;
 }
-.el-main{
-	padding-bottom: 60px;
-}
-@media screen and (max-width: 1335px) and (min-width: 1156px){
-	#header{
-		margin-left: 44px;
-    margin-right: 5%;
+/*@media screen and (max-width: 1156px) {
+	.el-main.container{
+		width: 920px;
 	}
+}*/
+@media screen and (max-width: 1335px) and (min-width: 1156px){
+	.el-main.container{
+  	width: 1105px;
+  }
 }
 @media screen and (min-width: 1336px) and (max-width:1765px){
-	#header{
-		margin-left: 66px;
-    margin-right: 5%;
-	}
+	.el-main.container{
+  	width:1306px;
+  }
 }
 @media only screen and (min-width:1766px) {
-	#header{
-		margin-left: 4%;
-    margin-right: 5%;
-	}
+	.el-main.container{
+  	width: 1615px;
+  }
 }
 #footer{
 	height: 60px;
 	margin-top: -60px;
 	width: 100%;
+	text-align: center;
 }
 </style>
