@@ -12,7 +12,7 @@
 				    <el-input v-model="pagnation.nn" placeholder="用户昵称" style="width: 135px;"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button @click="searchChat()">搜索</el-button>
+					<el-button @click="searchChat()" style="height: 41px;line-height: 35px;">搜索</el-button>
 			  </el-form-item>
 			</el-form>
 		</span>
@@ -104,6 +104,9 @@
 				this.initPagnation();
 				this.getDanmuList(this.roomId);
 			},
+		},
+		mounted(){
+			$(".el-button span").css({"line-height":"19px"});
 		}
 	}
 </script>
@@ -141,5 +144,6 @@ li .text-cont{
 .el-button{
 	background-color: #5a2dff;
 	color: white;
+	height: 41px;
 }
 </style>

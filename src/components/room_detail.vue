@@ -27,8 +27,8 @@
 			<div class="gift-left">
 				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日最新礼物</div>
 				<div v-if="gifts.length>0" class="gift-list">
-					<div v-for="gift in gifts" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;">
-						<div style="width: 50px;float: left;"><img  v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:''" height="48px;" width="48px"/></div>
+					<div v-for="gift in gifts" v-bind:key="gift.id" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;">
+						<div style="width: 50px;float: left;"><img :alt="gift.pc+' rmb'" v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:''" height="48px;" width="48px"/></div>
 						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
 							<span>x{{gift.gfcnt}}</span>
 							<span>{{gift.nn}}</span>
@@ -51,19 +51,17 @@
 					</div>
 				</div>
 				<div style="background-color: antiquewhite;width: 100%;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
-				<div class="chat-list" v-for="chat in chats">
-					<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-						<span style="float: left;padding-right: 10px;">{{chat.timestamp}}</span>
-						<span style="float: left;">
-							<img src="../../static/level.png" height="19px;" style="margin-top: 3px;"/>
-						</span>
-						<span style="margin-right:13px;margin-left: -23px;">
-							<label style="color:#fff;line-height: 24px;font-size: 12px;">{{chat.level}}</label>
-						</span>
-						<span style="line-height: 10px;">{{chat.nn}}：</span>
-						<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
-						<span v-else style="color: #333;">{{chat.txt}}</span>
+				<div class="chat-list">
+					<div class="chat-item" v-for="chat in chats" v-bind:key="chat.id">
+							<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+								<span>{{chat.timestamp}}</span>
+								<a v-bind:class="'user-level level-bgpng level-size1 level-'+chat.level" v-bind:title="'用户等级：'+chat.level"></a>
+								<span style="color: #2b94ff;padding-left: 5px;margin-left: 40px;">{{chat.nn}}：</span>
+								<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
+								<span v-else style="color: #333;">{{chat.txt}}</span>
+							</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -103,7 +101,7 @@
 			          type: 'value',
 			          boundaryGap: [0, '100%']
 			        }],
-			        dataZoom: [{
+			        /* dataZoom: [{
 					        type: 'inside',
 					        start: 0,
 					        end: 50
@@ -119,7 +117,7 @@
 					            shadowOffsetX: 2,
 					            shadowOffsetY: 2
 					    }
-				    }],
+				    }], */
 			        series: [{
 			          name: '贵族数量',
 			          type: 'line',
@@ -242,19 +240,10 @@
 		}
 	}
 </script>
-	
 <style scoped="scoped">
-	
-	/* @media only screen and (min-width:1766px){
-		#main{
-			width: 1230px;
-			position: relative;
-		    overflow: hidden;
-		    padding: 0 4px;
-		    margin: 0 auto;
-		}
-		
-	} */
+	@import '../../static/css/level.css';
+</style>
+<style scoped="scoped">
 	#main{
 		width:1069px;
 		margin:auto;
@@ -262,7 +251,6 @@
 	.room-info{
 		height: 205px;
 		border: 1px #f7f0f0 solid;
-		
 	}
 	.room-desc .text{
 		float: left;
@@ -286,8 +274,9 @@
 		margin-top: 5px;
 		border-left: 1px #f7f0f0 solid;
 	}
-	.chat-center .chat-list{
+	.chat-list .chat-item{
 		width: 100%;
+		height: 34px;
 		float: left;
 	}
 	.img{
@@ -301,7 +290,7 @@
 	.img a{
 		color: #f56c6c;
 		font-size: 14px;
-	    letter-spacing: 0;
-	    text-decoration: none;
+	  letter-spacing: 0;
+	  text-decoration: none;
 	}
 </style>
