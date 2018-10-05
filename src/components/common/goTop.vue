@@ -50,7 +50,7 @@
 	.page-component-up {
 	    background-color: #fff;
 	    position: fixed;
-	    right: 100px;
+	    right: 40px;
 	    bottom: 150px;
 	    width: 40px;
 	    height: 40px;

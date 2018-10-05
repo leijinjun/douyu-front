@@ -9,8 +9,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 import './assets/icon/iconfont.css';
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
+import utils from './utils/util.js';
+Vue.filter('numTransform',utils.numTransform);
+
 const service = axios.create({
     withCredentials: true,
     baseURL: 'http://127.0.0.1/douyu',
@@ -37,6 +38,7 @@ service.interceptors.response.use(function(res){
 Vue.use(ElementUI);
 Vue.prototype.$http = service;
 Vue.config.productionTip = false
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

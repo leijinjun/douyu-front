@@ -1,6 +1,6 @@
 <template>
 	<div id="main">
-		<div style="float: right;margin-right: 16px;">
+		<div class="main-header">
 			<el-select v-model="selectedCate" clearable filterable placeholder="请选择分类" @change="cateChange()">
 			    <el-option
 			      v-for="item in cates"
@@ -10,14 +10,14 @@
 			    </el-option>
 			  </el-select>
 			  <el-input v-model="keyword" placeholder="请输入房间ID" style="width: 120px;"></el-input>
-			  <el-button plain @click="searchRoom()" style="color: #5a2dff;">搜索房间</el-button>
+			  <el-button plain @click="searchRoom()"><span>搜索房间</span></el-button>
 			<el-button style="background-image: linear-gradient(-90deg, #BB9BF1 0%, #887BF2 100%);
 border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 				<span v-if="!changeFlag">切换到所有房间</span>
 				<span v-else>切换到已连接房间</span>
 			</el-button>
 		</div>
-		<el-row style="margin-top: 54px;">
+		<el-row class="main-body">
 		  <el-col v-if="roomList.length>0" class="room-col" :span="8" v-for="(item,index) in roomList" :key="item.roomId">
 		    <el-card class="room-mod-link" :body-style="{ padding: '0px' }">
 		      <router-link :to="'/room/'+item.roomId">
@@ -26,8 +26,11 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		      <div class="room-text">
 		        <label>主播：</label><span>{{item.nickname}}</span>
 		        <div class="bottom clearfix">
-		          <label>房间名：</label><span>{{item.roomName}}</span><br />
-		          <label>人气：</label><span>{{item.hn}}</span>
+		          <span style="width: 100%;overflow: hidden;text-overflow: ellipsis; white-space:nowrap;">
+			          <label>房间名：</label><span>{{item.roomName}}</span>
+		          </span>
+		          <br />
+		          <label>人气：</label><span>{{item.hn|numTransform}}</span>
 		        </div>
 		        <div class="room-conn">
 		        	<a href="javascript:;" v-if="item.connected">
@@ -52,6 +55,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 
 <script>
 	import goTop from './common/goTop';
+//	import utils from '../utils/util.js';
 	export default {
 		name:'RoomList',
 		data(){
@@ -79,6 +83,11 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			}
 			this.getCates();
 		},
+		/*filters:{
+			numTransform:function(value){
+				return utils.numTransform(value);
+			}
+		},*/
 		methods:{
 			getRoomList(){
 				var $this=this;
@@ -178,77 +187,56 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 </script>
 	
 <style scoped="scoped">
-	#main{
-		position: relative;
-		overflow: hidden;
-		padding: 0 4px;
-		margin: 0 auto;
+	.main-header{
+		width: 100%;
 	}
-	@media screen and (max-width: 1335px){
-		.room-col .room-mod-link{
-			height: 400px;
-		}
-		.room-col{
+	.main-body{
+		margin-top: 8px;
+	}
+	.room-col{
 			vertical-align: top;
 		    display: inline-block;
 		    padding:0 5px;
-		    margin-bottom: 18px;
+		    margin-bottom: 9px;
 		    border-radius: 4px;
+	}
+	@media screen and (max-width: 1335px){
+		.room-col .room-mod-link{
+			height: 290px;
 		}
-		#main{
-			width: 1100px;
-			position: relative;
-			overflow: hidden;
-			padding: 0 4px;
-			margin: 0 auto;
+		.room-image{
+			height: 203px;
 		}
 	}
 	@media screen and (min-width: 1336px) and (max-width:1765px){
 		.room-col .room-mod-link{
-			height: 400px;
+			height: 351px;
 		}
-		.room-col{
-			vertical-align: top;
-		    display: inline-block;
-		    padding:0 5px;
-		    margin-bottom: 18px;
-		    border-radius: 4px;
-		}
-		#main{
-			width: 1303px;
-			position: relative;
-			overflow: hidden;
-			padding: 0 4px;
-			margin: 0 auto;
+		.room-image{
+			height: 264px;
 		}
 	}
 	@media only screen and (min-width:1766px) {
-  		.room-col .room-mod-link{
-  			height: 400px;
+		.room-col .room-mod-link{
+			height: 412px;
 		}
-		.room-col{
-			height: 401px;
-			vertical-align: top;
-		    display: inline-block;
-		    padding:0 5px;
-		    margin-bottom: 18px;
-		    border-radius: 4px;
-		}
-		#main{
-			width: 1609px;
-			position: relative;
-			overflow: hidden;
-			padding: 0 4px;
-			margin: 0 auto;
+		.room-image{
+			height: 326px;
 		}
   	}
+  	.el-button{
+  		height: 40px;
+  		padding-top: 8px;
+  	}
+  	/*.el-button span{
+  		color: #5a2dff;
+  	}*/
   	.room-list.m-col{
   		margin-bottom: 10px;
   	}
 	.room-mod-link .room-image{
 		display: block;
 	    width: 100%;
-	    height: 297px;
 	    transition: all .25s ease-in-out;
 	    -webkit-backface-visibility: hidden;
 	    backface-visibility: hidden;
@@ -256,7 +244,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 	.room-col .room-text{
 		background-color: rgba(255,255,255,0.6);
 		color: #838c9a;
-		height: 102px;
+		height: 100%;
 	}
 	.room-text .room-conn{
 		margin-top: 8px;
@@ -268,15 +256,20 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 	.room-search .el-input__inner{
 		height: 36px;
 	}
-	.room-text a{
+	.room-text a span{
 		font-family: .AppleSystemUIFont;
 		font-size: 14px;
 		color: #f56c6c;
 		letter-spacing: 0;
-		text-decoration:none
+	}
+	a{
+		text-decoration:none;
 	}
 	.el-button.is-plain:hover{
 		border-color: rgb(90, 45, 255);
+	}
+	.el-button.is-plain span{
+		color: rgb(90, 45, 255);
 	}
 	.el-input:focus{
 		border-color: rgb(90, 45, 255);

@@ -28,7 +28,6 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'ccl': resolve('static/ccl/CommentCoreLibrary.js')
     }
   },
   module: {

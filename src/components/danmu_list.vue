@@ -1,30 +1,50 @@
 <template>
-<div  id="main">
-	<span style="float: left;">
+<div id="main">
+	<!--<span style="float: left;">
 		<el-input v-model="pagnation.nn" placeholder="用户昵称" style="width: 135px;height: 36px;"></el-input>
-		<el-button style="background-color: #5a2dff;color: white;" @click="searchChat()">搜索</el-button>
-	</span>
-	<span>房间号{{roomId}}弹幕列表</span>
+		<el-button style="" @click="searchChat()">搜索</el-button>
+	</span>-->
+	<div style="width: 100%;font-size: 17px;">房间{{roomId}}弹幕列表</div>
+	<div style="height: 70px;margin-top: 15px;">
+		<span style="float: left;">
+			<el-form :inline="true" :model="pagnation">
+				<el-form-item>
+				    <el-input v-model="pagnation.nn" placeholder="用户昵称" style="width: 135px;"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-button @click="searchChat()">搜索</el-button>
+			  </el-form-item>
+			</el-form>
+		</span>
+	</div>
 	<div>
 		<el-button-group>
 		  <el-button size="small" round style="background-color: #5a2dff;color: white;" @click="toPrev()" :disabled="pagnation.from<=0">上一页</el-button>
 		  <el-button size="small" round style="background-color: #5a2dff;color: white;" @click="toNext()" :disabled="!isMore">下一页</el-button>
 		</el-button-group>
 	</div>
-	<div class="chat-list" v-for="chat in chats" style="float: left;width: 100%;">
-		<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden;text-overflow: ellipsis;white-space:nowrap;">
-			<span style="float: left;padding-right: 10px;">{{chat.timestamp}}</span>
-			<span style="float: left;">
-				<img src="../../static/level.png" height="19px;" style="margin-top: 3px;"/>
-			</span>
-			<span style="margin-right:13px;margin-left: -23px;">
-				<label style="color:#fff;line-height: 24px;font-size: 12px;">{{chat.level}}</label>
-			</span>
-			<span style="line-height: 10px;">{{chat.nn}}：</span>
-			<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
-			<span v-else style="color: #333;">{{chat.txt}}</span>
-		</div>
+	<div class="danmu-container">
+		<ul class="c-list"  v-if="chats.length>0">
+			<li class="li-chat" v-for="chat in chats">
+				<p class="text-cont">
+					<span class="user-chat-info">
+						<span>{{chat.timestamp}}</span>
+						<a v-bind:class="'user-level level-bgpng level-size1 level-'+chat.level" v-bind:title="'用户等级：'+chat.level"></a>
+						<a href="javascript:;" class="nick-new">{{chat.nn}}：</a>
+					</span>
+					<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
+					<span v-else style="color: #333;">{{chat.txt}}</span>
+				</p>
+			</li>
+		</ul>
+		<div v-else>暂无数据</div>
 	</div>
+	<!--<div>
+		<el-button-group>
+		  <el-button size="small" round style="background-color: #5a2dff;color: white;" @click="toPrev()" :disabled="pagnation.from<=0">上一页</el-button>
+		  <el-button size="small" round style="background-color: #5a2dff;color: white;" @click="toNext()" :disabled="!isMore">下一页</el-button>
+		</el-button-group>
+	</div>-->
 </div>
 </template>
 
@@ -87,20 +107,39 @@
 		}
 	}
 </script>
-
 <style scoped="scoped">
-@media only screen and (min-width:1766px){
-	#main{
-		width: 1230px;
-		position: relative;
-	    overflow: hidden;
-	    padding: 0 4px;
-	    margin: 0 auto;
-	}
-	.img img{
-		float: left;
-		height: 108px;
-		padding: 26px 0 0 23px;
-	}
+	@import '../../static/css/level.css';
+</style>
+<style scoped="scoped">
+.danmu-container{
+	width: 100%;
+	height: 100%;
+	margin-top: 10px;
+	/*left: 29%;*/
+    position: relative;
+}
+.danmu-container .c-list{
+	font-size: 13px;
+}
+.danmu-container ul>li{
+	margin-bottom: 8px;
+	margin-top: 8px;
+	padding-left: 10px;
+	padding-right: 5px;
+	line-height: 21px;
+}
+li .text-cont{
+	line-height: 17px;
+	height: 20px;
+	text-align: left;
+}
+.user-chat-info .nick-new{
+	margin-left: 47px;
+	color: #2b94ff;
+	text-decoration: none;
+}
+.el-button{
+	background-color: #5a2dff;
+	color: white;
 }
 </style>
