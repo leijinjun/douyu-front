@@ -2,13 +2,13 @@
   <div id="main">
 	  <div id="view_noble" style="height: 450px;width: 1000px;" ref="chart_room">
 	  </div>
-		<div id="view_chat" style="height: 300px;width: 350px;margin-left: 311px;" ref="chart_chat"></div>
+		<div id="view_chat" style="height: 400px;width: 500px;margin-left: 311px;" ref="chart_chat"></div>
   </div>
 </template>
 <script>
 //引入主模块
 var echarts = require('echarts');
-require('echarts-wordcloud');
+//require('echarts-wordcloud');
 export default {
   name:'RoomView',
   data() {
@@ -50,19 +50,19 @@ export default {
 				},
 				series: [{
 						type: 'wordCloud',
-						shape: 'circle',
-						// maskImage: maskImage,
-// 						left: 'center',
-// 						top: 'center',
+//						shape: 'cardioid',
+						maskImage: null,
+//						left: 'center',
+//						top: 'center',
 						width: '100%',
 						// height: '300px',
 // 						right: null,
 // 						bottom: null,
-						sizeRange: [12, 60],
+						sizeRange: [10, 100],
 						rotationRange: [-90, 90],
 						rotationStep: 45,
-						gridSize: 8,
-						// drawOutOfBound: false,
+						gridSize: 2,
+//						drawOutOfBound: false,
 						textStyle: {
 								normal: {
 										fontFamily: 'sans-serif',
@@ -78,7 +78,8 @@ export default {
 								},
 								emphasis: {
 										shadowBlur: 10,
-										shadowColor: '#333'
+										shadowColor: '#333',
+										color: 'red'
 								}
 						},
 						data: []
@@ -121,16 +122,23 @@ export default {
   			var res=response.data;
 				$this.frankOptions.xAxis.data=res.body.frankView.frankViewX;
 				$this.frankOptions.series[0].data=res.body.frankView.frankViewY;
-				$this.chatOptions.series[0].data=res.body.clouds;
+				$this.chatOptions.series[0].data=res.body.clouds.sort(function (a, b) {
+                return b.value  - a.value;
+        });
 				$this.initChart();
   		});
   	},
     initChart() {
+    	var maskImg= new Image();
     	 var $this=this;
 			 $this.frankChart = echarts.init($this.$refs.chart_room,null, {renderer: 'svg'});
 			 $this.frankChart.setOption($this.frankOptions)
-			 $this.chatChart = echarts.init($this.$refs.chart_chat,null,{renderer: 'svg'});
-			 $this.chatChart.setOption($this.chatOptions);
+			 maskImg.onload=function(){
+				 	$this.chatChart = echarts.init($this.$refs.chart_chat,null,{renderer: 'canvas'});
+				 	$this.chatOptions.series[0].maskImage=maskImg;
+				 	$this.chatChart.setOption($this.chatOptions);
+			 };
+			 maskImg.src='./../static/images/template-image.png';
     }
   }
 }
