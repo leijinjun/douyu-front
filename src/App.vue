@@ -42,21 +42,17 @@ export default {
 	height: 100%;
 	line-height: 50px;
 }
+.el-container{
+	 width: 100%;
+}
 .container{
+	overflow: hidden;
 	padding-bottom: 80px;
 	/*margin:auto;*/
 	text-align: center;
 	margin-left: 5%;
 	margin-right: 5%;
 }
-.el-container.is-vertical{
-	min-height: 100%;
-}
-/*@media screen and (max-width: 1156px) {
-	.el-main.container{
-		width: 920px;
-	}
-}*/
 @media screen and (max-width: 1335px) and (min-width: 1156px){
 	.el-main.container{
   	width: 1105px;
@@ -74,8 +70,7 @@ export default {
 }
 #footer{
 	height: 60px;
-	margin-top: -60px;
-	width: 100%;
 	text-align: center;
+	width: 100%;
 }
 </style>

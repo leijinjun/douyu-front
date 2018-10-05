@@ -1,8 +1,8 @@
 <template>
   <div id="main">
-	  <div id="view_noble" style="height: 500px;left: 15%;" ref="chart_room">
+	  <div id="view_noble" style="height: 450px;width: 1000px;" ref="chart_room">
 	  </div>
-		<div id="view_chat" style="height: 300px;width: 100%;left: 20%;" ref="chart_chat"></div>
+		<div id="view_chat" style="height: 300px;width: 350px;margin-left: 311px;" ref="chart_chat"></div>
   </div>
 </template>
 <script>
@@ -135,3 +135,8 @@ export default {
   }
 }
 </script>
+<style scoped="scoped">
+	#main{
+		
+	}
+</style>
