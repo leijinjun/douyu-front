@@ -28,7 +28,7 @@
 				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日最新礼物</div>
 				<div v-if="gifts.length>0" class="gift-list">
 					<div v-for="gift in gifts" v-bind:key="gift.id" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;">
-						<div style="width: 50px;float: left;"><img :alt="gift.pc+' rmb'" v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:''" height="48px;" width="48px"/></div>
+						<div style="width: 50px;float: left;"><img :alt="gift.pc+' rmb'" v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:tableGfit[gift.pc]!=undefined&&tableGfit[gift.pc]!=null?tableGfit[gift.pc]:''" height="48px;" width="48px"/></div>
 						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
 							<span>x{{gift.gfcnt}}</span>
 							<span>{{gift.nn}}</span>
@@ -70,6 +70,7 @@
 
 <script>
 	import tableColor from '../config/tableColor.json'
+	import tableGfit from '../config/tableGfit.json'
 	//引入模块
 	var echarts = require('echarts');
 	export default {
@@ -77,6 +78,7 @@
 		data(){
 			return{
 				chart: null,
+				tableGfit:tableGfit,
 				options:{
 			        color: ['#de7e7b'],
 			        tooltip: {
