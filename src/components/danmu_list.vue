@@ -132,7 +132,7 @@
 	font-family: "微软雅黑";
 	float: left;
 	margin-top: 0.31rem;
-	padding-left: 11.25rem;
+	margin-left: 11.25rem;
 }
 .left-title p{
 	font-weight: 500;
