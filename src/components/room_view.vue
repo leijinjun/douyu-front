@@ -11,6 +11,7 @@ var echarts = require('echarts');
 //引入词云
 import Js2WordCloud from 'js2wordcloud';
 //require('echarts-wordcloud');
+import axios from 'axios';
 export default {
   name:'RoomView',
   data() {
@@ -18,6 +19,7 @@ export default {
 			roomId:null,
 			chatViewData:[],
       frankChart: null,
+			js2Wordcloud:null,
       frankOptions:{
         color: ['#de7e7b'],
         tooltip: {
@@ -53,7 +55,6 @@ export default {
 		this.roomId=roomId;
 		var frankText=this.frankOptions.title.text;
 		this.frankOptions.title.text=this.roomId+frankText;
-		this.getRoomDetail(roomId);
   },
   mounted() {
   	this.getViewData(this.roomId);
@@ -64,25 +65,52 @@ export default {
     }
     this.frankChart.dispose();
     this.frankChart = null;
+		this.js2Wordcloud=null;
   },
   methods: {
-  	getRoomDetail(roomId){
-  		var $this=this;
-  		this.$http.get(`/room/detail/${roomId}`)
-  			.then((response)=>{
-  				var res=response.data;
-  				$this.frankOptions.title.text=$this.frankOptions.title.text+"\n主播昵称："+res.body.room.nickname;
-  			})
-  	},
   	getViewData(roomId){
   		var $this=this;
-  		this.$http.get(`/room/view/${roomId}`,{
+			var getViewData=function(){
+				return $this.$http.get(`/room/view/${roomId}`,{
+					query:$this.pageParams
+				});
+			}
+			var getRoomDetail=function(){
+				return $this.$http.get(`/room/detail/${roomId}`);
+			}
+			axios.all([getViewData(),getRoomDetail()])
+					.then(axios.spread((response1,response2)=>{
+						  var res1=response1.data;
+							var res2=response2.data;
+							if(res1.body.frankView.frankViewX==null||res1.body.frankView.frankViewX.length==0){
+								 $this.frankOptions.title.text = $this.frankOptions.title.text+"\n\n暂无数据";
+							}else{
+								$this.frankOptions.title.text=$this.frankOptions.title.text+"\n主播昵称："+res2.body.room.nickname;
+								$this.frankOptions.xAxis.data=res1.body.frankView.frankViewX;
+								$this.frankOptions.series[0].data=res1.body.frankView.frankViewY;
+							}
+							var clouds= res1.body.clouds;
+							var arr=new Array();
+							for(var key in clouds){
+			　　　　		var tmp=new Array();
+								tmp.push(key);
+								tmp.push(clouds[key]);
+								arr.push(tmp)
+			　　			}
+							$this.chatViewData=arr;
+							$this.initChart();
+					}))
+  		/* this.$http.get(`/room/view/${roomId}`,{
 				query:$this.pageParams
 			})
   		.then((response)=>{
   			var res=response.data;
-				$this.frankOptions.xAxis.data=res.body.frankView.frankViewX;
-				$this.frankOptions.series[0].data=res.body.frankView.frankViewY;
+				if(res.body.frankView.frankViewX){
+				   $this.frankOptions.title.text = $this.frankOptions.title.text+"\n\n暂无数据";
+				}else{
+					$this.frankOptions.xAxis.data=res.body.frankView.frankViewX;
+					$this.frankOptions.series[0].data=res.body.frankView.frankViewY;
+				}
 				var clouds= res.body.clouds;
 				var arr=new Array();
 				for(var key in clouds){
@@ -93,13 +121,14 @@ export default {
 　　			}
 				$this.chatViewData=arr;
 				$this.initChart();
-  		});
+  		}); */
   	},
     initChart() {
     	 var $this=this;
 			 $this.frankChart = echarts.init($this.$refs.chart_room,null, {renderer: 'svg'});
 			 $this.frankChart.setOption($this.frankOptions);
-			 var wc = new Js2WordCloud(document.getElementById('view_chat'))
+			 var wc = new Js2WordCloud(document.getElementById('view_chat'));
+			 this.js2Wordcloud=wc;
 		   wc.setOption({
 				    tooltip: {
 				        show: true
