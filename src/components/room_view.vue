@@ -2,20 +2,22 @@
   <div id="main">
 	  <div id="view_noble" style="height: 450px;width: 1000px;" ref="chart_room">
 	  </div>
-		<div id="view_chat" style="height: 400px;width: 500px;margin-left: 311px;" ref="chart_chat"></div>
+		<div id="view_chat" style="height: 25rem;width: 25rem;margin-left: 311px;" ref="chart_chat"></div>
   </div>
 </template>
 <script>
 //引入主模块
 var echarts = require('echarts');
+//引入词云
+import Js2WordCloud from 'js2wordcloud';
 //require('echarts-wordcloud');
 export default {
   name:'RoomView',
   data() {
     return {
 			roomId:null,
+			chatViewData:[],
       frankChart: null,
-			chatChart:null,
       frankOptions:{
         color: ['#de7e7b'],
         tooltip: {
@@ -42,49 +44,6 @@ export default {
 						areaStyle: {}
 				}]
       },
-			chatOptions:{
-				tooltip: {},
-				title:{
-					left:'center',
-					text:'房间今日弹幕云图'
-				},
-				series: [{
-						type: 'wordCloud',
-//						shape: 'cardioid',
-						maskImage: null,
-//						left: 'center',
-//						top: 'center',
-						width: '100%',
-						// height: '300px',
-// 						right: null,
-// 						bottom: null,
-						sizeRange: [10, 100],
-						rotationRange: [-90, 90],
-						rotationStep: 45,
-						gridSize: 2,
-//						drawOutOfBound: false,
-						textStyle: {
-								normal: {
-										fontFamily: 'sans-serif',
-										fontWeight: 'bold',
-										color: function () {
-												// Random color
-												return 'rgb(' + [
-														Math.round(Math.random() * 160),
-														Math.round(Math.random() * 160),
-														Math.round(Math.random() * 160)
-												].join(',') + ')';
-										}
-								},
-								emphasis: {
-										shadowBlur: 10,
-										shadowColor: '#333',
-										color: 'red'
-								}
-						},
-						data: []
-				}]
-			},
 			pageParams:{
 			}
     }
@@ -93,9 +52,8 @@ export default {
 		var roomId=this.$route.params.roomId;
 		this.roomId=roomId;
 		var frankText=this.frankOptions.title.text;
-		var chatText=this.chatOptions.title.text;
 		this.frankOptions.title.text=this.roomId+frankText;
-		this.chatOptions.title.text=this.roomId+chatText;
+		this.getRoomDetail(roomId);
   },
   mounted() {
   	this.getViewData(this.roomId);
@@ -106,13 +64,16 @@ export default {
     }
     this.frankChart.dispose();
     this.frankChart = null;
-		if(!this.chatChart){
-			return
-		}
-		this.chatChart.dispose();
-		this.chatChart=null;
   },
   methods: {
+  	getRoomDetail(roomId){
+  		var $this=this;
+  		this.$http.get(`/room/detail/${roomId}`)
+  			.then((response)=>{
+  				var res=response.data;
+  				$this.frankOptions.title.text=$this.frankOptions.title.text+"\n主播昵称："+res.body.room.nickname;
+  			})
+  	},
   	getViewData(roomId){
   		var $this=this;
   		this.$http.get(`/room/view/${roomId}`,{
@@ -122,23 +83,59 @@ export default {
   			var res=response.data;
 				$this.frankOptions.xAxis.data=res.body.frankView.frankViewX;
 				$this.frankOptions.series[0].data=res.body.frankView.frankViewY;
-				$this.chatOptions.series[0].data=res.body.clouds.sort(function (a, b) {
-                return b.value  - a.value;
-        });
+				var clouds= res.body.clouds;
+				var arr=new Array();
+				for(var key in clouds){
+　　　　		var tmp=new Array();
+					tmp.push(key);
+					tmp.push(clouds[key]);
+					arr.push(tmp)
+　　			}
+				$this.chatViewData=arr;
 				$this.initChart();
   		});
   	},
     initChart() {
-    	var maskImg= new Image();
     	 var $this=this;
 			 $this.frankChart = echarts.init($this.$refs.chart_room,null, {renderer: 'svg'});
-			 $this.frankChart.setOption($this.frankOptions)
-			 maskImg.onload=function(){
-				 	$this.chatChart = echarts.init($this.$refs.chart_chat,null,{renderer: 'canvas'});
-				 	$this.chatOptions.series[0].maskImage=maskImg;
-				 	$this.chatChart.setOption($this.chatOptions);
-			 };
-			 maskImg.src='./../static/images/template-image.png';
+			 $this.frankChart.setOption($this.frankOptions);
+			 var wc = new Js2WordCloud(document.getElementById('view_chat'))
+		   wc.setOption({
+				    tooltip: {
+				        show: true
+				    },
+		//		    imageShape:'./../static/images/template-image.png',
+				    fontSizeFactor: 0.1,
+				    tooltip: {
+			        show: true,                                         // 默认：false
+			        backgroundColor: 'rgba(0, 0, 0, 0.701961)',         // 默认：'rgba(0, 0, 0, 0.701961)'
+			        formatter: function(item) {                         // 数据格式化函数，item为list的一项
+			        	return item[0]+"："+item[1]
+			        }
+		    		},
+		    		noDataLoadingOption: {                                  // 无数据提示。
+				        backgroundColor: '#eee',
+				        text: '暂无数据',
+				        textStyle: {
+				            color: '#888',
+				            fontSize: 14
+				        }
+				    },
+				    list:this.chatViewData,
+				    color: 'random-dark',
+				    fontFamily:'微软雅黑',
+				    size:'1',
+				    fontWeight:'600',
+		//		    backgroundColor:'gray',
+				    minRotation: -1.57080,
+				    maxRotation: -1.57080,
+				    rotateRatio: .2,
+		//		    fontSizeFactor: 5,
+		//		    maxFontSize: 60,
+		//		    minFontSize: 20,
+		//		    gridSize: 1,
+						shape:'circle'
+				})
     }
   }
 }
