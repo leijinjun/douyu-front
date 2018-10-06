@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div id="main" v-loading="loading">
 		  <div id="view_noble" ref="chart_room">
 		  </div>
 			<div id="view_chat" ref="chart_chat"></div>
@@ -12,10 +12,12 @@ var echarts = require('echarts');
 import Js2WordCloud from 'js2wordcloud';
 //require('echarts-wordcloud');
 import axios from 'axios';
+import { Loading } from 'element-ui';
 export default {
   name:'RoomView',
   data() {
     return {
+			loading: true,
 			roomId:null,
 			chatViewData:[],
       frankChart: null,
@@ -80,6 +82,7 @@ export default {
 			}
 			axios.all([getViewData(),getRoomDetail()])
 					.then(axios.spread((response1,response2)=>{
+							$this.loading=false;
 						  var res1=response1.data;
 							var res2=response2.data;
 							if(res1.body.frankView.frankViewX==null||res1.body.frankView.frankViewX.length==0){
@@ -100,28 +103,8 @@ export default {
 							$this.chatViewData=arr;
 							$this.initChart();
 					}))
-  		/* this.$http.get(`/room/view/${roomId}`,{
-				query:$this.pageParams
-			})
-  		.then((response)=>{
-  			var res=response.data;
-				if(res.body.frankView.frankViewX){
-				   $this.frankOptions.title.text = $this.frankOptions.title.text+"\n\n暂无数据";
-				}else{
-					$this.frankOptions.xAxis.data=res.body.frankView.frankViewX;
-					$this.frankOptions.series[0].data=res.body.frankView.frankViewY;
-				}
-				var clouds= res.body.clouds;
-				var arr=new Array();
-				for(var key in clouds){
-　　　　		var tmp=new Array();
-					tmp.push(key);
-					tmp.push(clouds[key]);
-					arr.push(tmp)
-　　			}
-				$this.chatViewData=arr;
-				$this.initChart();
-  		}); */
+					.catch(function(error){
+					})
   	},
     initChart() {
     	 var $this=this;
@@ -189,5 +172,8 @@ export default {
 		margin-left: -14.62rem;
 		height: 25rem;
 		width: 25rem;
+	}
+	.loadingClass{
+		color: #0000FF;
 	}
 </style>
