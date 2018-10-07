@@ -37,38 +37,27 @@
 				</ul>
 				<div class="no-chat" v-else>暂无数据</div>
 			</div>
-			<div class="right">
-				<template>
-				  <timeline timeline-theme="#fdc68e">
-				    <timeline-title>{{timeLine.title}}</timeline-title>
-				    <timeline-item bg-color="#9dd8e0" v-for="chat in timeLine.chats" :key="chat.cid">{{chat.txt}}</timeline-item>
-				  </timeline>
-				</template>
+			<div class="right" v-show="showTimeLine">
+				<p class="timeline-title">用户<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.nickname}}</span>今日共发送{{timeLine.totalCount}}条弹幕</p>
+				<ul class="timeline">
+					<li class="timeline-item" v-for="(chat,index) in timeLine.chats" :key="chat.cid">
+						<div class="timeline-circle" style="border-color: rgb(90, 45, 255); background-color: rgb(90, 45, 255);">
+							<p class="left-circle">第{{timeLine.chats.length-index}}条弹幕</p>
+						</div>
+						<p class="timeline-text" v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]">{{chat.txt}}</p>
+						<p class="timeline-text" v-else style="color: #333;">{{chat.txt}}</p>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	<!--<div class="right-container">
-		<template>
-		  <timeline>
-		    <timeline-title>title</timeline-title>
-		    <timeline-item bg-color="#9dd8e0">item1</timeline-item>
-		    <timeline-item :hollow="true">item2</timeline-item>
-		  </timeline>
-		</template>
-	</div>-->
-	<!--<div>
-		<el-button-group>
-		  <el-button size="small" round style="background-color: #5a2dff;color: white;" @click="toPrev()" :disabled="pagnation.from<=0">上一页</el-button>
-		  <el-button size="small" round style="background-color: #5a2dff;color: white;" @click="toNext()" :disabled="!isMore">下一页</el-button>
-		</el-button-group>
-	</div>-->
 </div>
 </template>
 
 <script>
 	import Vue from 'vue'
 	import tableColor from '../config/tableColor.json'
-	import { Timeline, TimelineItem, TimelineTitle } from 'vue-cute-timeline'
+//	import { Timeline, TimelineItem, TimelineTitle } from 'vue-cute-timeline'
 	export default {
 		name:'DanmuList',
 		data(){
@@ -82,17 +71,19 @@
 					nn:''
 				},
 				timeLine:{
-					title:'',
+					nickname:'',
+					totalCount:0,
 					chats:[]
 				},
+				showTimeLine:false,
 				tableColor:tableColor,
 			}
 		},
-		components: {
-		    Timeline,
-		    TimelineItem,
-		    TimelineTitle
-		},
+//		components: {
+//		    Timeline,
+//		    TimelineItem,
+//		    TimelineTitle
+//		},
 		created(){
 			this.initPagnation();
 			var roomId=this.$route.params.roomId;
@@ -129,8 +120,17 @@
 						var res=response.data;
 						var chats=res.body.chats;
 						if(chats){
-							$this.timeLine.title="用户"+chats[0].nn+"今日共发送"+chats.length+"条弹幕";
+							$this.showTimeLine=true;
+							$this.timeLine.nickname=chats[0].nn;
+							$this.timeLine.totalCount=chats.length;
 							$this.timeLine.chats=chats;
+							//定位到该元素顶部
+							$('html,body').animate({
+			                    scrollTop: $("#main").offset().top
+			                }, 200);
+						}else{
+							$this.showTimeLine=false;
+							$this.$message.success("该用户还没有发送弹幕哦");
 						}
 					})
 			},
@@ -160,8 +160,6 @@
 		mounted(){
 			$(".el-button span").css({"line-height":"19px"});
 			$(".left-form .el-form .el-input input").css({"height":"36px"});
-			/*修改timeline样式*/
-			$(".timeline .timeline-circle").css({"background-color":'white',border:'0'});
 		}
 	}
 </script>
@@ -218,22 +216,22 @@
 	float: right;
 }
 .danmu-container .c-list{
-	font-size: 13px;
+	font-size: 0.81rem;
 }
-.danmu-container ul>li{
-	margin-bottom: 8px;
-	margin-top: 8px;
-	padding-left: 10px;
-	padding-right: 5px;
-	line-height: 21px;
+.danmu-container .left ul>li{
+	margin-bottom: 0.5rem;
+	margin-top: 0.5rem;
+	padding-left: 0.62rem;
+	padding-right: 0.31rem;
+	line-height: 1.31rem;
 }
 li .text-cont{
-	line-height: 17px;
-	height: 20px;
+	line-height: 1.06rem;
+	height: 1.25rem;
 	text-align: left;
 }
 .user-chat-info .nick-new{
-	margin-left: 47px;
+	margin-left: 2.93rem;
 	color: #2b94ff;
 	text-decoration: none;
 }
@@ -245,6 +243,62 @@ li .text-cont{
 .el-button{
 	background-color: #5a2dff;
 	color: white;
-	height: 41px;
+	height: 2.56rem;
 }
+.timeline{
+	padding: 0;
+    position: relative;
+    list-style: none;
+    font-family: PingFangSC-light, Avenir, Helvetica, Arial, Hiragino Sans GB, Microsoft YaHei, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    margin: 0.62rem 1.25rem;
+    --timelineTheme: rgb(90, 45, 255);
+}
+.timeline:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background-color: var(--timelineTheme);
+}
+.timeline-title{
+	padding-left: 1.06rem;
+    text-align: left;
+}
+.timeline .timeline-item{
+	position: relative;
+    margin: 0.75rem 0 0 1.25rem;
+    padding-bottom: 0.62rem;
+    text-align: left;
+    /*border-bottom: 1px dotted var(--timelineTheme);*/
+}
+.timeline-item .timeline-circle {
+    position: absolute;
+    top: 0;
+    left: -25px;
+    width: 0.62rem;
+    height: 0.62rem;
+    border-radius: 50%;
+    border-color: rgb(90, 45, 255);
+    background-color: rgb(90, 45, 255);
+    z-index: 1;
+    box-sizing: content-box;
+}
+.left-circle{
+	position: relative;
+    left: -77px;
+    top: -3px;
+    font-family: "微软雅黑";
+    width: 89px;
+}
+/*.timeline-item .timeline-text{
+	line-height: 11px;
+	background: url('../../static/images/dialog-box.png')no-repeat;
+	height: 49px;
+	background-size:135px 59px;
+	background-position-x: left;
+	background-position-y: top;
+}*/
 </style>
