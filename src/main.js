@@ -10,8 +10,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
 import './assets/icon/iconfont.css';
 import utils from './utils/util.js';
-import Js2WordCloud from 'js2wordcloud';
+//import Js2WordCloud from 'js2wordcloud';
 Vue.filter('numTransform',utils.numTransform);
+Vue.filter('util',utils);
 
 const service = axios.create({
     withCredentials: true,

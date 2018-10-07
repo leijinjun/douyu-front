@@ -21,22 +21,41 @@
 		</div>
 		<div class="left-title"><p>房间{{roomId}}弹幕</p></div>
 		<div class="danmu-container">
-			<ul class="c-list"  v-if="chats.length>0">
-				<li class="li-chat" v-for="chat in chats">
-					<p class="text-cont">
-						<span class="user-chat-info">
-							<span>{{chat.timestamp}}</span>
-							<a v-bind:class="'user-level level-bgpng level-size1 level-'+chat.level" v-bind:title="'用户等级：'+chat.level"></a>
-							<a href="javascript:;" class="nick-new">{{chat.nn}}：</a>
-						</span>
-						<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
-						<span v-else style="color: #333;">{{chat.txt}}</span>
-					</p>
-				</li>
-			</ul>
-			<div v-else>暂无数据</div>
+			<div class="left">
+				<ul class="c-list"  v-if="chats.length>0">
+					<li class="li-chat" v-for="chat in chats" :key="chat.cid">
+						<p class="text-cont">
+							<span class="user-chat-info">
+								<span>{{chat.timestamp}}</span>
+								<a v-bind:class="'user-level level-bgpng level-size1 level-'+chat.level" v-bind:title="'用户等级：'+chat.level"></a>
+								<a href="javascript:;" class="nick-new" @click="searchUserChats(chat.uid)">{{chat.nn}}：</a>
+							</span>
+							<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
+							<span v-else style="color: #333;">{{chat.txt}}</span>
+						</p>
+					</li>
+				</ul>
+				<div class="no-chat" v-else>暂无数据</div>
+			</div>
+			<div class="right">
+				<template>
+				  <timeline timeline-theme="#fdc68e">
+				    <timeline-title>{{timeLine.title}}</timeline-title>
+				    <timeline-item bg-color="#9dd8e0" v-for="chat in timeLine.chats" :key="chat.cid">{{chat.txt}}</timeline-item>
+				  </timeline>
+				</template>
+			</div>
 		</div>
 	</div>
+	<!--<div class="right-container">
+		<template>
+		  <timeline>
+		    <timeline-title>title</timeline-title>
+		    <timeline-item bg-color="#9dd8e0">item1</timeline-item>
+		    <timeline-item :hollow="true">item2</timeline-item>
+		  </timeline>
+		</template>
+	</div>-->
 	<!--<div>
 		<el-button-group>
 		  <el-button size="small" round style="background-color: #5a2dff;color: white;" @click="toPrev()" :disabled="pagnation.from<=0">上一页</el-button>
@@ -47,7 +66,9 @@
 </template>
 
 <script>
+	import Vue from 'vue'
 	import tableColor from '../config/tableColor.json'
+	import { Timeline, TimelineItem, TimelineTitle } from 'vue-cute-timeline'
 	export default {
 		name:'DanmuList',
 		data(){
@@ -60,8 +81,17 @@
 					size:100,
 					nn:''
 				},
+				timeLine:{
+					title:'',
+					chats:[]
+				},
 				tableColor:tableColor,
 			}
+		},
+		components: {
+		    Timeline,
+		    TimelineItem,
+		    TimelineTitle
 		},
 		created(){
 			this.initPagnation();
@@ -82,6 +112,18 @@
 							$this.isMore=res.body.isMore;
 						}
 					})
+			},
+			//获取用户弹幕
+			searchUserChats(uid){
+				var $this=this;
+				var roomId=this.roomId;
+				var startTime=new Date();
+				startTime.setHours(0,0,0);
+				var endTime=new Date();
+				endTime.setHours(23,59,59);
+				$this.$http.get(`/room/danmu/${roomId}`,{
+					params:{uid:uid,startTimestamp:startTime.getTime(),endTimestamp:endTime.getTime()}
+				})
 			},
 			initPagnation(){
 				this.pagnation.size=100;
@@ -106,6 +148,8 @@
 		mounted(){
 			$(".el-button span").css({"line-height":"19px"});
 			$(".left-form .el-form .el-input input").css({"height":"36px"});
+			/*修改timeline样式*/
+			$(".timeline .timeline-circle").css({"background-color":'white',border:'0'});
 		}
 	}
 </script>
@@ -115,7 +159,7 @@
 <style scoped="scoped">
 
 .left-container{
-	width: 53.75rem;
+	width: 100%;
 }
 .left-container .left-form{
 	height: 4.37rem;
@@ -153,6 +197,14 @@
 	height: 100%;
     float: left;
 }
+.danmu-container .left{
+	width: 50%;
+	float: left;
+}
+.danmu-container .right{
+	width: 50%;
+	float: right;
+}
 .danmu-container .c-list{
 	font-size: 13px;
 }
@@ -172,6 +224,11 @@ li .text-cont{
 	margin-left: 47px;
 	color: #2b94ff;
 	text-decoration: none;
+}
+.danmu-container .left .no-chat{
+	float: left;
+	margin-left: 12.36rem;
+	margin-top: 0.31rem;
 }
 .el-button{
 	background-color: #5a2dff;
