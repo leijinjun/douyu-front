@@ -100,6 +100,7 @@
 			this.getDanmuList(roomId);
 		},
 		methods:{
+			//获取弹幕列表
 			getDanmuList(roomId){
 				var $this=this;
 				$this.$http.get(`/room/danmu/${roomId}`,{
@@ -124,11 +125,20 @@
 				$this.$http.get(`/room/danmu/${roomId}`,{
 					params:{uid:uid,startTimestamp:startTime.getTime(),endTimestamp:endTime.getTime()}
 				})
+					.then((response)=>{
+						var res=response.data;
+						var chats=res.body.chats;
+						if(chats){
+							$this.timeLine.title="用户"+chats[0].nn+"今日共发送"+chats.length+"条弹幕";
+							$this.timeLine.chats=chats;
+						}
+					})
 			},
 			initPagnation(){
 				this.pagnation.size=100;
 				this.pagnation.from=0;
 			},
+			//上一页
 			toPrev(){
 				if(this.pagnation.from<=0){
 					return;
@@ -136,10 +146,12 @@
 				this.pagnation.from=this.pagnation.from-this.pagnation.size;
 				this.getDanmuList(this.roomId);
 			},
+			//下一页
 			toNext(){
 				this.pagnation.from=this.pagnation.from+this.pagnation.size;
 				this.getDanmuList(this.roomId);
 			},
+			//搜索
 			searchChat(){
 				this.initPagnation();
 				this.getDanmuList(this.roomId);

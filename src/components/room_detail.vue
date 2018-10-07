@@ -79,68 +79,6 @@
 			return{
 				chart: null,
 				tableGfit:tableGfit,
-				options:{
-			        color: ['#de7e7b'],
-			        tooltip: {
-			          trigger: 'axis',
-			          position: function (pt) {
-			            return [pt[0], '5%'];
-			          }
-			        },
-			        title:{
-			        	left:'center',
-			        	text:new Date().toLocaleDateString().replace(/\//g,"-")+'本房间贵族人数趋势图'
-			        },
-			        xAxis: [{
-			          type: 'category',
-			          boundaryGap: false,
-			          data: [],
-			         /* axisTick: {
-			            alignWithLabel: true
-			          }*/
-			        }],
-			        yAxis: [{
-			          type: 'value',
-			          boundaryGap: [0, '100%']
-			        }],
-			        /* dataZoom: [{
-					        type: 'inside',
-					        start: 0,
-					        end: 50
-					    }, {
-					        start: 0,
-					        end: 10,
-					        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-					        handleSize: '60%',
-					        handleStyle: {
-					            color: '#fff',
-					            shadowBlur: 3,
-					            shadowColor: 'rgba(0, 0, 0, 0.6)',
-					            shadowOffsetX: 2,
-					            shadowOffsetY: 2
-					    }
-				    }], */
-			        series: [{
-			          name: '贵族数量',
-			          type: 'line',
-			          data: [],
-			          smooth:true,
-				        symbol: 'none',
-				        sampling: 'average',
-				        itemStyle: {
-				            color: 'rgb(255, 70, 131)'
-			        },
-			        areaStyle: {
-			            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-			                offset: 0,
-			                color: 'rgb(255, 158, 68)'
-			            }, {
-			                offset: 1,
-			                color: 'rgb(255, 70, 131)'
-			            }])
-			        },
-		         }]
-		        },
 				roomId:null,
 				chatTotalCount:0,
 				roomDetail:{},
@@ -173,16 +111,76 @@
 		  		this.$http.get(`/room/viewNoble/${room}`)
 		  		.then((response)=>{
 		  			var res=response.data;
-					$this.options.xAxis[0].data = res.body.xAxis;
-					$this.options.series[0].data=res.body.yAxis;
-					$this.initChart();
+					  $this.initChart(res.body);
 		  		});
 			},
-			initChart() {
-		    	var $this=this;
+			initChart(data) {
+				var $this=this;
 				$this.chart = echarts.init($this.$refs.myEchart,null,{renderer: 'svg'});
-				$this.chart.setOption($this.options)
-    		},
+				var options={
+							color: ['#de7e7b'],
+							tooltip: {
+								trigger: 'axis',
+								position: function (pt) {
+									return [pt[0], '5%'];
+								}
+							},
+							title:{
+								left:'center',
+								text:new Date().toLocaleDateString().replace(/\//g,"-")+'本房间贵族人数趋势图'
+							},
+							xAxis: [{
+								type: 'category',
+								boundaryGap: false,
+								data: data.xAxis,
+							/* axisTick: {
+									alignWithLabel: true
+								}*/
+							}],
+							yAxis: [{
+								type: 'value',
+								boundaryGap: [0, '100%']
+							}],
+							/* dataZoom: [{
+									type: 'inside',
+									start: 0,
+									end: 50
+							}, {
+									start: 0,
+									end: 10,
+									handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+									handleSize: '60%',
+									handleStyle: {
+											color: '#fff',
+											shadowBlur: 3,
+											shadowColor: 'rgba(0, 0, 0, 0.6)',
+											shadowOffsetX: 2,
+											shadowOffsetY: 2
+							}
+						}], */
+							series: [{
+								name: '贵族数量',
+								type: 'line',
+								data: data.yAxis,
+								smooth:true,
+								symbol: 'none',
+								sampling: 'average',
+								itemStyle: {
+										color: 'rgb(255, 70, 131)'
+							},
+							areaStyle: {
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+											offset: 0,
+											color: 'rgb(255, 158, 68)'
+									}, {
+											offset: 1,
+											color: 'rgb(255, 70, 131)'
+									}])
+							},
+						}]
+				}
+				$this.chart.setOption(options)
+			},
 			getRoomDetail(roomId){
 				var $this=this;
 				this.$http.get(`/room/info/${roomId}`)
