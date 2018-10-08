@@ -22,6 +22,9 @@
 				<span class="text">当前人气：{{roomDetail.hn}}</span>
 				<span class="text">今日弹幕数量：{{chatTotalCount|numTransform}}</span>
 			</div>
+			<div class="room-desc-2">
+				<span class="text">今日礼物:1213元</span>
+			</div>
 		</div>
 		<div>
 			<div class="gift-left">
@@ -41,13 +44,13 @@
 			</div>
 			<div class="chat-center">
 				<div style="height:450px;width: 100%;">
-					<div style="padding-right: 10px;float: right;">
+					<div style="padding-right: 10px;float: right;width: 100%;">
 						<router-link :to="{
 							name:'RoomView',
 							path:'/view/'+roomId,
 						}" style="color: darkorchid;text-decoration: none;">查看更多</router-link>
 					</div>
-					<div id="room_view" style="height:430px;width: 100%;float: left;" ref="myEchart">
+					<div id="room_view" style="height:26.87rem;width: 100%;float: left;" ref="myEchart">
 					</div>
 				</div>
 				<div style="background-color: antiquewhite;width: 100%;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
@@ -111,7 +114,7 @@
 		  		this.$http.get(`/room/viewNoble/${room}`)
 		  		.then((response)=>{
 		  			var res=response.data;
-					  $this.initChart(res.body);
+					$this.initChart(res.body);
 		  		});
 			},
 			initChart(data) {
@@ -179,7 +182,14 @@
 							},
 						}]
 				}
-				$this.chart.setOption(options)
+				if(!data.xAxis||!data.xAxis.length){
+					options.title.text=options.title.text+"\n\n无数据";
+				}
+				$this.chart.setOption(options);
+				//图表自适应
+				window.onresize = function(){
+					$this.chart.resize();
+				};
 			},
 			getRoomDetail(roomId){
 				var $this=this;
@@ -245,7 +255,7 @@
 </style>
 <style scoped="scoped">
 	#main{
-		width:1069px;
+		/*width:1069px;*/
 		margin:auto;
 	}
 	.room-info{
@@ -281,16 +291,17 @@
 	}
 	.img{
 		float: left;
-		width: 252px;
+		width: 265px;
 		padding:10px 0 0 10px;
 	}
 	.img img{
 		width: 265px;
 	}
 	.img a{
-		color: #f56c6c;
-		font-size: 14px;
+	  color: #f56c6c;
+	  font-size: 14px;
 	  letter-spacing: 0;
 	  text-decoration: none;
+      line-height: 29px;
 	}
 </style>
