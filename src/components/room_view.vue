@@ -2,7 +2,7 @@
   <div id="main" v-loading="loading">
 		  <div id="view_noble" ref="chart_room">
 		  </div>
-	  	<p class="title">房间{{roomId}}今日弹幕热词</p>
+	  	<p class="title" v-show="!loading">房间{{roomId}}今日弹幕热词</p>
 			<div id="view_chat" ref="chart_chat">
 		  </div>
   </div>

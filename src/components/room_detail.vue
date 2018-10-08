@@ -1,7 +1,7 @@
 <template>
 	<div id="main">
 		<div class="room-info">
-			<span style="text-align: center;">房间信息</span>
+			<span class="title">房间信息</span>
 			<div class="img">
 				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
 				<div>
@@ -16,15 +16,20 @@
 		    	</div>
 			</div>
 			<div class="room-desc">
-				<span class="text">房间号:{{roomDetail.roomId}}</span>
-				<span class="text" style="overflow: hidden;width: 180px;text-overflow: ellipsis; white-space:nowrap;">房间标题：{{roomDetail.roomName}}</span>
-				<span class="text">主播名：{{roomDetail.ownerName}}</span>
-				<span class="text">当前人气：{{roomDetail.hn}}</span>
-				<span class="text">今日弹幕数量：{{chatTotalCount|numTransform}}</span>
+				<p class="text"><label>房间号：</label><span>{{roomDetail.roomId}}</span></p>
+				<p class="text" style="overflow: hidden;width: 18.62rem;text-overflow: ellipsis; white-space:nowrap;">
+					<label>房间标题：</label>
+					<span>{{roomDetail.roomName}}</span>
+				</p>
+				<p class="text"><label>主播名：</label><span>{{roomDetail.ownerName}}</span></p>
+				<p class="text"><label>当前人气：</label><span>{{roomDetail.hn}}</span></p>
+				<p class="text"><label>今日弹幕数量：</label><span>{{chatTotalCount|numTransform}}</span></p>
+				<p class="text"><label>今日弹幕人数：</label><span>1213人</span></span>
+				<p class="text"><label>今日礼物：</label><span>1213元</span></p>
 			</div>
-			<div class="room-desc-2">
-				<span class="text">今日礼物:1213元</span>
-			</div>
+			<!--<div class="room-desc-2">
+				
+			</div>-->
 		</div>
 		<div>
 			<div class="gift-left">
@@ -259,49 +264,80 @@
 		margin:auto;
 	}
 	.room-info{
-		height: 205px;
+		height: 13.43rem;
 		border: 1px #f7f0f0 solid;
+		margin: 0.62rem 0.62rem;
+    	position: relative;
+	}
+	.room-info .title{
+		text-align: center;
+		width: 100%;
+		font-size: 1.12rem;
+	}
+	.room-desc{
+		position: absolute;
+	    width: auto;
+	    left: 17.43rem;
+	    margin-top: 2.31rem;
+	}
+	.room-desc-2{
+	    position: absolute;
+	    width: auto;
+	    left: 17.43rem;
+	    margin-top: 4.5rem;
 	}
 	.room-desc .text{
 		float: left;
-		margin-top: 44px;
-		margin-left:38px;
+		/*margin-top: 44px;*/
+		margin-left:2.37rem;
+		font-family: "微软雅黑";
+		font-size: 1rem;
+		padding-bottom: 0.62rem;
+	}
+	.room-desc-2 .text{
+		/*float: left;*/
+		/*margin-top: 44px;*/
+		margin-left:2.25rem;
+		font-family: "微软雅黑";
+		font-size: 1rem;
 	}
 	.gift-left{
 		width: 18%;
 		height: auto;
-		margin-left: 3px;
-		margin-top: 5px;
+		margin-left: 0.18rem;
+		margin-top: 0.31rem;
 		float: left;
 	}
 	.gift-list span{
-		padding-left: 3px;
+		padding-left: 0.18rem;
 	}
 	.chat-center{
 		float: right;
 		width: 81%;
 		height: auto;
-		margin-top: 5px;
+		margin-top: 0.31rem;
 		border-left: 1px #f7f0f0 solid;
 	}
 	.chat-list .chat-item{
 		width: 100%;
-		height: 34px;
+		height: 2.12rem;
 		float: left;
 	}
 	.img{
-		float: left;
-		width: 265px;
-		padding:10px 0 0 10px;
+		/*float: left;*/
+		width: 16.56rem;
+		/*padding:10px 0 0 10px;*/
+		padding: 0 0 0 0.62rem;
+    	position: absolute;
 	}
 	.img img{
-		width: 265px;
+		width: 16.56rem;
 	}
 	.img a{
 	  color: #f56c6c;
-	  font-size: 14px;
+	  font-size: 0.87rem;
 	  letter-spacing: 0;
 	  text-decoration: none;
-      line-height: 29px;
+      line-height: 1.81rem;
 	}
 </style>
