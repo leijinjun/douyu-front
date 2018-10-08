@@ -38,7 +38,7 @@
 				<div class="no-chat" v-else>暂无数据</div>
 			</div>
 			<div class="right" v-show="showTimeLine">
-				<p class="timeline-title">用户<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.nickname}}</span>今日共发送{{timeLine.totalCount}}条弹幕</p>
+				<p class="timeline-title">用户<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.nickname}}</span>今日共发送<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.totalCount}}</span>条弹幕</p>
 				<ul class="timeline">
 					<li class="timeline-item" v-for="(chat,index) in timeLine.chats" :key="chat.cid">
 						<div class="timeline-circle" style="border-color: rgb(90, 45, 255); background-color: rgb(90, 45, 255);">

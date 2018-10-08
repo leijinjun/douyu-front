@@ -2,7 +2,9 @@
   <div id="main" v-loading="loading">
 		  <div id="view_noble" ref="chart_room">
 		  </div>
-			<div id="view_chat" ref="chart_chat"></div>
+	  	<p class="title">房间{{roomId}}今日弹幕热词</p>
+			<div id="view_chat" ref="chart_chat">
+		  </div>
   </div>
 </template>
 <script>
@@ -161,7 +163,7 @@ export default {
 	#view_noble{
 		position: absolute;
     left: 50%;
-    margin-left: -30.62rem;
+    margin-left: -32.62rem;
     height: 28.12rem;
     width: 62.5rem;
 	}
@@ -172,8 +174,18 @@ export default {
 		margin-left: -14.62rem;
 		height: 25rem;
 		width: 25rem;
+		margin-top: 2.81rem;
 	}
 	.loadingClass{
 		color: #0000FF;
+	}
+	.title{
+		position: absolute;
+    left: 50%;
+    top: 28.12rem;
+    margin-left: -57.62rem;
+    width: 110rem;
+    font-size: 1.12rem;
+    font-weight: bolder;
 	}
 </style>
