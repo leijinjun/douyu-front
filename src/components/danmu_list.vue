@@ -286,6 +286,27 @@ li .text-cont{
     z-index: 1;
     box-sizing: content-box;
 }
+.timeline-text{
+	display: inline-block;
+    color: rgb(122, 200, 75);
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+}
+p.timeline-text:before {
+    position: absolute;
+    top: 25px;
+    left: -4px;
+    display: block;
+    width: 8px;
+    height: 8px;
+    content: " ";
+    background-color: inherit;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(40deg);
+}
 .left-circle{
 	position: relative;
     left: -77px;
