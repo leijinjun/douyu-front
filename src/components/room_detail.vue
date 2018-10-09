@@ -18,17 +18,17 @@
 			<div class="room-desc">
 				<p class="text"><label>房间号：</label><span>{{roomDetail.roomId}}</span></p>
 				<p class="text"><label>所属分类：</label><span>{{roomDetail.cateName}}</span></p>
-				<p class="text" style="overflow: hidden;width: 18.62rem;text-overflow: ellipsis; white-space:nowrap;">
+				<p class="text" style="overflow: hidden;text-overflow: ellipsis; white-space:nowrap;">
 					<label>房间标题：</label>
 					<span>{{roomDetail.roomName}}</span>
 				</p>
 				<p class="text"><label>主播名：</label><span>{{roomDetail.ownerName}}</span></p>
-				<p class="text"><label>粉丝数：</label><span>{{roomDetail.fansNum}}</span></p>
+				<p class="text"><label>粉丝数：</label><span>{{roomDetail.fansNum}}</span></p><br />
 				<p class="text"><label>当前人气：</label><span>{{roomDetail.hn}}</span></p>
 				<p class="text"><label>今日弹幕条数：</label><span>{{chatTotalCount|numTransform}}</span></p>
-				<p class="text"><label>今日礼物人数：</label><span>1213人</span></span>
-				<p class="text"><label>今日弹幕人数：</label><span>1213人</span></span>
-				<p class="text"><label>今日礼物收入：</label><span>1213元</span></p>
+				<p class="text"><label>今日送礼人数：</label><span>{{aggregate.giftUserCounts}}人</span></span>
+				<p class="text"><label>今日弹幕人数：</label><span>{{aggregate.userCounts}}人</span></span>
+				<p class="text"><label>今日礼物收入：</label><span>{{aggregate.giftSum}}元</span></p>
 			</div>
 			<!--<div class="room-desc-2">
 				
@@ -98,7 +98,8 @@
 				roomGifts:{},
 				connected:false,
 				tableColor:tableColor,
-				roomConnecting:null
+				roomConnecting:null,
+				aggregate:{},
 			}
 		},
 		created(){
@@ -210,6 +211,7 @@
 							$this.chatTotalCount = body.chatTotalCount;
 							$this.chats=body.chats;
 							$this.gifts=body.gifts;
+							$this.aggregate=body.aggregate;
 							var json=new Object();
 							$.each(body.roomDetail.roomGifts, function(i,n) {
 								json[n.id]=n;
