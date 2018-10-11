@@ -197,7 +197,9 @@
 				$this.chart.setOption(options);
 				//图表自适应
 				window.onresize = function(){
-					$this.chart.resize();
+					if($this.chart!=null){
+					   $this.chart.resize();	
+					}
 				};
 			},
 			getRoomDetail(roomId){

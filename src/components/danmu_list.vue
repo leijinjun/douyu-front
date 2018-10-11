@@ -30,8 +30,8 @@
 								<a v-bind:class="'user-level level-bgpng level-size1 level-'+chat.level" v-bind:title="'用户等级：'+chat.level"></a>
 								<a href="javascript:;" class="nick-new" @click="searchUserChats(chat.uid)">{{chat.nn}}：</a>
 							</span>
-							<span v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
-							<span v-else style="color: #333;">{{chat.txt}}</span>
+							<span class="txt" v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]+' ;'">{{chat.txt}}</span>
+							<span class="txt" v-else style="color: #333;">{{chat.txt}}</span>
 						</p>
 					</li>
 				</ul>
@@ -224,11 +224,15 @@
 	padding-left: 0.62rem;
 	padding-right: 0.31rem;
 	line-height: 1.31rem;
+	height:1.87rem;
 }
 li .text-cont{
 	line-height: 1.06rem;
 	height: 1.25rem;
 	text-align: left;
+}
+.text-cont .txt{
+	line-height: 1.25rem;
 }
 .user-chat-info .nick-new{
 	margin-left: 2.93rem;
@@ -289,8 +293,9 @@ li .text-cont{
 .timeline-text{
 	display: inline-block;
     color: rgb(122, 200, 75);
-    padding: 20px;
-    background-color: #333;
+    padding: 18px;
+    /*background-color: #333;*/
+    border: 1px rgb(90, 45, 255) solid;
     border-radius: 10px;
 }
 p.timeline-text:before {
@@ -301,7 +306,8 @@ p.timeline-text:before {
     width: 8px;
     height: 8px;
     content: " ";
-    background-color: inherit;
+    /*background-color: inherit;*/
+    background-color:rgb(90, 45, 255);
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     -o-transform: rotate(45deg);
@@ -314,12 +320,4 @@ p.timeline-text:before {
     font-family: "微软雅黑";
     width: 89px;
 }
-/*.timeline-item .timeline-text{
-	line-height: 11px;
-	background: url('../../static/images/dialog-box.png')no-repeat;
-	height: 49px;
-	background-size:135px 59px;
-	background-position-x: left;
-	background-position-y: top;
-}*/
 </style>
