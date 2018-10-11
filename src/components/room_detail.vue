@@ -42,7 +42,7 @@
 						<div style="width: 50px;float: left;"><img :alt="gift.pc+' rmb'" v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:tableGfit[gift.pc]!=undefined&&tableGfit[gift.pc]!=null?tableGfit[gift.pc]:''" height="48px;" width="48px"/></div>
 						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
 							<span>x{{gift.gfcnt}}</span>
-							<span>{{gift.nn}}</span>
+							<span style="color: rgb(90, 45, 255);">{{gift.nn}}</span>&nbsp;&nbsp;送出<span style="font-size: 16px;">{{gift.pc}}</span>鱼翅
 						</div>
 					</div>
 				</div>

@@ -217,6 +217,7 @@
 }
 .danmu-container .c-list{
 	font-size: 0.81rem;
+	margin-right: 4.56rem;
 }
 .danmu-container .left ul>li{
 	margin-bottom: 0.5rem;
@@ -224,7 +225,7 @@
 	padding-left: 0.62rem;
 	padding-right: 0.31rem;
 	line-height: 1.31rem;
-	height:1.87rem;
+    height: 1.81rem;
 }
 li .text-cont{
 	line-height: 1.06rem;
@@ -232,7 +233,7 @@ li .text-cont{
 	text-align: left;
 }
 .text-cont .txt{
-	line-height: 1.25rem;
+	line-height: 0.87rem;
 }
 .user-chat-info .nick-new{
 	margin-left: 2.93rem;
@@ -280,7 +281,7 @@ li .text-cont{
 }
 .timeline-item .timeline-circle {
     position: absolute;
-    top: 0;
+    top: 24px;
     left: -25px;
     width: 0.62rem;
     height: 0.62rem;
@@ -293,7 +294,7 @@ li .text-cont{
 .timeline-text{
 	display: inline-block;
     color: rgb(122, 200, 75);
-    padding: 18px;
+    padding: 19px;
     /*background-color: #333;*/
     border: 1px rgb(90, 45, 255) solid;
     border-radius: 10px;
@@ -307,11 +308,14 @@ p.timeline-text:before {
     height: 8px;
     content: " ";
     /*background-color: inherit;*/
-    background-color:rgb(90, 45, 255);
+    border: inherit;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     -o-transform: rotate(45deg);
     transform: rotate(40deg);
+    border-top: 8px;
+    border-right: 8px;
+    background-color: white;
 }
 .left-circle{
 	position: relative;
