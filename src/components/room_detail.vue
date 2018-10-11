@@ -4,9 +4,10 @@
 			<div class="a_card_left">
 		        <ul>
 		            <li>
-		            <a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId">
-		                <img  :src="roomDetail.roomThumb"/></a>
-		                            </li>
+		            	<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId">
+		                	<img  :src="roomDetail.roomThumb"/>
+		            	</a>
+		            </li>
 		            <li>
 		            	<a href="javascript:;" v-if="connected">
 							<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
@@ -48,18 +49,6 @@
 	                <li>
 	                    <dl>
 	                        <dd>
-	                             <label>房间标题：</label>
-	                        </dd>
-	                        <dd>
-	                            <p>
-	                                {{roomDetail.roomName}}
-	                            </p>
-	                        </dd>
-	                    </dl>
-	                </li>
-	                <li>
-	                    <dl>
-	                        <dd>
 	                            <label>主播名：</label>
 	                        </dd>
 	                        <dd>
@@ -69,11 +58,20 @@
 	                        </dd>
 	                    </dl>
 	                </li>
+	                <li>
+	                    <dl>
+	                        <dd>
+	                             <label>粉丝数：</label>
+	                        </dd>
+	                        <dd>
+	                            <p>
+	                                {{roomDetail.fansNum}}
+	                            </p>
+	                        </dd>
+	                    </dl>
+	                </li>
 	            </ul>
 	        </div>
-	        <!--<div class="a_card_r1">
-	            <h2>主播指数</h2>
-	        </div>-->
 	        <div class="a_card_r1 a_card_r3">
 		            <div class="a_card_r1">
 		                <h2>主播指数</h2>
@@ -373,7 +371,6 @@
 </style>
 <style scoped="scoped">
 	#main{
-		/*width:1069px;*/
 		margin:auto;
 	}
 	.room-info-1{
@@ -397,7 +394,6 @@
 	}
 	.a_card_right .a_card_r1 {
 	    height: 50px;
-	    /*margin-top: 10px;*/
 	}
 	.a_card_right .a_card_r1 h2 {
 	    float: left;
@@ -418,7 +414,6 @@
 	}
 	.a_card_r3 ul {
 	    margin-top: 3px;
-	    /*margin-right: 20px;*/
 	   float: left;
 	}
 	.a_card_r3 ul li {
@@ -469,8 +464,6 @@
 		width: 828px;
 		border: 1px solid #E6E6E6;
     	border-top: 2px rgb(90, 45, 255) solid;
-	    /*float: left;
-	    position: relative;*/
 	}
 	.room-desc-2{
 	    position: absolute;
@@ -480,15 +473,12 @@
 	}
 	.room-desc .text{
 		float: left;
-		/*margin-top: 44px;*/
 		margin-left:2.37rem;
 		font-family: "微软雅黑";
 		font-size: 1rem;
 		padding-bottom: 0.62rem;
 	}
 	.room-desc-2 .text{
-		/*float: left;*/
-		/*margin-top: 44px;*/
 		margin-left:2.25rem;
 		font-family: "微软雅黑";
 		font-size: 1rem;
@@ -499,10 +489,7 @@
 	    position: relative;
 	}
 	.gift-left{
-		/*width: 18%;*/
 		height: auto;
-		/*margin-left: 0.18rem;
-		margin-top: 0.31rem;*/
 		padding: 10px;
 		float: left;
 		background: white;
@@ -514,32 +501,19 @@
 	}
 	.chat-center{
 		float: right;
-		/*width: 81%;*/
 		width: 868px;
 		height: auto;
-		/*margin-top: 0.31rem;*/
 	}
 	.chat-list .chat-item{
 		width: 100%;
 		height: 2.12rem;
 		float: left;
 	}
-	.img{
-		/*float: left;*/
-		width: 16.56rem;
-		/*padding:10px 0 0 10px;*/
-		padding: 0 0 0 0.62rem;
-    	position: absolute;
-	}
-	.img img{
-		width: 16.56rem;
-	}
-	.img a{
+	a{
 	  color: #f56c6c;
 	  font-size: 0.87rem;
 	  letter-spacing: 0;
 	  text-decoration: none;
-      line-height: 1.81rem;
 	}
 	.clearfix {
 	    zoom: 1;
