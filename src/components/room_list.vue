@@ -187,6 +187,10 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 </script>
 	
 <style scoped="scoped">
+	#main{
+		width: 80%;
+    	margin: auto;
+	}
 	.main-header{
 		width: 100%;
 	}
@@ -228,9 +232,6 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
   		height: 40px;
   		padding-top: 8px;
   	}
-  	/*.el-button span{
-  		color: #5a2dff;
-  	}*/
   	.room-list.m-col{
   		margin-bottom: 10px;
   	}

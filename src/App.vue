@@ -48,10 +48,8 @@ export default {
 .container{
 	overflow: hidden;
 	padding-bottom: 80px;
-	/*margin:auto;*/
+	margin:auto;
 	text-align: center;
-	margin-left: 5%;
-	margin-right: 5%;
 }
 @media screen and (max-width: 1335px) and (min-width: 1156px){
 	.el-main.container{

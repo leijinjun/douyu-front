@@ -1,7 +1,108 @@
 <template>
 	<div id="main">
-		<div class="room-info">
-			<span class="title">房间信息</span>
+		<div class="room-info-1">
+			<div class="a_card_left">
+		        <ul>
+		            <li>
+		            <a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId">
+		                <img  :src="roomDetail.roomThumb"/></a>
+		                            </li>
+		            <li>
+		            	<a href="javascript:;" v-if="connected">
+							<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+			        		<span v-else @click="disConnect()">断开连接</span>
+						</a>
+					    <a href="javascript:;"  v-else @click="connect()">
+					    	<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
+			        		<span v-else @click="disConnect()">连接</span>
+					    </a>
+		            </li>
+		        </ul>
+		    </div>
+	    <div class="a_card_right">
+	    	<div class="a_card_r1">
+	            <h2>主播基本信息</h2>
+	        </div>
+	        <div class="a_card_r2">
+	            <ul>
+	                <li>
+	                    <dl>
+	                        <dd>
+                                <label>房间号：</label>
+	                        </dd>
+	                        <dd>
+	                            <p>{{roomDetail.roomId}}</p>
+	                        </dd>
+	                    </dl>
+	                </li>
+	                <li>
+	                    <dl>
+	                        <dd>
+	                            <label>所属分类：</label>
+	                        </dd>
+	                        <dd>
+	                            <p>{{roomDetail.cateName}}</p>
+	                        </dd>
+	                    </dl>
+	                </li>
+	                <li>
+	                    <dl>
+	                        <dd>
+	                             <label>房间标题：</label>
+	                        </dd>
+	                        <dd>
+	                            <p>
+	                                {{roomDetail.roomName}}
+	                            </p>
+	                        </dd>
+	                    </dl>
+	                </li>
+	                <li>
+	                    <dl>
+	                        <dd>
+	                            <label>主播名：</label>
+	                        </dd>
+	                        <dd>
+	                            <p>
+	                                {{roomDetail.ownerName}}
+	                            </p>
+	                        </dd>
+	                    </dl>
+	                </li>
+	            </ul>
+	        </div>
+	        <!--<div class="a_card_r1">
+	            <h2>主播指数</h2>
+	        </div>-->
+	        <div class="a_card_r1 a_card_r3">
+		            <div class="a_card_r1">
+		                <h2>主播指数</h2>
+		            </div>
+		            <ul class="rank_j">
+		                <li>
+		                    <span>{{chatTotalCount|numTransform}}</span>
+		                    <span class="dot"></span>
+		                    <span class="txt">今日弹幕条数</span>
+		                </li>
+		                <li>
+		                    <span>{{aggregate.giftUserCounts}}人</span>
+		                    <span class="dot"></span>
+		                    <span class="txt">今日送礼人数</span>
+		                </li>
+		                <li>
+		                    <span>{{aggregate.userCounts}}人</span>
+		                    <span class="dot"></span>
+		                    <span class="txt">今日弹幕人数</span>
+		                </li>
+		                <li>
+		                    <span>{{aggregate.giftSum}}元</span>
+		                    <span class="dot"></span>
+		                    <span class="txt">今日礼物收入</span>
+		                </li>
+		            </ul>
+	        </div>
+	    </div>
+			<!--<span class="title">房间信息</span>
 			<div class="img">
 				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
 				<div>
@@ -29,12 +130,9 @@
 				<p class="text"><label>今日送礼人数：</label><span>{{aggregate.giftUserCounts}}人</span></span>
 				<p class="text"><label>今日弹幕人数：</label><span>{{aggregate.userCounts}}人</span></span>
 				<p class="text"><label>今日礼物收入：</label><span>{{aggregate.giftSum}}元</span></p>
-			</div>
-			<!--<div class="room-desc-2">
-				
 			</div>-->
 		</div>
-		<div>
+		<div class="second-container clearfix">
 			<div class="gift-left">
 				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日最新礼物</div>
 				<div v-if="gifts.length>0" class="gift-list">
@@ -51,17 +149,26 @@
 				</div>
 			</div>
 			<div class="chat-center">
-				<div style="height:450px;width: 100%;">
-					<div style="padding-right: 10px;float: right;width: 100%;">
+				<div class="nav_tab clearfix nav_tab1">
+	                    <ul>
+	                        <li class="nav1 active">礼物收入</li>
+	                        <li class="nav2">送礼人数</li>
+	                        <li class="nav3">弹幕条数</li>
+	                        <li class="nav4">弹幕人数</li>
+	                        <li class="nav5">粉丝关注</li>
+	                        <li class="nav6">人气峰值</li>
+	                        <li class="nav7">直播时长</li>
+	                    </ul>
+                </div>
+				<!--<div style="padding-right: 10px;float: right;width: 100%;">
 						<router-link :to="{
 							name:'RoomView',
 							path:'/view/'+roomId,
 						}" style="color: darkorchid;text-decoration: none;">查看更多</router-link>
-					</div>
-					<div id="room_view" style="height:26.87rem;width: 100%;float: left;" ref="myEchart">
-					</div>
+					</div>-->
+				<div id="room_view" ref="myEchart">
 				</div>
-				<div style="background-color: antiquewhite;width: 100%;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
+				<div style="border-bottom: 2px rgb(90, 45, 255) solid;width: 828px;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
 				<div class="chat-list">
 					<div class="chat-item" v-for="chat in chats" v-bind:key="chat.id">
 							<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
@@ -72,7 +179,6 @@
 								<span v-else style="color: #333;">{{chat.txt}}</span>
 							</div>
 					</div>
-				</div>
 				</div>
 			</div>
 		</div>
@@ -128,7 +234,7 @@
 			},
 			initChart(data) {
 				var $this=this;
-				$this.chart = echarts.init($this.$refs.myEchart,null,{renderer: 'svg'});
+				$this.chart = echarts.init($this.$refs.myEchart,null,{renderer: 'cavas'});
 				var options={
 							color: ['#de7e7b'],
 							tooltip: {
@@ -198,7 +304,7 @@
 				//图表自适应
 				window.onresize = function(){
 					if($this.chart!=null){
-					   $this.chart.resize();	
+					   $this.chart.resize();
 					}
 				};
 			},
@@ -270,11 +376,82 @@
 		/*width:1069px;*/
 		margin:auto;
 	}
+	.room-info-1{
+		height: 223px;
+	    border: 1px solid #E6E6E6;
+	    margin-top: 20px;
+	    width: 1245px;
+	    margin: 0 auto;
+	    position: relative;
+	}
+	.a_card_left{
+	    width: 320px;
+	    height: 100%;
+	    color: white;
+	    padding: 10px;
+	    float: left;
+	}
+	.a_card_right{
+		float: right;
+    	width: 900px;
+	}
+	.a_card_right .a_card_r1 {
+	    height: 50px;
+	    /*margin-top: 10px;*/
+	}
+	.a_card_right .a_card_r1 h2 {
+	    float: left;
+	    line-height: 50px;
+	    font-size: 16px;
+	    color: #333333;
+	}
+	.a_card_r2 li {
+	    display: inline-block;
+	    width: 225px;
+	    text-align: center;
+	    margin-left: -4px;
+	    margin-top: 20px;
+	}
+	.a_card_r2 li dd {
+	    display: inline-block;
+	    vertical-align: middle;
+	}
+	.a_card_r3 ul {
+	    margin-top: 3px;
+	    /*margin-right: 20px;*/
+	   float: left;
+	}
+	.a_card_r3 ul li {
+	    display: inline-block;
+	    width: 220px;
+	    text-align: center;
+	}
+	.a_card_r3 ul li span {
+	    font-size: 15px;
+	    color: #f03a4a;
+	    line-height: 16px;
+	    position: relative;
+	    text-align: center;
+	    display: block;
+	}
+	.a_card_r3 ul li span.dot {
+	    background: url(../../static/images/card_dian.png)0 0 no-repeat;
+	    width: 8px;
+	    height: 8px;
+	    display: block;
+	    margin: 0 auto;
+	}
+	.a_card_r3 ul li .txt {
+	    font-size: 12px;
+	    color: #666666;
+	    line-height: 24px;
+	}
 	.room-info{
 		height: 13.43rem;
 		border: 1px #f7f0f0 solid;
 		margin: 0.62rem 0.62rem;
     	position: relative;
+    	background: white;
 	}
 	.room-info .title{
 		text-align: center;
@@ -286,6 +463,14 @@
 	    width: auto;
 	    left: 17.43rem;
 	    margin-top: 2.31rem;
+	}
+	#room_view{
+		height: 26.87rem;
+		width: 828px;
+		border: 1px solid #E6E6E6;
+    	border-top: 2px rgb(90, 45, 255) solid;
+	    /*float: left;
+	    position: relative;*/
 	}
 	.room-desc-2{
 	    position: absolute;
@@ -308,22 +493,31 @@
 		font-family: "微软雅黑";
 		font-size: 1rem;
 	}
+	.second-container{
+	    width: 1200px;
+	    margin: 0 auto;
+	    position: relative;
+	}
 	.gift-left{
-		width: 18%;
+		/*width: 18%;*/
 		height: auto;
-		margin-left: 0.18rem;
-		margin-top: 0.31rem;
+		/*margin-left: 0.18rem;
+		margin-top: 0.31rem;*/
+		padding: 10px;
 		float: left;
+		background: white;
+		width: 300px;
+		border: 1px solid #E6E6E6;
 	}
 	.gift-list span{
 		padding-left: 0.18rem;
 	}
 	.chat-center{
 		float: right;
-		width: 81%;
+		/*width: 81%;*/
+		width: 868px;
 		height: auto;
-		margin-top: 0.31rem;
-		border-left: 1px #f7f0f0 solid;
+		/*margin-top: 0.31rem;*/
 	}
 	.chat-list .chat-item{
 		width: 100%;
@@ -346,5 +540,25 @@
 	  letter-spacing: 0;
 	  text-decoration: none;
       line-height: 1.81rem;
+	}
+	.clearfix {
+	    zoom: 1;
+	    clear: both;
+	}
+	.clearfix:after {
+	    content: ".";
+	    display: block;
+	    height: 0;
+	    clear: both;
+	    visibility: hidden;
+	}
+	.nav_tab li {
+	    border-right: 1px solid white;
+        background: #f3f3f3;
+	    padding: 5px 10px;
+	    float: left;
+	    font-size: 12px;
+	    color: #666666;
+	    cursor: pointer;
 	}
 </style>
