@@ -30,7 +30,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			          <label>房间名：</label><span>{{item.roomName}}</span>
 		          </span>
 		          <br />
-		          <label>人气：</label><span>{{item.hn|numTransform}}</span>
+		          <label>人气：</label><span>{{item.hn | numTransform}}</span>
 		        </div>
 		        <div class="room-conn">
 		        	<a href="javascript:;" v-if="item.connected">
@@ -56,6 +56,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 <script>
 	import goTop from './common/goTop';
 //	import utils from '../utils/util.js';
+	import Vue from 'vue'
 	export default {
 		name:'RoomList',
 		data(){
@@ -83,11 +84,6 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			}
 			this.getCates();
 		},
-		/*filters:{
-			numTransform:function(value){
-				return utils.numTransform(value);
-			}
-		},*/
 		methods:{
 			getRoomList(){
 				var $this=this;
