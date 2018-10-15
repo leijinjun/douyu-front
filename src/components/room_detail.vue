@@ -5,7 +5,7 @@
 		        <ul>
 		            <li>
 		            	<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId">
-		                	<img width="273px" :src="roomDetail.roomThumb"/>
+		                	<img width="100%" :src="roomDetail.roomThumb"/>
 		            	</a>
 		            </li>
 		            <li>
@@ -22,7 +22,7 @@
 		    </div>
 	    <div class="a_card_right">
 	    	<div class="a_card_r1">
-	            <h2>主播基本信息</h2>
+	            <h2>主播信息</h2>
 	        </div>
 	        <div class="a_card_r2">
 	            <ul>
@@ -100,42 +100,13 @@
 		            </ul>
 	        </div>
 	    </div>
-			<!--<span class="title">房间信息</span>
-			<div class="img">
-				<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId"><img :src="roomDetail.roomThumb"/></a>
-				<div>
-					<a href="javascript:;" v-if="connected">
-						<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
-		        		<span v-else @click="disConnect()">断开连接</span>
-					</a>
-				    <a href="javascript:;"  v-else @click="connect()">
-				    	<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
-		        		<span v-else @click="disConnect()">连接</span>
-				    </a>
-		    	</div>
-			</div>
-			<div class="room-desc">
-				<p class="text"><label>房间号：</label><span>{{roomDetail.roomId}}</span></p>
-				<p class="text"><label>所属分类：</label><span>{{roomDetail.cateName}}</span></p>
-				<p class="text" style="overflow: hidden;text-overflow: ellipsis; white-space:nowrap;">
-					<label>房间标题：</label>
-					<span>{{roomDetail.roomName}}</span>
-				</p>
-				<p class="text"><label>主播名：</label><span>{{roomDetail.ownerName}}</span></p>
-				<p class="text"><label>粉丝数：</label><span>{{roomDetail.fansNum}}</span></p><br />
-				<p class="text"><label>当前人气：</label><span>{{roomDetail.hn}}</span></p>
-				<p class="text"><label>今日弹幕条数：</label><span>{{chatTotalCount|numTransform}}</span></p>
-				<p class="text"><label>今日送礼人数：</label><span>{{aggregate.giftUserCounts}}人</span></span>
-				<p class="text"><label>今日弹幕人数：</label><span>{{aggregate.userCounts}}人</span></span>
-				<p class="text"><label>今日礼物收入：</label><span>{{aggregate.giftSum}}元</span></p>
-			</div>-->
 		</div>
 		<div class="second-container clearfix">
 			<div class="gift-left">
 				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日最新礼物</div>
 				<div v-if="gifts.length>0" class="gift-list">
 					<div v-for="gift in gifts" v-bind:key="gift.id" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;">
-						<div style="width: 50px;float: left;"><img :alt="gift.pc+' rmb'" v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:tableGfit[gift.pc]!=undefined&&tableGfit[gift.pc]!=null?tableGfit[gift.pc]:''" height="48px;" width="48px"/></div>
+						<div style="width: 50px;float: left;"><img :alt="gift.pc+' rmb'" v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:tableGift[gift.pc]!=undefined&&tableGift[gift.pc]!=null?tableGift[gift.pc]:''" height="48px;" width="48px"/></div>
 						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
 							<span>x{{gift.gfcnt}}</span>
 							<span style="color: rgb(90, 45, 255);">{{gift.nn}}</span>&nbsp;&nbsp;送出<span style="font-size: 16px;">{{gift.pc}}</span>鱼翅
@@ -148,13 +119,17 @@
 			</div>
 			<div class="chat-center">
 				<div class="nav_tab clearfix nav_tab1">
-	                    <ul>
-	                        <li class="nav1 active">贵族人数</li>
-	                        <li class="nav2">送礼人数</li>
-	                        <li class="nav3">弹幕条数</li>
-	                        <li class="nav4">弹幕人数</li>
-	                        <li class="nav5">粉丝人数</li>
+	                    <ul class="first-tab">
+	                        <li v-bind:class="{active:active==0}" @click="getViewdata(0)">礼物收入</li>
+	                        <li v-bind:class="{active:active==1}" @click="getViewdata(1)">送礼人数</li>
+	                        <li v-bind:class="{active:active==2}" @click="getViewdata(2)">弹幕条数</li>
+	                        <li v-bind:class="{active:active==3}" @click="getViewdata(3)">弹幕人数</li>
+	                        <li v-bind:class="{active:active==4}" @click="getViewdata(4)">粉丝人数</li>
 	                    </ul>
+	                    <ul class="second-day">
+	                    	<li v-bind:class="{active:dateActive==30}" @click="changeViewDate(30)">最近三十天</li>
+	                    	<li v-bind:class="{active:dateActive==7}" @click="changeViewDate(7)">最近七天</li>
+		                </ul>
                 </div>
 				<!--<div style="padding-right: 10px;float: right;width: 100%;">
 						<router-link :to="{
@@ -162,9 +137,14 @@
 							path:'/view/'+roomId,
 						}" style="color: darkorchid;text-decoration: none;">查看更多</router-link>
 					</div>-->
-				<div id="room_view" ref="myEchart">
+				<div id='view'  v-loading="viewLoading">
+					<div class="room-view"  v-show="active==0" ref="giftChart"></div>
+					<div class="room-view" v-show="active==1" ref="giftPersonChart"></div>
+					<div class="room-view"  v-show="active==2" ref="chatNumChart"></div>
+					<div class="room-view" v-show="active==3" ref="chatPersonChart"></div>
+					<div class="room-view" v-show="active==4" ref="fansNumChart"></div>
 				</div>
-				<div style="border-bottom: 2px rgb(90, 45, 255) solid;width: 828px;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
+				<div style="border-bottom: 2px rgb(90, 45, 255) solid;width: 100%;color: rgb(90, 45, 255);">今日最新弹幕<span style="float: right;padding-right: 10px;" @click="getMoreChat()"><a href="javascript:;" style="color: darkorchid;text-decoration: none;">查看更多</a></span></div>
 				<div class="chat-list">
 					<div class="chat-item" v-for="chat in chats" v-bind:key="chat.id">
 							<div style="float: left;margin-left: 6px;margin-top: 8px;height: 36px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
@@ -183,15 +163,17 @@
 
 <script>
 	import tableColor from '../config/tableColor.json'
-	import tableGfit from '../config/tableGfit.json'
+	import tableGift from '../config/tableGift.json'
+	import Vue from 'vue'
 	//引入模块
 	var echarts = require('echarts');
+	import echartsOptions from '../utils/echartsOptions.js'
 	export default {
 		name:'RoomDetail',
 		data(){
 			return{
-				chart: null,
-				tableGfit:tableGfit,
+				tableGift:tableGift,
+				tableColor:tableColor,
 				roomId:null,
 				chatTotalCount:0,
 				roomDetail:{},
@@ -199,9 +181,18 @@
 				chats:[],
 				roomGifts:{},
 				connected:false,
-				tableColor:tableColor,
 				roomConnecting:null,
 				aggregate:{},
+				active:0,
+				dateActive:7,
+				viewLoading:true,
+				viewData:{
+					0:{'method':this.getViewGiftMoneyData,ref:'giftChart','chart7':null,'chart30':null},
+					1:{'method':this.getViewGiftPersonNumData,ref:'giftPersonChart','chart7':null,'chart30':null},
+					2:{'method':this.getViewChatSumData,ref:'chatNumChart','chart7':null,'chart30':null},
+					3:{'method':this.getViewChatPersonNumData,ref:'chatPersonChart','chart7':null,'chart30':null},
+					4:{'method':this.getViewFansPersonNumData,ref:'fansNumChart','chart7':null,'chart30':null},
+				}
 			}
 		},
 		created(){
@@ -210,99 +201,298 @@
 			this.getRoomDetail(roomId);
 		},
 		mounted() {
-		  	this.getViewData(this.roomId);
+			var $this=this;
+			this.getViewdata(0);
+			//图表自适应
+			window.onresize = function(){
+				var chart7=$this.viewData[$this.active]['chart7'];
+				if(chart7!=null){
+				   chart7.resize();
+				}
+				var chart30=$this.viewData[$this.active]['chart30'];
+				if(chart30!=null){
+				   chart30.resize();
+				}
+			};
 		},
 		beforeDestroy() {
-		    if (!this.chart) {
-		      return
+		    var viewData=this.viewData;
+		    for (let key in viewData) {
+		    	var chart30=viewData[key]['chart30'];
+		    	if(!chart30){
+		    		return;
+		    	}
+		    	chart30.dispose();
+		   		chart30 = null;
+		   		var chart7=viewData[key]['chart7'];
+		    	if(!chart7){
+		    		return;
+		    	}
+		    	chart7.dispose();
+		   		chart7 = null;
 		    }
-		    this.chart.dispose();
-		    this.chart = null;
+		   
 		},
 		methods:{
-			getViewData(room){
+			initParam(){
+				if(this.dateActive==7){
+					return this.getSevenDayIntervalParams();
+				}else if(this.dateActive==30){
+					return this.getThirtyDayIntervalParams();
+				}
+			},
+			//7天内
+			getSevenDayIntervalParams(){
+				var params={};
+				var end=new Date();
+				end.setDate(end.getDate()-1);
+				var day=end.getDate();
+				end.setHours(23,59,59);
+				var start=new Date();
+				start.setDate(day-6);
+				start.setHours(0,0,0,0);
+				params.rid=this.roomId;
+				params.end=end;
+				params.start=start;
+				return params;
+			},
+			//30天内
+			getThirtyDayIntervalParams(){
+				var params={};
+				var end=new Date();
+				end.setDate(end.getDate()-1);
+				var day=end.getDate();
+				end.setHours(23,59,59);
+				var start=new Date();
+				start.setDate(day-29);
+				start.setHours(0,0,0,0);
+				params.rid=this.roomId;
+				params.end=end;
+				params.start=start;
+				return params;
+			},
+			//切换
+			getViewdata(active){
+				this.$set(this,'active',active);
+				if(this.dateActive==7){
+					if(!this.viewData[active]['chart7']){
+						this.$set(this,'viewLoading',true);
+					}else{
+						var chart=this.viewData[active]['chart7'];
+						var chart1=echarts.init(this.$refs[this.viewData[active]['ref']],null,{renderer: 'cavas'});
+					}
+					this.viewData[active]['method'].call()
+				}else if(this.dateActive==30){
+					if(!this.viewData[active]['chart30']){
+						this.$set(this,'viewLoading',true);
+					}
+					this.viewData[active]['method'].call()
+				}
+			},
+			changeViewDate(dateInterval){
+				this.$set(this,'dateActive',dateInterval);
+				this.getViewdata(this.active);
+			},
+			//礼物收入
+			getViewGiftMoneyData(){
 				var $this=this;
-		  		this.$http.get(`/room/viewNoble/${room}`)
+				var room=this.roomId;
+				var p=this.initParam();
+				var params=new URLSearchParams();
+				params.append("rid",p.rid);
+				params.append("start",Vue.filter('util').formatDate(p.start));
+				params.append("end",Vue.filter('util').formatDate(p.end));
+		  		this.$http.post(`/room/view/giftMoney/${room}`,params)
 		  		.then((response)=>{
 		  			var res=response.data;
-					$this.initChart(res.body);
+					let x=new Array();
+					let y=new Array();
+					for (let key in res.body) {
+						x.push(key);
+					}
+					x.sort(function(o1,o2){
+						var d1=new Date(o1);
+						var d2=new Date(o2);
+						return d1>d2?1:(d1==d2?0:-1);
+					})
+					x.forEach((item,index)=>{
+						y.push(res.body[item].toFixed(2));
+					})
+					var chart=echarts.init($this.$refs.giftChart,null,{renderer: 'cavas'});
+					var option=echartsOptions.giftMoney;
+					if(!x.length||!y.length){
+						option.title.text=option.title.text+"\n\n无数据";
+					}
+					option.xAxis.data=x;
+					option.series[0].data=y;
+					chart.setOption(option);
+					$this.$set($this,'viewLoading',false);
+					if($this.dateActive==7){
+						$this.viewData[0]['chart7']=chart;
+					}else if($this.dateActive==30){
+						$this.viewData[0]['chart30']=chart;
+					}
 		  		});
 			},
-			initChart(data) {
+			//礼物人数
+			getViewGiftPersonNumData(){
 				var $this=this;
-				$this.chart = echarts.init($this.$refs.myEchart,null,{renderer: 'cavas'});
-				var options={
-							color: ['#de7e7b'],
-							tooltip: {
-								trigger: 'axis',
-								position: function (pt) {
-									return [pt[0], '5%'];
-								}
-							},
-							title:{
-								left:'center',
-								text:new Date().toLocaleDateString().replace(/\//g,"-")+'本房间贵族人数趋势图'
-							},
-							xAxis: [{
-								type: 'category',
-								boundaryGap: false,
-								data: data.xAxis,
-							/* axisTick: {
-									alignWithLabel: true
-								}*/
-							}],
-							yAxis: [{
-								type: 'value',
-								boundaryGap: [0, '100%']
-							}],
-							/* dataZoom: [{
-									type: 'inside',
-									start: 0,
-									end: 50
-							}, {
-									start: 0,
-									end: 10,
-									handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-									handleSize: '60%',
-									handleStyle: {
-											color: '#fff',
-											shadowBlur: 3,
-											shadowColor: 'rgba(0, 0, 0, 0.6)',
-											shadowOffsetX: 2,
-											shadowOffsetY: 2
-							}
-						}], */
-							series: [{
-								name: '贵族数量',
-								type: 'line',
-								data: data.yAxis,
-								smooth:true,
-								symbol: 'none',
-								sampling: 'average',
-								itemStyle: {
-										color: 'rgb(255, 70, 131)'
-							},
-							areaStyle: {
-									color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-											offset: 0,
-											color: 'rgb(255, 158, 68)'
-									}, {
-											offset: 1,
-											color: 'rgb(255, 70, 131)'
-									}])
-							},
-						}]
-				}
-				if(!data.xAxis||!data.xAxis.length){
-					options.title.text=options.title.text+"\n\n无数据";
-				}
-				$this.chart.setOption(options);
-				//图表自适应
-				window.onresize = function(){
-					if($this.chart!=null){
-					   $this.chart.resize();
+				var room=this.roomId;
+				var p=this.initParam();
+				var params=new URLSearchParams();
+				params.append("rid",p.rid);
+				params.append("start",Vue.filter('util').formatDate(p.start));
+				params.append("end",Vue.filter('util').formatDate(p.end));
+				this.$http.post(`/room/view/giftPersonNum/${room}`,params)
+				.then((response)=>{
+					var res=response.data;
+					var res=response.data;
+					let x=new Array();
+					let y=new Array();
+					for (let key in res.body) {
+						x.push(key);
 					}
-				};
+					x.sort(function(o1,o2){
+						var d1=new Date(o1);
+						var d2=new Date(o2);
+						return d1>d2?1:(d1==d2?0:-1);
+					})
+					x.forEach((item,index)=>{
+						y.push(res.body[item]);
+					})
+					var chart=echarts.init($this.$refs.giftPersonChart,null,{renderer: 'cavas'});
+					var option=echartsOptions.giftPerson;
+					if(!x.length||!y.length){
+						option.title.text=option.title.text+"\n\n无数据";
+					}
+					option.xAxis.data=x;
+					option.series[0].data=y;
+					chart.setOption(option);
+					$this.$set($this,'viewLoading',false);
+					if($this.dateActive==7){
+						$this.viewData[1]['chart7']=chart;
+					}else if($this.dateActive==30){
+						$this.viewData[1]['chart30']=chart;
+					}
+				});
+			},
+			//弹幕条数
+			getViewChatSumData(){
+				var $this=this;
+				var room=this.roomId;
+				var p=this.initParam();
+				var params=new URLSearchParams();
+				params.append("rid",p.rid);
+				params.append("start",Vue.filter('util').formatDate(p.start));
+				params.append("end",Vue.filter('util').formatDate(p.end));
+				this.$http.post(`/room/view/chatSum/${room}`,params)
+				.then((response)=>{
+					var res=response.data;
+					var res=response.data;
+					let x=new Array();
+					let y=new Array();
+					for (let key in res.body) {
+						x.push(key);
+					}
+					x.sort(function(o1,o2){
+						var d1=new Date(o1);
+						var d2=new Date(o2);
+						return d1>d2?1:(d1==d2?0:-1);
+					})
+					x.forEach((item,index)=>{
+						y.push(res.body[item]);
+					})
+					var chart=echarts.init($this.$refs.chatNumChart,null,{renderer: 'cavas'});
+					var option=echartsOptions.chatNum;
+					if(!x.length||!y.length){
+						option.title.text=option.title.text+"\n\n无数据";
+					}
+					option.xAxis.data=x;
+					option.series[0].data=y;
+					chart.setOption(option);
+					$this.$set($this,'viewLoading',false);
+					if($this.dateActive==7){
+						$this.viewData[2]['chart7']=chart;
+					}else if($this.dateActive==30){
+						$this.viewData[2]['chart30']=chart;
+					}
+				});
+			},
+			//弹幕人数
+			getViewChatPersonNumData(){
+				var $this=this;
+				var room=this.roomId;
+				var p=this.initParam();
+				var params=new URLSearchParams();
+				params.append("rid",p.rid);
+				params.append("start",Vue.filter('util').formatDate(p.start));
+				params.append("end",Vue.filter('util').formatDate(p.end));
+				this.$http.post(`/room/view/chatPersonNum/${room}`,params)
+				.then((response)=>{
+					var res=response.data;
+					var res=response.data;
+					let x=new Array();
+					let y=new Array();
+					for (let key in res.body) {
+						x.push(key);
+					}
+					x.sort(function(o1,o2){
+						var d1=new Date(o1);
+						var d2=new Date(o2);
+						return d1>d2?1:(d1==d2?0:-1);
+					})
+					x.forEach((item,index)=>{
+						y.push(res.body[item]);
+					})
+					var chart=echarts.init($this.$refs.chatPersonChart,null,{renderer: 'cavas'});
+					var option=echartsOptions.chatPerson;
+					if(!x.length||!y.length){
+						option.title.text=option.title.text+"\n\n无数据";
+					}
+					option.xAxis.data=x;
+					option.series[0].data=y;
+					chart.setOption(option);
+					$this.$set($this,'viewLoading',false);
+					if($this.dateActive==7){
+						$this.viewData[3]['chart7']=chart;
+					}else if($this.dateActive==30){
+						$this.viewData[3]['chart30']=chart;
+					}
+				});
+			},
+			//粉丝人数
+			getViewFansPersonNumData(){
+				var $this=this;
+				var room=this.roomId;
+				var p=this.initParam();
+				var params=new URLSearchParams();
+				params.append("rid",p.rid);
+				params.append("start",Vue.filter('util').formatDate(p.start));
+				params.append("end",Vue.filter('util').formatDate(p.end));
+				this.$http.post(`/room/view/fansPersonNum/${room}`,params)
+				.then((response)=>{
+					var res=response.data;
+					let x=new Array();
+					let y=new Array();
+					res.body.forEach((item,index)=>{
+						x.push(item['create_at']);
+						y.push(item['sum']);
+					});
+					var chart=echarts.init($this.$refs.fansNumChart,null,{renderer: 'cavas'});
+					var option=echartsOptions.fansPerson;
+					if(!x.length||!y.length){
+						option.title.text=option.title.text+"\n\n无数据";
+					}
+					option.xAxis.data=x;
+					option.series[0].data=y;
+					chart.setOption(option);
+					$this.$set($this,'viewLoading',false);
+					if($this.dateActive==7){
+						$this.viewData[4]['chart7']=chart;
+					}else if($this.dateActive==30){
+						$this.viewData[4]['chart30']=chart;
+					}
+				});
 			},
 			getRoomDetail(roomId){
 				var $this=this;
@@ -369,10 +559,10 @@
 </style>
 <style scoped="scoped">
 	#main{
-		/*margin:auto;*/
+		margin:auto;
 	}
 	.room-info-1{
-		height: 223px;
+		height: 202px;
 	    border: 1px solid #E6E6E6;
 	    margin-top: 20px;
 	    width: 1200px;
@@ -380,7 +570,7 @@
 	    position: relative;
 	}
 	.a_card_left{
-	    width: 270px;
+	    width: 280px;
 	    height: 100%;
 	    color: white;
 	    padding: 10px;
@@ -388,7 +578,7 @@
 	}
 	.a_card_right{
 		float: right;
-    	width: 860px;
+    	width: 900px;
 	}
 	.a_card_right .a_card_r1 {
 	    height: 50px;
@@ -401,7 +591,7 @@
 	}
 	.a_card_r2 li {
 	    display: inline-block;
-	    width: 200px;
+	    width: 222px;
 	    text-align: center;
 	    margin-left: -4px;
 	    margin-top: 20px;
@@ -409,7 +599,7 @@
 	.a_card_r2 li dd {
 	    display: inline-block;
 	    vertical-align: middle;
-	    font-size: 12px;
+	    font-size: 14px;
     	color: #666666;
 	}
 	.a_card_r3 ul {
@@ -418,8 +608,9 @@
 	}
 	.a_card_r3 ul li {
 	    display: inline-block;
-	    width: 200px;
+	    width: 205px;
 	    text-align: center;
+	    margin-left: 7px;
 	}
 	.a_card_r3 ul li span {
 	    font-size: 15px;
@@ -441,47 +632,13 @@
 	    color: #666666;
 	    line-height: 24px;
 	}
-	.room-info{
-		height: 13.43rem;
-		border: 1px #f7f0f0 solid;
-		margin: 0.62rem 0.62rem;
-    	position: relative;
-    	background: white;
+	#view{
+		border: 1px solid #E6E6E6;
+		border-top: 2px rgb(90, 45, 255) solid;
 	}
-	.room-info .title{
-		text-align: center;
-		width: 100%;
-		font-size: 1.12rem;
-	}
-	.room-desc{
-		position: absolute;
-	    width: auto;
-	    left: 17.43rem;
-	    margin-top: 2.31rem;
-	}
-	#room_view{
+	.room-view{
 		height: 26.87rem;
-		/*width: 828px;*/
-		/*border: 1px solid #E6E6E6;*/
-    	border-top: 2px rgb(90, 45, 255) solid;
-	}
-	.room-desc-2{
-	    position: absolute;
-	    width: auto;
-	    left: 17.43rem;
-	    margin-top: 4.5rem;
-	}
-	.room-desc .text{
-		float: left;
-		margin-left:2.37rem;
-		font-family: "微软雅黑";
-		font-size: 1rem;
-		padding-bottom: 0.62rem;
-	}
-	.room-desc-2 .text{
-		margin-left:2.25rem;
-		font-family: "微软雅黑";
-		font-size: 1rem;
+		width: 828px;
 	}
 	.second-container{
 	    width: 1200px;
@@ -503,7 +660,6 @@
 		float: right;
 		width: 868px;
 		height: auto;
-		border: 1px #d8cece solid;
 	}
 	.chat-list .chat-item{
 		width: 100%;
@@ -527,16 +683,35 @@
 	    clear: both;
 	    visibility: hidden;
 	}
-	.nav_tab li {
+	.nav_tab ul.first-tab li {
 	    border-right: 1px solid white;
         background: #f3f3f3;
-	    padding: 5px 10px;
+	    padding: 6px 10px;
 	    float: left;
 	    font-size: 12px;
 	    color: #666666;
 	    cursor: pointer;
 	}
-	.nav_tab ul li.active{
+	.nav_tab ul.first-tab li.active{
 		background-color: rgb(90, 45, 255);
+		color: #F3F3F3;
+	}
+	.nav_tab ul.second-day{
+		display: inline;
+	}
+	.nav_tab ul.second-day li:last-child{
+		 border-right: 1px solid #E6E6E6;
+	}
+	.nav_tab ul.second-day li.active{
+    	color: #f56c6c;
+	}
+	.nav_tab ul.second-day li{
+	    font-size: 12px;
+	    color: #333333;
+	    float: right;
+	    cursor: pointer;
+	    width: 65px;
+	    padding: 4px;
+	    margin-top: 2px;
 	}
 </style>
