@@ -5,7 +5,7 @@
 		        <ul>
 		            <li>
 		            	<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId">
-		                	<img  :src="roomDetail.roomThumb"/>
+		                	<img width="273px" :src="roomDetail.roomThumb"/>
 		            	</a>
 		            </li>
 		            <li>
@@ -149,13 +149,11 @@
 			<div class="chat-center">
 				<div class="nav_tab clearfix nav_tab1">
 	                    <ul>
-	                        <li class="nav1 active">礼物收入</li>
+	                        <li class="nav1 active">贵族人数</li>
 	                        <li class="nav2">送礼人数</li>
 	                        <li class="nav3">弹幕条数</li>
 	                        <li class="nav4">弹幕人数</li>
-	                        <li class="nav5">粉丝关注</li>
-	                        <li class="nav6">人气峰值</li>
-	                        <li class="nav7">直播时长</li>
+	                        <li class="nav5">粉丝人数</li>
 	                    </ul>
                 </div>
 				<!--<div style="padding-right: 10px;float: right;width: 100%;">
@@ -371,18 +369,18 @@
 </style>
 <style scoped="scoped">
 	#main{
-		margin:auto;
+		/*margin:auto;*/
 	}
 	.room-info-1{
 		height: 223px;
 	    border: 1px solid #E6E6E6;
 	    margin-top: 20px;
-	    width: 1245px;
+	    width: 1200px;
 	    margin: 0 auto;
 	    position: relative;
 	}
 	.a_card_left{
-	    width: 320px;
+	    width: 270px;
 	    height: 100%;
 	    color: white;
 	    padding: 10px;
@@ -390,7 +388,7 @@
 	}
 	.a_card_right{
 		float: right;
-    	width: 900px;
+    	width: 860px;
 	}
 	.a_card_right .a_card_r1 {
 	    height: 50px;
@@ -403,7 +401,7 @@
 	}
 	.a_card_r2 li {
 	    display: inline-block;
-	    width: 225px;
+	    width: 200px;
 	    text-align: center;
 	    margin-left: -4px;
 	    margin-top: 20px;
@@ -411,6 +409,8 @@
 	.a_card_r2 li dd {
 	    display: inline-block;
 	    vertical-align: middle;
+	    font-size: 12px;
+    	color: #666666;
 	}
 	.a_card_r3 ul {
 	    margin-top: 3px;
@@ -418,7 +418,7 @@
 	}
 	.a_card_r3 ul li {
 	    display: inline-block;
-	    width: 220px;
+	    width: 200px;
 	    text-align: center;
 	}
 	.a_card_r3 ul li span {
@@ -461,8 +461,8 @@
 	}
 	#room_view{
 		height: 26.87rem;
-		width: 828px;
-		border: 1px solid #E6E6E6;
+		/*width: 828px;*/
+		/*border: 1px solid #E6E6E6;*/
     	border-top: 2px rgb(90, 45, 255) solid;
 	}
 	.room-desc-2{
@@ -503,6 +503,7 @@
 		float: right;
 		width: 868px;
 		height: auto;
+		border: 1px #d8cece solid;
 	}
 	.chat-list .chat-item{
 		width: 100%;
@@ -534,5 +535,8 @@
 	    font-size: 12px;
 	    color: #666666;
 	    cursor: pointer;
+	}
+	.nav_tab ul li.active{
+		background-color: rgb(90, 45, 255);
 	}
 </style>
