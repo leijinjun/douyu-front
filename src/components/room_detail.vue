@@ -78,7 +78,7 @@
 		            </div>
 		            <ul class="rank_j">
 		                <li>
-		                    <span>{{chatTotalCount|numTransform}}</span>
+		                    <span>{{chatTotalCount|numTransform}}条</span>
 		                    <span class="dot"></span>
 		                    <span class="txt">今日弹幕条数</span>
 		                </li>
