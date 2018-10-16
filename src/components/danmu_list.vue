@@ -38,11 +38,11 @@
 				<div class="no-chat" v-else>暂无数据</div>
 			</div>
 			<div class="right" v-show="showTimeLine">
-				<p class="timeline-title">用户<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.nickname}}</span>今日共发送<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.totalCount}}</span>条弹幕</p>
+				<p class="timeline-title"><span v-if="timeLine.level>=100" style="color: rgb(256, 174, 62);font-size: 20px;font-weight: bold;">神豪</span>用户<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.nickname}}</span>今日共发送<span style="color: rgb(90, 45, 255);font-size: 16px;">{{timeLine.totalCount}}</span>条弹幕</p>
 				<ul class="timeline">
 					<li class="timeline-item" v-for="(chat,index) in timeLine.chats" :key="chat.cid">
 						<div class="timeline-circle" style="border-color: rgb(90, 45, 255); background-color: rgb(90, 45, 255);">
-							<p class="left-circle">第{{timeLine.chats.length-index}}条弹幕</p>
+							<p class="left-circle"><span style="margin-right: 3px;">第{{timeLine.chats.length-index}}条弹幕</span><span>{{chat.createAt}}</span></p>
 						</div>
 						<p class="timeline-text" v-if="chat.ifs==1" v-bind:style="'color:'+tableColor[chat.col]">{{chat.txt}}</p>
 						<p class="timeline-text" v-else style="color: #333;">{{chat.txt}}</p>
@@ -72,6 +72,7 @@
 				},
 				timeLine:{
 					nickname:'',
+					level:0,
 					totalCount:0,
 					chats:[]
 				},
@@ -122,6 +123,7 @@
 						if(chats){
 							$this.showTimeLine=true;
 							$this.timeLine.nickname=chats[0].nn;
+							$this.timeLine.level=chats[0].level;
 							$this.timeLine.totalCount=chats.length;
 							$this.timeLine.chats=chats;
 							//定位到该元素顶部
@@ -319,9 +321,10 @@ p.timeline-text:before {
 }
 .left-circle{
 	position: relative;
-    left: -77px;
-    top: -3px;
+    left: -205px;
+    top: -4px;
     font-family: "微软雅黑";
-    width: 89px;
+    width: 204px;
+    font-size: 13px;
 }
 </style>

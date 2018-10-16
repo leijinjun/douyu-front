@@ -61,10 +61,10 @@
 	    z-index: 5;
 	}
 	.page-component-up:hover{
-    	border:1px #409eff solid;
+    	border:1px rgb(90, 45, 255) solid;
   	}
 	.page-component-up i {
-	    color: #409eff;
+	    color: rgb(90, 45, 255);
 	    display: block;
 	    line-height: 40px;
 	    text-align: center;

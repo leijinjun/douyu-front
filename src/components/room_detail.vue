@@ -633,7 +633,7 @@
 	    line-height: 24px;
 	}
 	#view{
-		border: 1px solid #E6E6E6;
+		border-bottom: 1px solid #E6E6E6;
 		border-top: 2px rgb(90, 45, 255) solid;
 	}
 	.room-view{
