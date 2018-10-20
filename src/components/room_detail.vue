@@ -475,8 +475,8 @@
 					let x=new Array();
 					let y=new Array();
 					res.body.forEach((item,index)=>{
-						x.push(item['create_at']);
-						y.push(item['sum']);
+						x.push(item[0]);
+						y.push(item[1]);
 					});
 					var chart=echarts.init($this.$refs.fansNumChart,null,{renderer: 'cavas'});
 					var option=echartsOptions.fansPerson;
