@@ -4,9 +4,14 @@
 			<div class="a_card_left">
 		        <ul>
 		            <li>
-		            	<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId">
-		                	<img width="100%" :src="roomDetail.roomThumb"/>
-		            	</a>
+		            	<div  style="position:relative;">
+		                	<img class="room-img" width="100%" :src="roomDetail.roomThumb"/>
+		            		<div class="img-text-hover" style="position:absolute; z-index:1; left:82px; top:49px;background-color:transparent;opacity:0.35;display: none;">
+		            			<a target="_blank" :href="'https://www.douyu.com/'+roomDetail.roomId">
+		            				<el-button plain>进入直播间</el-button>
+		            			</a>
+		            		</div>
+		            	</div>
 		            </li>
 		            <li>
 		            	<a href="javascript:;" v-if="connected">
@@ -214,6 +219,14 @@
 				   chart30.resize();
 				}
 			};
+			$(".room-img").mouseover(function(event){
+				$(".img-text-hover").show();
+			}).mouseout(function(event){
+				$(".img-text-hover").hide();
+			});
+			$(".img-text-hover").mouseover(function(event){
+				$(".img-text-hover").show();
+			});
 		},
 		beforeDestroy() {
 		    var viewData=this.viewData;
@@ -713,5 +726,9 @@
 	    width: 65px;
 	    padding: 4px;
 	    margin-top: 2px;
+	}
+	.el-button.is-plain:focus, .el-button.is-plain:hover{
+		border-color: ghostwhite;
+		color: #0000FF;
 	}
 </style>
