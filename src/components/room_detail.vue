@@ -108,6 +108,21 @@
 		</div>
 		<div class="second-container clearfix">
 			<div class="gift-left">
+				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日土豪榜</div>
+				<div v-if="giftTop.length>0" class="gift-list">
+					<div v-for="item in giftTop" v-bind:key="item.uid">
+						<div style="font-size: 12px;padding: 11px;text-align: left;">
+							用户
+							<span style="color: rgb(90, 45, 255);padding-left: 0;">{{item.nn}}</span>
+							送出
+							<span style="font-size: 16px;padding-left: 0;color: #f03a4a;">{{item.value}}</span>
+							元礼物
+						</div>
+					</div>
+				</div>
+				<div v-else>
+					无数据
+				</div>
 				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日最新礼物</div>
 				<div v-if="gifts.length>0" class="gift-list">
 					<div v-for="gift in gifts" v-bind:key="gift.id" style="float: left;width:100%;height: 50px;text-overflow: ellipsis; white-space:nowrap;overflow: hidden;">
@@ -185,6 +200,7 @@
 				gifts:[],
 				chats:[],
 				roomGifts:{},
+				giftTop:[],
 				connected:false,
 				roomConnecting:null,
 				aggregate:{},
@@ -525,6 +541,13 @@
 							});
 							$this.roomGifts=json;
 							$this.connected=body.connected;
+							body.giftTop.sort(function(o1,o2){
+								return o1.value>o2.value?-1:o1.value==o2.value?0:1;
+							})
+							$.each(body.giftTop, function(i,n) {
+								n.value=n.value.toFixed(0);
+							});
+							$this.giftTop=body.giftTop;
 						}
 					})
 			},
