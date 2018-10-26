@@ -110,11 +110,12 @@
 			<div class="gift-left">
 				<div style="color: rgb(90, 45, 255);margin-bottom: 10px;width: 100%;">今日土豪榜</div>
 				<div v-if="giftTop.length>0" class="gift-list">
-					<div v-for="item in giftTop" v-bind:key="item.uid">
-						<div style="font-size: 12px;padding: 11px;text-align: left;">
+					<div v-for="item in giftTop" v-bind:key="item.uid" style="float: left;width: 100%;height: 50px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
+						<img :src="'https://apic.douyucdn.cn/upload/'+item.ic+'_middle.jpg'" width="48px" height="48px" style="float: left;"/>
+						<div style="font-size: 12px;padding: 11px;text-align: left;padding-left: 59px;">
 							用户
 							<span style="color: rgb(90, 45, 255);padding-left: 0;">{{item.nn}}</span>
-							送出
+							共送出
 							<span style="font-size: 16px;padding-left: 0;color: #f03a4a;">{{item.value}}</span>
 							元礼物
 						</div>
@@ -129,6 +130,7 @@
 						<div style="width: 50px;float: left;"><img :alt="gift.pc+' rmb'" v-bind:src="roomGifts[gift.gfid]!=null?roomGifts[gift.gfid].himg:tableGift[gift.pc]!=undefined&&tableGift[gift.pc]!=null?tableGift[gift.pc]:''" height="48px;" width="48px"/></div>
 						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
 							<span>x{{gift.gfcnt}}</span>
+							用户
 							<span style="color: rgb(90, 45, 255);">{{gift.nn}}</span>&nbsp;&nbsp;送出<span style="font-size: 16px;">{{gift.pc}}</span>鱼翅
 						</div>
 					</div>
