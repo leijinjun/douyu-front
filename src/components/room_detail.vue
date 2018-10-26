@@ -114,7 +114,7 @@
 						<img :src="'https://apic.douyucdn.cn/upload/'+item.ic+'_middle.jpg'" width="48px" height="48px" style="float: left;"/>
 						<div style="font-size: 12px;padding: 11px;text-align: left;padding-left: 59px;">
 							用户
-							<span style="color: rgb(90, 45, 255);padding-left: 0;">{{item.nn}}</span>
+							<span style="color: rgb(90, 45, 255);padding-left: 0;font-size: 14px;">{{item.nn}}</span>
 							共送出
 							<span style="font-size: 16px;padding-left: 0;color: #f03a4a;">{{item.value}}</span>
 							元礼物
@@ -131,7 +131,7 @@
 						<div style="width: auto;padding: 13px 0 0 59px;text-align:left;">
 							<span>x{{gift.gfcnt}}</span>
 							用户
-							<span style="color: rgb(90, 45, 255);">{{gift.nn}}</span>&nbsp;&nbsp;送出<span style="font-size: 16px;">{{gift.pc}}</span>鱼翅
+							<span style="color: rgb(90, 45, 255);font-size: 14px;">{{gift.nn}}</span>&nbsp;&nbsp;送出<span style="font-size: 16px;">{{gift.pc}}</span>鱼翅
 						</div>
 					</div>
 				</div>
