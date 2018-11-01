@@ -280,7 +280,7 @@
 				var day=end.getDate();
 				end.setHours(23,59,59);
 				var start=new Date();
-				start.setDate(day-6);
+				start.setDate(-6);
 				start.setHours(0,0,0,0);
 				params.rid=this.roomId;
 				params.end=end;
@@ -295,7 +295,7 @@
 				var day=end.getDate();
 				end.setHours(23,59,59);
 				var start=new Date();
-				start.setDate(day-29);
+				start.setDate(-29);
 				start.setHours(0,0,0,0);
 				params.rid=this.roomId;
 				params.end=end;
