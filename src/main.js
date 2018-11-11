@@ -13,10 +13,11 @@ import utils from './utils/util.js';
 //import Js2WordCloud from 'js2wordcloud';
 Vue.filter('numTransform',utils.numTransform);
 Vue.filter('util',utils);
+let baseUrl = 'https://www.lei2j.com/douyu';
 
 const service = axios.create({
     withCredentials: true,
-    baseURL: 'http://127.0.0.1/douyu',
+    baseURL: baseUrl,
     timeout: 300000 // 请求超时时间
 })
 

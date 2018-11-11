@@ -10,7 +10,7 @@ import RoomView from '@/components/room_view'
 Vue.use(Router)
 
 export default new Router({
-	base:"/front",
+	base:"/",
 	mode: 'history',
   routes: [
   	{
