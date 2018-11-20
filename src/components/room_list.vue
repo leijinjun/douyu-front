@@ -244,7 +244,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 		height: 100%;
 	}
 	.room-text .room-conn{
-		margin-top: 8px;
+		margin-bottom: 5px;
 	}
 	.room-search{
 		width: 180px;
