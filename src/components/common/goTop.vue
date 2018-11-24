@@ -27,7 +27,7 @@
           cancelAnimationFrame(timer)
           timer=requestAnimationFrame(function fn(){
             if(_that.scrollTop>0){
-              _that.scrollTop-=350;
+              _that.scrollTop-=5000;
               document.body.scrollTop = document.documentElement.scrollTop = _that.scrollTop;
               timer=requestAnimationFrame(fn)
             }else {
