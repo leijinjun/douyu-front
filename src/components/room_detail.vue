@@ -83,22 +83,22 @@
 		            </div>
 		            <ul class="rank_j">
 		                <li>
-		                    <span>{{chatTotalCount|numTransform}}条</span>
+		                    <span><img v-show="isShow" src="../../static/images/loading.gif"/>{{chatTotalCount|numTransform}}条</span>
 		                    <span class="dot"></span>
 		                    <span class="txt">今日弹幕条数</span>
 		                </li>
 		                <li>
-		                    <span>{{aggregate.giftUserCounts}}人</span>
+		                    <span><img v-show="isShow" src="../../static/images/loading.gif"/>{{aggregate.giftUserCounts}}人</span>
 		                    <span class="dot"></span>
 		                    <span class="txt">今日送礼人数</span>
 		                </li>
 		                <li>
-		                    <span>{{aggregate.userCounts}}人</span>
+		                    <span><img v-show="isShow" src="../../static/images/loading.gif"/>{{aggregate.userCounts}}人</span>
 		                    <span class="dot"></span>
 		                    <span class="txt">今日弹幕人数</span>
 		                </li>
 		                <li>
-		                    <span>{{aggregate.giftSum}}元</span>
+		                    <span><img v-show="isShow" src="../../static/images/loading.gif"/>{{aggregate.giftSum}}元</span>
 		                    <span class="dot"></span>
 		                    <span class="txt">今日礼物收入</span>
 		                </li>
@@ -197,7 +197,7 @@
 				tableGift:tableGift,
 				tableColor:tableColor,
 				roomId:null,
-				chatTotalCount:0,
+				chatTotalCount:null,
 				roomDetail:{},
 				gifts:[],
 				chats:[],
@@ -209,6 +209,7 @@
 				active:0,
 				dateActive:7,
 				viewLoading:true,
+				isShow:true,
 				viewData:{
 					0:{'method':this.getViewGiftMoneyData,ref:'giftChart','chart7':null,'chart30':null},
 					1:{'method':this.getViewGiftPersonNumData,ref:'giftPersonChart','chart7':null,'chart30':null},
@@ -529,6 +530,7 @@
 				var $this=this;
 				this.$http.get(`/room/info/${roomId}`)
 					.then((response)=>{
+						$this.isShow=false;
 						var res=response.data;
 						if(res.code=200){
 							var body=res.body;
@@ -551,6 +553,9 @@
 							});
 							$this.giftTop=body.giftTop;
 						}
+					}).catch((e)=>{
+						console.log(e);
+						$this.isShow=false;
 					})
 			},
 			getMoreChat(){
