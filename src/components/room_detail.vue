@@ -334,7 +334,7 @@
 				params.append("rid",p.rid);
 				params.append("start",Vue.filter('util').formatDate(p.start));
 				params.append("end",Vue.filter('util').formatDate(p.end));
-		  		this.$http.post(`/room/view/giftMoney/${room}`,params)
+		  		this.$http.post(`/room/info/view/giftMoney/${room}`,params)
 		  		.then((response)=>{
 		  			var res=response.data;
 					let x=new Array();
@@ -375,7 +375,7 @@
 				params.append("rid",p.rid);
 				params.append("start",Vue.filter('util').formatDate(p.start));
 				params.append("end",Vue.filter('util').formatDate(p.end));
-				this.$http.post(`/room/view/giftPersonNum/${room}`,params)
+				this.$http.post(`/room/info/view/giftPersonNum/${room}`,params)
 				.then((response)=>{
 					var res=response.data;
 					var res=response.data;
@@ -417,7 +417,7 @@
 				params.append("rid",p.rid);
 				params.append("start",Vue.filter('util').formatDate(p.start));
 				params.append("end",Vue.filter('util').formatDate(p.end));
-				this.$http.post(`/room/view/chatSum/${room}`,params)
+				this.$http.post(`/room/info/view/chatSum/${room}`,params)
 				.then((response)=>{
 					var res=response.data;
 					var res=response.data;
@@ -459,7 +459,7 @@
 				params.append("rid",p.rid);
 				params.append("start",Vue.filter('util').formatDate(p.start));
 				params.append("end",Vue.filter('util').formatDate(p.end));
-				this.$http.post(`/room/view/chatPersonNum/${room}`,params)
+				this.$http.post(`/room/info/view/chatPersonNum/${room}`,params)
 				.then((response)=>{
 					var res=response.data;
 					var res=response.data;
@@ -501,7 +501,7 @@
 				params.append("rid",p.rid);
 				params.append("start",Vue.filter('util').formatDate(p.start));
 				params.append("end",Vue.filter('util').formatDate(p.end));
-				this.$http.post(`/room/view/fansPersonNum/${room}`,params)
+				this.$http.post(`/room/info/view/fansPersonNum/${room}`,params)
 				.then((response)=>{
 					var res=response.data;
 					let x=new Array();
@@ -569,7 +569,7 @@
 				var roomId=$this.roomId;
 				var params=new URLSearchParams();
 				params.append("room",roomId);
-				this.$http.post('/auth/logout',params)
+				this.$http.post('/room/client/logout',params)
 					.then((response)=>{
 						var res=response.data;
 						this.roomConnecting=false;
@@ -583,7 +583,7 @@
 			connect(){
 				var $this=this;
 				var roomId=$this.roomId;
-				this.$http.post(`/auth/login/${roomId}`)
+				this.$http.post(`/room/client/login/${roomId}`)
 					.then((response)=>{
 						var res=response.data;
 						this.roomConnecting=false;

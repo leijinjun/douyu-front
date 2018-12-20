@@ -90,7 +90,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 				var param={};
 				param.limit=100;
 				param.cate=this.selectedCate;
-				this.$http.get('/room/list',{params:param})
+				this.$http.get('/room/info/list',{params:param})
 					.then(function(response){
 						var res=response.data;
 						$this.roomList=res.body;
@@ -98,7 +98,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			},
 			getCacheRoomList(){
 				var $this=this;
-				this.$http.get('/room/logged')
+				this.$http.get('/room/info/logged')
 					.then((response)=>{
 						var res=response.data;
 						$this.roomList=res.body;
@@ -107,7 +107,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			connect(room){
 				var $this=this;
 				this.$set(this.roomConnecting,room,true)
-				this.$http.post(`/auth/login/${room}`)
+				this.$http.post(`/room/client/login/${room}`)
 					.then((response)=>{
 						this.$set(this.roomConnecting,room,false)
 						var res=response.data;
@@ -123,7 +123,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 				this.$set(this.roomConnecting,room,true)
 				var params=new URLSearchParams();
 				params.append("room",room);
-				this.$http.post('/auth/logout',params)
+				this.$http.post('/room/client/logout',params)
 					.then((response)=>{
 						this.$set(this.roomConnecting,room,false)
 						var res=response.data;
@@ -154,7 +154,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 			},
 			getCates(){
 				var $this=this;
-				this.$http.get('/room/cates')
+				this.$http.get('/room/info/cates')
 					.then((response)=>{
 						var res=response.data;
 						if(res.code==200){
@@ -168,7 +168,7 @@ border-radius: 4px;color: #F7F0F0;" round @click="changeRoomListFlag()">
 					return;
 				}
 				var $this=this;
-				this.$http.get(`/room/detail/${room}`)
+				this.$http.get(`/room/info/detail/${room}`)
 					.then((response=>{
 						var res=response.data;
 						var arr=new Array();

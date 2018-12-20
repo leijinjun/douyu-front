@@ -75,12 +75,12 @@ export default {
   	getViewData(roomId){
   		var $this=this;
 			var getViewData=function(){
-				return $this.$http.get(`/room/view/${roomId}`,{
+				return $this.$http.get(`/room/info/view/${roomId}`,{
 					query:$this.pageParams
 				});
 			}
 			var getRoomDetail=function(){
-				return $this.$http.get(`/room/detail/${roomId}`);
+				return $this.$http.get(`/room/info/detail/${roomId}`);
 			}
 			axios.all([getViewData(),getRoomDetail()])
 					.then(axios.spread((response1,response2)=>{

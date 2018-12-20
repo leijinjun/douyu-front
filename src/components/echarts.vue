@@ -106,7 +106,7 @@ export default {
   methods: {
   	getData(){
   		var $this=this;
-  		this.$http.get('/room/viewNoble/485503')
+  		this.$http.get('/room/info/viewNoble/485503')
   		.then((response)=>{
   			var res=response.data;
 			$this.options.xAxis[0].data = res.body.xAxis;

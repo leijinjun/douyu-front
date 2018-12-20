@@ -95,7 +95,7 @@
 			//获取弹幕列表
 			getDanmuList(roomId){
 				var $this=this;
-				$this.$http.get(`/room/danmu/${roomId}`,{
+				$this.$http.get(`/room/info/danmu/${roomId}`,{
 					params:this.pagnation
 				})
 					.then((response)=>{
@@ -114,7 +114,7 @@
 				startTime.setHours(0,0,0);
 				var endTime=new Date();
 				endTime.setHours(23,59,59);
-				$this.$http.get(`/room/danmu/${roomId}`,{
+				$this.$http.get(`/room/info/danmu/${roomId}`,{
 					params:{uid:uid,startTimestamp:startTime.getTime(),endTimestamp:endTime.getTime()}
 				})
 					.then((response)=>{
