@@ -14,7 +14,7 @@ import utils from './utils/util.js';
 Vue.filter('numTransform',utils.numTransform);
 Vue.filter('util',utils);
 let baseUrl = 'http://127.0.0.1/douyu';
-if(location.hostname=='www.opendanmu.com'){
+if(location.hostname.indexOf('opendanmu.com')!=-1){
 	baseUrl= 'https://www.opendanmu.com/douyu';
 }
 const service = axios.create({
