@@ -13,7 +13,7 @@
 		            		</div>
 		            	</div>
 		            </li>
-		            <li>
+		           <!-- <li>
 		            	<a href="javascript:;" v-if="connected">
 							<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
 			        		<span v-else @click="disConnect()">断开连接</span>
@@ -22,7 +22,7 @@
 					    	<span v-if="roomConnecting===true"><i class="iconfont icon-jiazai"></i></span>
 			        		<span v-else @click="disConnect()">连接</span>
 					    </a>
-		            </li>
+		            </li>-->
 		        </ul>
 		    </div>
 	    <div class="a_card_right">
@@ -153,12 +153,6 @@
 	                    	<li v-bind:class="{active:dateActive==7}" @click="changeViewDate(7)">最近七天</li>
 		                </ul>
                 </div>
-				<!--<div style="padding-right: 10px;float: right;width: 100%;">
-						<router-link :to="{
-							name:'RoomView',
-							path:'/view/'+roomId,
-						}" style="color: darkorchid;text-decoration: none;">查看更多</router-link>
-					</div>-->
 				<div id='view'  v-loading="viewLoading">
 					<div class="room-view"  v-show="active==0" ref="giftChart"></div>
 					<div class="room-view" v-show="active==1" ref="giftPersonChart"></div>
@@ -203,8 +197,6 @@
 				chats:[],
 				roomGifts:{},
 				giftTop:[],
-				connected:false,
-				roomConnecting:null,
 				aggregate:{},
 				active:0,
 				dateActive:7,
@@ -563,37 +555,6 @@
 				var path=`/danmu/${roomId}`;
 				this.$router.push({path:path});
 			},
-			disConnect(){
-				var $this=this;
-				this.roomConnecting=true;
-				var roomId=$this.roomId;
-				var params=new URLSearchParams();
-				params.append("room",roomId);
-				this.$http.post('/room/client/logout',params)
-					.then((response)=>{
-						var res=response.data;
-						this.roomConnecting=false;
-						$this.getRoomDetail(roomId);
-					})
-					.catch((error)=>{
-						this.roomConnecting=false;
-						$this.$message.error("连接错误");
-					});
-			},
-			connect(){
-				var $this=this;
-				var roomId=$this.roomId;
-				this.$http.post(`/room/client/login/${roomId}`)
-					.then((response)=>{
-						var res=response.data;
-						this.roomConnecting=false;
-						$this.getRoomDetail(roomId);
-					})
-					.catch((error)=>{
-						this.roomConnecting=false;
-						$this.$message.error("连接错误");
-					});
-			}
 		}
 	}
 </script>

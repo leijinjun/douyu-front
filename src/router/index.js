@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/index/home'
-import RoomList from '@/components/room_list'
 import RoomDetail from '@/components/room_detail'
 import DanmuList from '@/components/danmu_list'
 import Geetest from '@/components/gt'
@@ -14,16 +12,6 @@ export default new Router({
 	base:"/",
 	mode: 'history',
   routes: [
-  	{
-      path: '/home',
-      name: 'Home',
-      component: Home
-    },
-  	{
-      path: '/',
-      name: 'RoomList',
-      component: RoomList
-    },
     {
       path: '/room/:roomId',
       name: 'RoomDetail',

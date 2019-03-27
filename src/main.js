@@ -13,9 +13,9 @@ import utils from './utils/util.js';
 //import Js2WordCloud from 'js2wordcloud';
 Vue.filter('numTransform',utils.numTransform);
 Vue.filter('util',utils);
-let baseUrl = 'http://127.0.0.1/douyu';
+let baseUrl = 'http://127.0.0.1:8881/front';
 if(location.hostname.indexOf('opendanmu.com')!=-1){
-	baseUrl= 'https://www.opendanmu.com/douyu';
+	baseUrl= 'https://www.opendanmu.com/front';
 }
 const service = axios.create({
     withCredentials: true,
