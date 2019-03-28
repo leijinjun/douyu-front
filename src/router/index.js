@@ -5,6 +5,7 @@ import DanmuList from '@/components/danmu_list'
 import Geetest from '@/components/gt'
 import ECharts from '@/components/echarts'
 import RoomView from '@/components/room_view'
+import Home from '@/components/home'
 
 Vue.use(Router)
 
@@ -12,6 +13,11 @@ export default new Router({
 	base:"/",
 	mode: 'history',
   routes: [
+    {
+      path:'/',
+      name:'Home',
+      component:Home
+    },
     {
       path: '/room/:roomId',
       name: 'RoomDetail',
