@@ -1,9 +1,9 @@
 <template>
   <div id="app">
   	<el-header id="header" style="height: 50px;">
-  			<el-menu class="header-menu" :router="true" mode="horizontal" background-color="#fff" text-color="#000" active-text-color="#5a2dff">
+  			<!-- <el-menu class="header-menu" :router="true" mode="horizontal" background-color="#fff" text-color="#000" active-text-color="#5a2dff">
 				  <el-menu-item  index="1" route="/">首页</el-menu-item>
-				</el-menu>
+				</el-menu> -->
   	</el-header>
   	<el-container>
   	<el-main class="container">
@@ -11,7 +11,7 @@
     </el-main>
     </el-container>
     <el-footer id="footer">
-    	Copyright ©2018 leijinjun
+    	Copyright ©2018-2019 leijinjun
     </el-footer>
   </div>
 </template>
