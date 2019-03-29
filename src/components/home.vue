@@ -18,8 +18,8 @@
               <thead>
                 <tr>
                   <th width="10%">排名</th>
-                  <th class="table_th_name" width="65%">主播</th>
-                  <th width="25%">礼物收入</th>
+                  <th class="table_th_name" width="60%">主播</th>
+                  <th width="30%">礼物收入</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,15 +57,15 @@
         </div>
         <div class="lt_box">
           <div class="lt_title clearfix">
-            <h4>弹幕总数</h4>
+            <h4>主播弹幕</h4>
           </div>
           <div class="x_table x_audience">
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <thead>
                 <tr>
                   <th width="10%">排名</th>
-                  <th class="table_th_name" width="65%">房间名称</th>
-                  <th width="25%">弹幕条数</th>
+                  <th class="table_th_name" width="60%">主播</th>
+                  <th width="30%">弹幕条数</th>
                 </tr>
               </thead>
               <tbody>
