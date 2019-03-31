@@ -85,8 +85,8 @@ export default {
 			axios.all([getViewData(),getRoomDetail()])
 					.then(axios.spread((response1,response2)=>{
 							$this.loading=false;
-						  var res1=response1.data;
-							var res2=response2.data;
+						  var res1=response1;
+							var res2=response2;
 							if(res1.body.frankView.frankViewX==null||res1.body.frankView.frankViewX.length==0){
 								 $this.frankOptions.title.text = $this.frankOptions.title.text+"\n\n暂无数据";
 							}else{

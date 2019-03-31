@@ -99,11 +99,9 @@
 					params:this.pagnation
 				})
 					.then((response)=>{
-						var res=response.data;
-						if(res.code==200){
-							$this.chats=res.body.chats;
-							$this.isMore=res.body.isMore;
-						}
+						var res=response;
+						$this.chats=res.body.chats;
+						$this.isMore=res.body.isMore;
 					})
 			},
 			//获取用户弹幕
@@ -118,7 +116,7 @@
 					params:{uid:uid,startTimestamp:startTime.getTime(),endTimestamp:endTime.getTime()}
 				})
 					.then((response)=>{
-						var res=response.data;
+						var res=data;
 						var chats=res.body.chats;
 						if(chats){
 							$this.showTimeLine=true;

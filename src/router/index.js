@@ -6,6 +6,8 @@ import Geetest from '@/components/gt'
 import ECharts from '@/components/echarts'
 import RoomView from '@/components/room_view'
 import Home from '@/components/home'
+import HomeContainer from '@/components/common/HomeContainer'
+import Danmu from '@/components/danmu'
 
 Vue.use(Router)
 
@@ -15,18 +17,30 @@ export default new Router({
   routes: [
     {
       path:'/',
-      name:'Home',
-      component:Home
-    },
-    {
-      path: '/room/:roomId',
-      name: 'RoomDetail',
-      component: RoomDetail
-    },
-    {
-      path: '/danmu/:roomId',
-      name: 'DanmuList',
-      component: DanmuList
+      name:'HomeContainer',
+      component:HomeContainer,
+      children:[
+        {
+          path:'',
+          name:Home,
+          component:Home
+        },
+        {
+          path: '/room/:roomId',
+          name: 'RoomDetail',
+          component: RoomDetail
+        },
+        // {
+        //   path: '/danmu/:roomId',
+        //   name: 'DanmuList',
+        //   component: DanmuList
+        // },
+        {
+          path: '/danmu',
+          name: 'Danmu',
+          component: Danmu
+        },
+      ]
     },
     {
       path: '/gt',

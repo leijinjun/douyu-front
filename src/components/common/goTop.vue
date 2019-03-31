@@ -72,7 +72,6 @@
 	}
 	[class*=" el-icon-"], [class^=el-icon-] {
 	    font-family: element-icons!important;
-	    speak: none;
 	    font-style: normal;
 	    font-weight: 400;
 	    font-variant: normal;

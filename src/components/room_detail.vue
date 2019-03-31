@@ -328,7 +328,7 @@
 				params.append("end",Vue.filter('util').formatDate(p.end));
 		  		this.$http.post(`/room/info/view/giftMoney/${room}`,params)
 		  		.then((response)=>{
-		  			var res=response.data;
+		  			var res=response;
 					let x=new Array();
 					let y=new Array();
 					for (let key in res.body) {
@@ -369,8 +369,7 @@
 				params.append("end",Vue.filter('util').formatDate(p.end));
 				this.$http.post(`/room/info/view/giftPersonNum/${room}`,params)
 				.then((response)=>{
-					var res=response.data;
-					var res=response.data;
+					var res=response;
 					let x=new Array();
 					let y=new Array();
 					for (let key in res.body) {
@@ -411,8 +410,7 @@
 				params.append("end",Vue.filter('util').formatDate(p.end));
 				this.$http.post(`/room/info/view/chatSum/${room}`,params)
 				.then((response)=>{
-					var res=response.data;
-					var res=response.data;
+					var res=response;
 					let x=new Array();
 					let y=new Array();
 					for (let key in res.body) {
@@ -453,8 +451,7 @@
 				params.append("end",Vue.filter('util').formatDate(p.end));
 				this.$http.post(`/room/info/view/chatPersonNum/${room}`,params)
 				.then((response)=>{
-					var res=response.data;
-					var res=response.data;
+					var res=response;
 					let x=new Array();
 					let y=new Array();
 					for (let key in res.body) {
@@ -495,7 +492,7 @@
 				params.append("end",Vue.filter('util').formatDate(p.end));
 				this.$http.post(`/room/info/view/fansPersonNum/${room}`,params)
 				.then((response)=>{
-					var res=response.data;
+					var res=response;
 					let x=new Array();
 					let y=new Array();
 					res.body.forEach((item,index)=>{
@@ -523,31 +520,26 @@
 				this.$http.get(`/room/info/${roomId}`)
 					.then((response)=>{
 						$this.isShow=false;
-						var res=response.data;
-						if(res.code=200){
-							var body=res.body;
-							$this.roomDetail=body.roomDetail;
-							$this.chatTotalCount = body.chatTotalCount;
-							$this.chats=body.chats;
-							$this.gifts=body.gifts;
-							$this.aggregate=body.aggregate;
-							var json=new Object();
-							$.each(body.roomDetail.roomGifts, function(i,n) {
-								json[n.id]=n;
-							});
-							$this.roomGifts=json;
-							$this.connected=body.connected;
-							body.giftTop.sort(function(o1,o2){
-								return o1.value>o2.value?-1:o1.value==o2.value?0:1;
-							})
-							$.each(body.giftTop, function(i,n) {
-								n.value=n.value.toFixed(0);
-							});
-							$this.giftTop=body.giftTop;
-						}
-					}).catch((e)=>{
-						console.log(e);
-						$this.isShow=false;
+						var res=response;
+						var body=res.body;
+						$this.roomDetail=body.roomDetail;
+						$this.chatTotalCount = body.chatTotalCount;
+						$this.chats=body.chats;
+						$this.gifts=body.gifts;
+						$this.aggregate=body.aggregate;
+						var json=new Object();
+						$.each(body.roomDetail.roomGifts, function(i,n) {
+							json[n.id]=n;
+						});
+						$this.roomGifts=json;
+						$this.connected=body.connected;
+						body.giftTop.sort(function(o1,o2){
+							return o1.value>o2.value?-1:o1.value==o2.value?0:1;
+						})
+						$.each(body.giftTop, function(i,n) {
+							n.value=n.value.toFixed(0);
+						});
+						$this.giftTop=body.giftTop;
 					})
 			},
 			getMoreChat(){
