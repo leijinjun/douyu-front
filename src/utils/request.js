@@ -22,12 +22,12 @@ service.interceptors.request.use(function(config){
 service.interceptors.response.use(function(response){
     var res = response.data;
     if(res.errCode!=0){
-        console.log(res)
         Message({
         message: res.errMsg,
         type: 'error',
         duration: 3 * 1000
       })
+      return Promise.reject(response);
     }
     return res;
 },function(error){

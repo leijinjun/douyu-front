@@ -118,12 +118,29 @@ export default {
             params.limit = this.params.limit;
             this.$request.getDanmuPage(params)
             .then(res=>{
-                $this.danmuPage = JSON.parse(JSON.stringify(res.body));
+                // $this.danmuPage = JSON.parse(JSON.stringify(res.body));
+                $this.$set($this.danmuPage,'items',res.body.items);
+                $this.$set($this.danmuPage,'pageNum',res.body.pageNum);
+                $this.$set($this.danmuPage,'total',res.body.total);
+                $this.$set($this.danmuPage,'offset',res.body.offset);
+                $this.$set($this.danmuPage,'limit',res.body.limit);
             });
         },
         changePage(nextPage){
             this.params.pageNum = nextPage;
-            this.getDanmuPage({});
+            this.getDanmuPage(this.getParams());
+        },
+        getParams(){
+            var params={};
+            switch(this.selectType){
+                case '1':params.ownerName = this.keyword;break;
+                case '2':
+                    params.roomId = this.keyword;
+                    break;
+                case '3':params.nn = this.keyword;break;
+                default:
+            }
+            return params;
         },
         search(){
             if(!this.selectType){
@@ -146,15 +163,20 @@ export default {
                     type: 'warning'
                 });
                 return;
+            }else{
+                if(this.selectType==='2'){
+                    var reg = /^\d+$/g;
+                    if(!reg.test(this.keyword)){
+                        this.$message({
+                            message: '请输入正确的房间号',
+                            type: 'error'
+                        });
+                       return;
+                    }
+                }
             }
-            var params={};
-            switch(this.selectType){
-                case '1':params.ownerName = this.keyword;break;
-                case '2':params.roomId = this.keyword;break;
-                case '3':params.nn = this.keyword;break;
-                default:
-            }
-            this.getDanmuPage(params);
+            this.params.pageNum=1;
+            this.getDanmuPage(this.getParams());
 
         }
     },
