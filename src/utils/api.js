@@ -5,5 +5,8 @@ export default {
     },
     getTodayDanmuRankingList(){
         return $http.get('/room/info/view/today/danmuRankingList');
+    },
+    getDanmuPage(params){
+        return $http.get('/danmu',{params:params});
     }
 }

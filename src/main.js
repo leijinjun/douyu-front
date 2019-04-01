@@ -16,7 +16,7 @@ Vue.filter('numTransform',utils.numTransform);
 Vue.filter('util',utils);
 
 Vue.use(ElementUI);
-Vue.prototype.$http = service;
+Vue.prototype.$http = service
 Vue.prototype.$request = $request
 Vue.config.productionTip = false
 
