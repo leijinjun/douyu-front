@@ -544,8 +544,8 @@
 			},
 			getMoreChat(){
 				var roomId=this.roomId;
-				var path=`/danmu/${roomId}`;
-				this.$router.push({path:path});
+				var path='/danmu';
+				this.$router.push({path:path,query:{roomId:roomId}});
 			},
 		}
 	}

@@ -134,6 +134,10 @@ export default {
         }
     },
     created(){
+        var roomId=this.$route.query.roomId;
+        this.params.roomId = roomId;
+        this.selectType = '2';
+        this.keyword  = roomId;
         this.getDanmuPage();
     },
     methods:{
