@@ -15,36 +15,48 @@
         </div>
         <div class="date">
             <dl>
-                <dt class="week-lable"><b>周</b></dt>
+                <!-- <dt class="week-lable"><b>周</b></dt>
                 <dd class="week">
                     <el-date-picker
+                            v-model="date.week"
                             type="week"
                             format="yyyy 第 WW 周"
+                            value-format="yyyy-MM-dd"
                             placeholder="选择周">
-                        </el-date-picker>
-                </dd>
+                    </el-date-picker>
+                </dd> -->
                 <dt class="week-lable"><b>月</b></dt>
                 <dd class="week">
-                     <el-date-picker
+                    <el-date-picker
+                            v-model="date.month"
                             type="month"
-                            placeholder="选择月">
-                            </el-date-picker>
+                            format="yyyy-MM"
+                            placeholder="选择月"
+                            @change="changeWeek">
+                    </el-date-picker>
                 </dd>
                 <dt class="week-lable"><b>范围日期</b></dt>
                 <dd class="week">
+                    
                     <el-date-picker
+                    v-model="date.dateRange"
                     type="daterange"
                     align="right"
                     unlink-panels
                     range-separator="至"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
+                    @change="changeDateRange"
                     >
                     </el-date-picker>
                 </dd>
             </dl>
         </div>
         <el-table
+            v-loading="tableLoading"
+            element-loading-text="数据加载中"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            element-loading-custom-class="table-loading"
             :data="danmuPage.items"
             stripe
             style="width: 100%;color: #786c6c;">
@@ -79,16 +91,19 @@
         </el-table>
         <el-pagination
             style="margin-top:20px;text-align:center;"
+            :background="true"
             :page-size="danmuPage.limit"
             :pager-count="9"
             layout="prev, pager, next"
             :total="danmuPage.total"
+            :current-page.sync="danmuPage.pageNum"
             @current-change="changePage">
         </el-pagination>
     </div>
 </template>
 
 <script>
+import utils from '@/utils/util'
 export default {
     name:'Danmu',
     data(){
@@ -103,21 +118,31 @@ export default {
             params:{
                 pageNum:1,
                 limit:15,
+                startDate:null,
+                endDate:null,
+                ownerName:null,
+                roomId:null,
+                nn:null,
+            },
+            date:{
+                month:null,
+                dateRange:null,
             },
             selectType:null,
             keyword:null,
+            tableLoading:false,
         }
     },
     created(){
-        this.getDanmuPage({});
+        this.getDanmuPage();
     },
     methods:{
-        getDanmuPage(params){
+        getDanmuPage(){
             var $this=this;
-            params.pageNum = this.params.pageNum;
-            params.limit = this.params.limit;
-            this.$request.getDanmuPage(params)
+            this.tableLoading = true;
+            this.$request.getDanmuPage(this.params)
             .then(res=>{
+                $this.$set($this,'tableLoading',false),
                 // $this.danmuPage = JSON.parse(JSON.stringify(res.body));
                 $this.$set($this.danmuPage,'items',res.body.items);
                 $this.$set($this.danmuPage,'pageNum',res.body.pageNum);
@@ -128,19 +153,7 @@ export default {
         },
         changePage(nextPage){
             this.params.pageNum = nextPage;
-            this.getDanmuPage(this.getParams());
-        },
-        getParams(){
-            var params={};
-            switch(this.selectType){
-                case '1':params.ownerName = this.keyword;break;
-                case '2':
-                    params.roomId = this.keyword;
-                    break;
-                case '3':params.nn = this.keyword;break;
-                default:
-            }
-            return params;
+            this.getDanmuPage();
         },
         search(){
             if(!this.selectType){
@@ -175,9 +188,50 @@ export default {
                     }
                 }
             }
+            this.$set(this.params,'ownerName',null);
+            this.$set(this.params,'roomId',null);
+            this.$set(this.params,'nn',null);
+            switch(this.selectType){
+                case '1':this.params.ownerName = this.keyword;break;
+                case '2':
+                    this.params.roomId = this.keyword;
+                    break;
+                case '3':this.params.nn = this.keyword;break;
+                default:
+            }
             this.params.pageNum=1;
-            this.getDanmuPage(this.getParams());
-
+            this.getDanmuPage();
+        },
+        changeWeek(date){
+            this.$set(this.date,'dateRange',null);
+            if(date){
+                var s = utils.formatDate(date,'yyyy-MM-dd');
+                var d = new Date(date.getTime());
+                d.setMonth(d.getMonth()+1);
+                d.setDate(d.getDate()-1);
+                var e = utils.formatDate(d,'yyyy-MM-dd');
+                this.params.startDate = s;
+                this.params.endDate = e;
+            }else{
+                this.$set(this.params,'startDate',null);
+                this.$set(this.params,'endDate',null);
+            }
+            this.params.pageNum=1;
+            this.getDanmuPage();
+        },
+        changeDateRange(dateRange){
+            this.$set(this.date,'month',null);
+            if(dateRange){
+                var s = utils.formatDate(dateRange[0],'yyyy-MM-dd');
+                var e = utils.formatDate(dateRange[1],'yyyy-MM-dd');
+                this.params.startDate = s;
+                this.params.endDate = e;
+            }else{
+                this.$set(this.params,'startDate',null);
+                this.$set(this.params,'endDate',null);
+            }
+            this.params.pageNum=1;
+            this.getDanmuPage();
         }
     },
     mounted(){
@@ -230,12 +284,34 @@ export default {
 }
 .danmu-container .el-pagination button:hover{
     color: #5816b1;
+    background: #fff;
 }
 .danmu-container .el-pager li.active{
-    color: #5816b1;
+    color: #fff!important;
+    background-color:#5816b1!important;
 }
 .danmu-container .el-pager li:hover{
+    color: #fff!important;
+    background-color:#5816b1!important;
+}
+.danmu-container .el-pagination.is-background .btn-prev{
+    color:#5816b1;
+    background-color: #fff;
+}
+.danmu-container .el-pagination.is-background .btn-prev:hover{
+    color:#fff;
+    background-color: #5816b1;
+}
+.danmu-container .el-pagination.is-background .btn-next{
     color: #5816b1;
+    background-color: #fff;
+}
+.danmu-container .el-pagination.is-background .btn-next:hover{
+    color:#fff;
+    background-color: #5816b1;
+}
+.danmu-container .el-loading-mask.table-loading .el-loading-spinner .el-loading-text{
+    color: #fff!important;
 }
 </style>
 
