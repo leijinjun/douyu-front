@@ -706,9 +706,10 @@
 	    color: #333333;
 	    float: right;
 	    cursor: pointer;
-	    width: 65px;
+	    width: 67px;
 	    padding: 4px;
 	    margin-top: 2px;
+		text-align: center;
 	}
 	.el-button.is-plain:focus, .el-button.is-plain:hover{
 		border-color: ghostwhite;
