@@ -2,7 +2,7 @@
   <div class="row" v-loading="rankingLoading">
       <div class="x_title">
         <em>
-          <!-- <a href="javascript:void(0)">更多 &gt;</a> -->
+          <router-link to="/rankingList">更多</router-link>
         </em>
         <h3>
           直播实时榜

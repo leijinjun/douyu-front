@@ -8,6 +8,7 @@ import RoomView from '@/components/room_view'
 import Home from '@/components/home'
 import HomeContainer from '@/components/common/HomeContainer'
 import Danmu from '@/components/danmu'
+import RankingList from '@/components/rankingList'
 
 Vue.use(Router)
 
@@ -30,11 +31,11 @@ export default new Router({
           name: 'RoomDetail',
           component: RoomDetail
         },
-        // {
-        //   path: '/danmu/:roomId',
-        //   name: 'DanmuList',
-        //   component: DanmuList
-        // },
+        {
+          path: '/rankingList',
+          name: 'RankingList',
+          component: RankingList
+        },
         {
           path: '/danmu',
           name: 'Danmu',
@@ -56,6 +57,6 @@ export default new Router({
       path: '/view/:roomId',
       name: 'RoomView',
       component: RoomView
-    }
+    },
   ]
 })
