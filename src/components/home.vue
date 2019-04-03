@@ -2,7 +2,7 @@
   <div class="row" v-loading="rankingLoading">
       <div class="x_title">
         <em>
-          <router-link to="/rankingList">更多</router-link>
+          <router-link to="/rankingList">更多>></router-link>
         </em>
         <h3>
           直播实时榜
@@ -45,7 +45,7 @@
                   </td>
                   <td>
                     <span class="x_orange">
-                      <span>￥{{item.giftMoney|numTransform}}</span>
+                      ￥{{item.giftMoney|numTransform}}
                     </span>
                   </td>
                 </tr>
@@ -87,7 +87,7 @@
                   </td>
                   <td>
                     <span class="x_orange">
-                      {{item.count|numTransform}}
+                      {{item.count|numTransform}}条
                     </span>
                   </td>
                 </tr>
