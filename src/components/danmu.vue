@@ -81,8 +81,11 @@
             label="粉丝牌等级">
             </el-table-column>
             <el-table-column
-            prop="txt"
             label="弹幕内容">
+                <template slot-scope="scope">
+                    <span class="txt" v-if="scope.row.ifs==1" v-bind:style="'color:'+tableColor[scope.row.col]+' ;'">{{scope.row.txt}}</span>
+                    <span class="txt" v-else style="color: #333;">{{scope.row.txt}}</span>
+                </template>
             </el-table-column>
             <el-table-column
             prop="createAt"
@@ -104,6 +107,7 @@
 
 <script>
 import utils from '@/utils/util'
+import tableColor from '../config/tableColor.json'
 export default {
     name:'Danmu',
     data(){
@@ -131,6 +135,7 @@ export default {
             selectType:null,
             keyword:null,
             tableLoading:false,
+            tableColor:tableColor,
         }
     },
     created(){

@@ -9,6 +9,7 @@ import Home from '@/components/home'
 import HomeContainer from '@/components/common/HomeContainer'
 import Danmu from '@/components/danmu'
 import RankingList from '@/components/rankingList'
+import RoomList from '@/components/roomList'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
           path: '/danmu',
           name: 'Danmu',
           component: Danmu
+        },
+        {
+          path: '/list/room',
+          name: 'RoomList',
+          component: RoomList
         },
       ]
     },
