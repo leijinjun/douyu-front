@@ -25,7 +25,7 @@
                             placeholder="选择周">
                     </el-date-picker>
                 </dd> -->
-                <dt class="week-lable"><b>月</b></dt>
+                <!-- <dt class="week-lable"><b>月</b></dt>
                 <dd class="week">
                     <el-date-picker
                             v-model="date.month"
@@ -34,21 +34,17 @@
                             placeholder="选择月"
                             @change="changeWeek">
                     </el-date-picker>
-                </dd>
-                <dt class="week-lable"><b>范围日期</b></dt>
+                </dd> -->
+                <dt class="week-lable"><span style="font-size: 15px;">发言日期</span></dt>
                 <dd class="week">
-                    
-                    <el-date-picker
-                    v-model="date.dateRange"
-                    type="daterange"
-                    align="right"
-                    unlink-panels
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    @change="changeDateRange"
-                    >
-                    </el-date-picker>
+                    <el-select v-model="date.dateFrom" @change="selectDateChange" placeholder="请选择时间">
+                        <el-option
+                        v-for="item in date.selectedDateRange"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
                 </dd>
             </dl>
         </div>
@@ -112,16 +108,24 @@ export default {
     name:'Danmu',
     data(){
         return{
+            pickerOptions:{
+                disabledDate(time){
+                    var now=new Date();
+                    var day=now.getDate();
+                    now.setDate(day-7);
+                    return time.getTime()>Date.now()||time.getTime()<now.getTime();
+                }
+            },
             danmuPage:{
                 items:[],
                 pageNum:1,
                 total:0,
                 offset:0,
-                limit:15,
+                limit:20,
             },
             params:{
                 pageNum:1,
-                limit:15,
+                limit:20,
                 startDate:null,
                 endDate:null,
                 ownerName:null,
@@ -129,8 +133,8 @@ export default {
                 nn:null,
             },
             date:{
-                month:null,
-                dateRange:null,
+                selectedDateRange:[],
+                dateFrom:null,
             },
             selectType:null,
             keyword:null,
@@ -139,11 +143,18 @@ export default {
         }
     },
     created(){
+        this.generateSelectDateRange();
+        this.params.startDate = utils.formatDate(new Date(),'yyyy-MM-dd');
+        this.date.dateFrom = this.params.startDate;
+        this.params.endDate = utils.formatDate(new Date(),'yyyy-MM-dd');
         var roomId=this.$route.query.roomId;
-        this.params.roomId = roomId;
-        this.selectType = '2';
-        this.keyword  = roomId;
-        this.getDanmuPage();
+        if(roomId){
+            this.params.roomId = roomId;
+            this.selectType = '2';
+            this.keyword  = roomId;
+            this.$set(this.date,'dateFrom',this.params.startDate);
+            this.getDanmuPage();
+        }
     },
     methods:{
         getDanmuPage(){
@@ -211,37 +222,60 @@ export default {
             this.params.pageNum=1;
             this.getDanmuPage();
         },
-        changeWeek(date){
-            this.$set(this.date,'dateRange',null);
-            if(date){
-                var s = utils.formatDate(date,'yyyy-MM-dd');
-                var d = new Date(date.getTime());
-                d.setMonth(d.getMonth()+1);
-                d.setDate(d.getDate()-1);
-                var e = utils.formatDate(d,'yyyy-MM-dd');
-                this.params.startDate = s;
-                this.params.endDate = e;
-            }else{
-                this.$set(this.params,'startDate',null);
-                this.$set(this.params,'endDate',null);
+        generateSelectDateRange(){
+            var now=new Date();
+            var arr=new Array();
+            arr[0]={"label":"今天","value":utils.formatDate(now,'yyyy-MM-dd')};
+            for(var i=1;i<7;i++){
+                now.setDate(now.getDate()-1);
+                arr[i]={"label":`近${i+1}天`,"value":utils.formatDate(now,'yyyy-MM-dd')};
             }
-            this.params.pageNum=1;
-            this.getDanmuPage();
+            this.$set(this.date,'selectedDateRange',arr);
         },
-        changeDateRange(dateRange){
-            this.$set(this.date,'month',null);
-            if(dateRange){
-                var s = utils.formatDate(dateRange[0],'yyyy-MM-dd');
-                var e = utils.formatDate(dateRange[1],'yyyy-MM-dd');
-                this.params.startDate = s;
-                this.params.endDate = e;
-            }else{
-                this.$set(this.params,'startDate',null);
-                this.$set(this.params,'endDate',null);
+        selectDateChange(selectedDate){
+            this.params.startDate = selectedDate;
+            this.params.endDate = utils.formatDate(new Date(),'yyyy-MM-dd');
+            if(!this.keyword){
+                this.$message({
+                    message: '请输入关键词',
+                    type: 'warning'
+                });
+                return;
             }
             this.params.pageNum=1;
             this.getDanmuPage();
         }
+        // changeWeek(date){
+        //     this.$set(this.date,'dateRange',null);
+        //     if(date){
+        //         var s = utils.formatDate(date,'yyyy-MM-dd');
+        //         var d = new Date(date.getTime());
+        //         d.setMonth(d.getMonth()+1);
+        //         d.setDate(d.getDate()-1);
+        //         var e = utils.formatDate(d,'yyyy-MM-dd');
+        //         this.params.startDate = s;
+        //         this.params.endDate = e;
+        //     }else{
+        //         this.$set(this.params,'startDate',null);
+        //         this.$set(this.params,'endDate',null);
+        //     }
+        //     this.params.pageNum=1;
+        //     this.getDanmuPage();
+        // },
+        // changeDateRange(dateRange){
+        //     this.$set(this.date,'month',null);
+        //     if(dateRange){
+        //         var s = utils.formatDate(dateRange[0],'yyyy-MM-dd');
+        //         var e = utils.formatDate(dateRange[1],'yyyy-MM-dd');
+        //         this.params.startDate = s;
+        //         this.params.endDate = e;
+        //     }else{
+        //         this.$set(this.params,'startDate',null);
+        //         this.$set(this.params,'endDate',null);
+        //     }
+        //     this.params.pageNum=1;
+        //     this.getDanmuPage();
+        // }
     },
     mounted(){
 
