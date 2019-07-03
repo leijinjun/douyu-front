@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 let baseUrl = 'http://127.0.0.1:8881/front';
 if(location.hostname=='www.opendanmu.com'){
-	baseUrl= 'https://www.opendanmu.com/front';
+	baseUrl= 'https://www.opendanmu.com:442/front';
 }
 const service = axios.create({
     withCredentials: true,
