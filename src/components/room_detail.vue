@@ -267,33 +267,25 @@
 			},
 			//7天内
 			getSevenDayIntervalParams(){
-				var params={};
 				var end=new Date();
-				end.setDate(end.getDate()-1);
-				var day=end.getDate();
-				end.setHours(23,59,59);
-				var start=new Date();
-				start.setDate(-6);
-				start.setHours(0,0,0,0);
-				params.rid=this.roomId;
-				params.end=end;
-				params.start=start;
-				return params;
+				var start = new Date();
+				start.setDate(start.getDate()-6);
+				return {
+					"rid":this.roomId,
+					"end":Vue.filter('util').formatDate(end,"yyyy-MM-dd"),
+					"start":Vue.filter('util').formatDate(start,"yyyy-MM-dd")
+				};
 			},
 			//30天内
 			getThirtyDayIntervalParams(){
-				var params={};
 				var end=new Date();
-				end.setDate(end.getDate()-1);
-				var day=end.getDate();
-				end.setHours(23,59,59);
-				var start=new Date();
-				start.setDate(-29);
-				start.setHours(0,0,0,0);
-				params.rid=this.roomId;
-				params.end=end;
-				params.start=start;
-				return params;
+				var start = new Date();
+				start.setDate(start.getDate()-29);
+				return {
+					"rid":this.roomId,
+					"end":Vue.filter('util').formatDate(end,"yyyy-MM-dd"),
+					"start":Vue.filter('util').formatDate(start,"yyyy-MM-dd")
+				};
 			},
 			//切换
 			getViewdata(active){
@@ -324,8 +316,8 @@
 				var p=this.initParam();
 				var params=new URLSearchParams();
 				params.append("rid",p.rid);
-				params.append("start",Vue.filter('util').formatDate(p.start));
-				params.append("end",Vue.filter('util').formatDate(p.end));
+				params.append("start",p.start);
+				params.append("end",p.end);
 		  		this.$http.post(`/room/info/view/giftMoney/${room}`,params)
 		  		.then((response)=>{
 		  			var res=response;
@@ -365,8 +357,8 @@
 				var p=this.initParam();
 				var params=new URLSearchParams();
 				params.append("rid",p.rid);
-				params.append("start",Vue.filter('util').formatDate(p.start));
-				params.append("end",Vue.filter('util').formatDate(p.end));
+				params.append("start",p.start);
+				params.append("end",p.end);
 				this.$http.post(`/room/info/view/giftPersonNum/${room}`,params)
 				.then((response)=>{
 					var res=response;
@@ -406,8 +398,8 @@
 				var p=this.initParam();
 				var params=new URLSearchParams();
 				params.append("rid",p.rid);
-				params.append("start",Vue.filter('util').formatDate(p.start));
-				params.append("end",Vue.filter('util').formatDate(p.end));
+				params.append("start",p.start);
+				params.append("end",p.end);
 				this.$http.post(`/room/info/view/chatSum/${room}`,params)
 				.then((response)=>{
 					var res=response;
@@ -447,8 +439,8 @@
 				var p=this.initParam();
 				var params=new URLSearchParams();
 				params.append("rid",p.rid);
-				params.append("start",Vue.filter('util').formatDate(p.start));
-				params.append("end",Vue.filter('util').formatDate(p.end));
+				params.append("start",p.start);
+				params.append("end",p.end);
 				this.$http.post(`/room/info/view/chatPersonNum/${room}`,params)
 				.then((response)=>{
 					var res=response;
@@ -488,8 +480,8 @@
 				var p=this.initParam();
 				var params=new URLSearchParams();
 				params.append("rid",p.rid);
-				params.append("start",Vue.filter('util').formatDate(p.start));
-				params.append("end",Vue.filter('util').formatDate(p.end));
+				params.append("start",p.start);
+				params.append("end",p.end);
 				this.$http.post(`/room/info/view/fansPersonNum/${room}`,params)
 				.then((response)=>{
 					var res=response;
