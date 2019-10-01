@@ -318,7 +318,12 @@
 				params.append("rid",p.rid);
 				params.append("start",p.start);
 				params.append("end",p.end);
-		  		this.$http.post(`/room/info/view/giftMoney/${room}`,params)
+				params={
+					rid:p.rid,
+					start:p.start,
+					end:p.end
+				}
+				this.$request.getGiftMoney(p.rid,params)
 		  		.then((response)=>{
 		  			var res=response;
 					let x=new Array();
@@ -359,7 +364,12 @@
 				params.append("rid",p.rid);
 				params.append("start",p.start);
 				params.append("end",p.end);
-				this.$http.post(`/room/info/view/giftPersonNum/${room}`,params)
+				params={
+					rid:p.rid,
+					start:p.start,
+					end:p.end
+				}
+				this.$request.getGiftNum(p.rid,params)
 				.then((response)=>{
 					var res=response;
 					let x=new Array();
@@ -400,7 +410,7 @@
 				params.append("rid",p.rid);
 				params.append("start",p.start);
 				params.append("end",p.end);
-				this.$http.post(`/room/info/view/chatSum/${room}`,params)
+				this.$request.getChatNum(p.rid,params)
 				.then((response)=>{
 					var res=response;
 					let x=new Array();
@@ -441,7 +451,7 @@
 				params.append("rid",p.rid);
 				params.append("start",p.start);
 				params.append("end",p.end);
-				this.$http.post(`/room/info/view/chatPersonNum/${room}`,params)
+				this.$request.getChatSum(p.rid,params)
 				.then((response)=>{
 					var res=response;
 					let x=new Array();
@@ -482,7 +492,7 @@
 				params.append("rid",p.rid);
 				params.append("start",p.start);
 				params.append("end",p.end);
-				this.$http.post(`/room/info/view/fansPersonNum/${room}`,params)
+				this.$request.getFansNum(p.rid,params)
 				.then((response)=>{
 					var res=response;
 					let x=new Array();
@@ -509,7 +519,7 @@
 			},
 			getRoomDetail(roomId){
 				var $this=this;
-				this.$http.get(`/room/info/${roomId}`)
+				this.$request.getRoomInfo(roomId)
 					.then((response)=>{
 						$this.isShow=false;
 						var res=response;
