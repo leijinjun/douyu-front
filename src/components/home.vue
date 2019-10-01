@@ -9,7 +9,7 @@
         </h3>
       </div>
       <div class="live_list mt20 clearfix">
-        <div class="lt_box">
+        <div class="lt_box box_left">
           <div class="lt_title clearfix">
             <h4>主播收礼</h4>
           </div>
@@ -29,10 +29,13 @@
                     <span class="x_num">{{index+1}}</span>
                   </td>
                   <td>
-                    <router-link :to="'/room/'+item.roomId">
                       <dl class="clearfix">
                         <dt>
-                          <img :src="item.roomThumb"/>
+                          <div class="anchor-avatar" v-bind:class="[item.roomStatus==1?'is-live':'']">
+                            <router-link :to="'/room/'+item.roomId">
+                              <img :src="item.roomThumb"/>
+                            </router-link>
+                          </div>
                           <i></i>
                         </dt>
                         <dd>
@@ -41,7 +44,6 @@
                           </h5>
                         </dd>
                       </dl>
-                    </router-link>
                   </td>
                   <td>
                     <span class="x_orange">
@@ -53,7 +55,7 @@
             </table>
           </div>
         </div>
-        <div class="lt_box">
+        <div class="lt_box box_right">
           <div class="lt_title clearfix">
             <h4>主播弹幕</h4>
           </div>
@@ -72,10 +74,13 @@
                     <span class="x_num">{{index+1}}</span>
                   </td>
                   <td>
-                    <router-link :to="'/room/'+item.roomId">
                       <dl class="clearfix">
                         <dt>
-                          <img :src="item.roomThumb">
+                            <router-link :to="'/room/'+item.roomId">
+                          <div class="anchor-avatar" v-bind:class="[item.roomStatus==1?'is-live':'']">
+                              <img :src="item.roomThumb">
+                          </div>
+                            </router-link>
                         </dt>
                         <dd>
                           <h5>
@@ -83,7 +88,6 @@
                           </h5>
                         </dd>
                       </dl>
-                    </router-link>
                   </td>
                   <td>
                     <span class="x_orange">

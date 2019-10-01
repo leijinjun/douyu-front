@@ -35,7 +35,6 @@
   }
   .live_list {
     border-right: 1px solid #e1def6;
-    /* border-bottom: 1px solid #e1def6; */
     height: 100%;
   }
   
@@ -46,15 +45,19 @@
     zoom: 1;
     clear: both;
   }
-  .live_list .lt_box:nth-child(odd) {
-    width: 579px;
-  }
   .live_list .lt_box {
     border-left: 1px solid #e1def6;
     border-top: 1px solid #e1def6;
-    width: 618px;
-    float: left;
     height: 100%;
+  }
+  .lt_box.box_left {
+    float: left;
+    width: 50%;
+    border-right: 1px solid #e1def6;
+  }
+  .lt_box.box_right {
+    float: right;
+    width: 49%;
   }
   .lt_title {
     padding: 18px 10px;
@@ -78,9 +81,6 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-  /* .x_table thead th.table_th_name {
-    text-indent: 95px;
-  } */
   .x_anchor tbody tr td {
     height: 108px;
   }
@@ -129,14 +129,35 @@
 .x_table tbody tr td dl dt {
   float: left;
   position: relative;
-  left: 28px;
+  left: 35px;
+  width: 120px;
 }
 .x_table tbody tr td dl dd {
   position: relative;
-  padding-top: 30px;
-  left: 40px;
-  text-align: left;
+  padding-top: 46px;
+  float: right;
+  right: 60px;
+  width: 75px;
 }
 .x_table tbody tr td dl dd .nickname{
   font-size:15px;
+}
+.anchor-avatar {
+  margin: 20px 0 0 20px;
+  position: relative;
+  width: 84px;
+  height: 84px;
+  display: inline-block;
+}
+.anchor-avatar.is-live:after{
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url(/static/images/live.gif) no-repeat;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  bottom: 17px;
+  right: 2px;
 }
